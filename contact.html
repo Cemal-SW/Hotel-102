@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us | The Ethereal Shore</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="animations.css"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "primary-container": "#8ecae6",
+              "inverse-primary": "#93cfeb",
+              "outline": "#70787d",
+              "background": "#faf9f8",
+              "surface-tint": "#24657e",
+              "on-primary-container": "#0a566e",
+              "primary": "#24657e",
+              "secondary-fixed-dim": "#e9c349",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#4a463f",
+              "on-background": "#1a1c1c",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#e3e2e1",
+              "tertiary": "#625e56",
+              "on-secondary-fixed-variant": "#574500",
+              "inverse-on-surface": "#f1f0f0",
+              "surface-variant": "#e3e2e1",
+              "primary-fixed": "#bde9ff",
+              "surface-bright": "#faf9f8",
+              "secondary-fixed": "#ffe088",
+              "tertiary-fixed": "#e8e2d8",
+              "on-primary-fixed": "#001f2a",
+              "outline-variant": "#c0c8cd",
+              "secondary": "#735c00",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#004d64",
+              "on-secondary-container": "#745c00",
+              "surface-container-high": "#e9e8e7",
+              "on-tertiary-fixed": "#1e1b15",
+              "tertiary-container": "#c7c1b8",
+              "surface-container": "#eeeeed",
+              "secondary-container": "#fed65b",
+              "surface-container-low": "#f4f3f2",
+              "on-error-container": "#93000a",
+              "on-secondary": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-surface": "#2f3130",
+              "primary-fixed-dim": "#93cfeb",
+              "tertiary-fixed-dim": "#ccc6bc",
+              "surface": "#faf9f8",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#1a1c1c",
+              "on-secondary-fixed": "#241a00",
+              "on-tertiary-container": "#534f48",
+              "on-surface-variant": "#40484c",
+              "surface-dim": "#dadad9"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
+<div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
+<div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="index.html">Home</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="about.html">About</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="rooms.html">Rooms</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="experiences.html">Experiences</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="gallery.html">Gallery</a>
+<a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="contact.html">Contact</a>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-label text-sm tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm">Book Now</button>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative h-[716px] w-full flex items-end overflow-hidden">
+<div class="absolute inset-0 z-0 parallax-bg" data-speed="0.4">
+<img alt="The Ethereal Shore Arrival" class="w-full h-full object-cover" data-alt="Serene coastal view of a luxury Italian resort reception area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZMgpFe-EjmEiOaFEJ8OcC5doRN2Mi1z7gEHknBv7u2ZwOtTEQ_WvqJIxN0K0pjkWOpiVE073SVPYbGZptLfQW7JzIjOaLWjvOvNp1Mx0V3BbuzJXLrRJP99RDawca1rX2KOINfIMql3QJ2it4PdSc2Jbb1tVHcb3UCoSNGf9fwvcT2WfeuYpuYsYfp_m3juUsWMJ-dnJY6lLP2zDbG0IopH53YGhy72OjL7Z4SZd1abwxX4AxXJTwR-tHL9P0tzJlW3UO9St1nHfD"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"></div>
+</div>
+<div class="relative z-10 px-12 pb-24 max-w-7xl mx-auto w-full" data-reveal="fade-up">
+<p class="font-label text-xs uppercase tracking-[0.2em] text-secondary mb-4">Concierge &amp; Inquiries</p>
+<h1 class="font-headline text-7xl md:text-8xl text-on-surface tracking-tighter italic">Contact</h1>
+</div>
+</section>
+<main class="max-w-7xl mx-auto px-6 md:px-12 py-24">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
+<!-- Inquiry Form Section -->
+<div class="lg:col-span-7 space-y-12" data-reveal="fade-right">
+<header class="max-w-lg">
+<h2 class="font-headline text-4xl mb-6 tracking-tight">Begin your journey</h2>
+<p class="text-stone-600 leading-relaxed font-light">Allow our personal concierges to curate an experience tailored to your every desire. Please share your details below.</p>
+</header>
+<form class="space-y-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<div class="relative group">
+<label class="font-label text-xs uppercase tracking-widest text-stone-400 block mb-2">Full Name</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 outline-none font-light placeholder:text-stone-300" placeholder="Julian Thorne" type="text"/>
+</div>
+<div class="relative group">
+<label class="font-label text-xs uppercase tracking-widest text-stone-400 block mb-2">Email Address</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 outline-none font-light placeholder:text-stone-300" placeholder="julian@example.com" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<div class="relative group">
+<label class="font-label text-xs uppercase tracking-widest text-stone-400 block mb-2">Dates of Interest</label>
+<input class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 outline-none font-light placeholder:text-stone-300" placeholder="May 2025" type="text"/>
+</div>
+<div class="relative group">
+<label class="font-label text-xs uppercase tracking-widest text-stone-400 block mb-2">Guest Count</label>
+<select class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 outline-none font-light text-stone-600 appearance-none">
+<option>2 Adults</option>
+<option>4 Adults</option>
+<option>Family (2+2)</option>
+<option>Group</option>
+</select>
+</div>
+</div>
+<div class="relative group">
+<label class="font-label text-xs uppercase tracking-widest text-stone-400 block mb-2">Your Message</label>
+<textarea class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 outline-none font-light placeholder:text-stone-300 resize-none" placeholder="Tell us about your dream stay..." rows="4"></textarea>
+</div>
+<button class="bg-primary text-on-primary px-12 py-5 rounded-full font-label text-sm uppercase tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm flex items-center gap-3">
+                        Send Inquiry
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_right_alt">arrow_right_alt</span>
+</button>
+</form>
+</div>
+<!-- Side Info: Concierge Visual & Details -->
+<div class="lg:col-span-5 space-y-16" data-reveal="fade-left">
+<!-- Signature Floating Suite Card Style for Concierge -->
+<div class="relative group">
+<div class="rounded-xl overflow-hidden aspect-[4/5] shadow-sm">
+<img alt="Concierge Service" class="w-full h-full object-cover grayscale-[20%] group-hover:scale-105 transition-transform duration-[2000ms]" data-alt="An elegant concierge offering a hand-delivered letter on a silver tray" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtP9v20YJ8Bd6KAVED4wQ45BMc1hW57zMYcHoJrHRfI6alvqJAFm-HANGMEbmHOtthxMCDLm4QDLWdFd8Mbswp8hQiihdvU1uXUkpd3OsKXKtOJ3o1fJhLa1Sosa6YcZeVsxjazid9Ie11TzNK6fJVf9ivez_ETzy-c2S0R1lCSrA8z9PG8M6Oq7zmDrXCqVjyISUjnAjoN4wsVatz9ckHvvQJDXXR1yzKcZr2uXCkqbJyREGumPQnYXKhjFRa3hPncJOJe7J-g0ev"/>
+</div>
+<div class="absolute -bottom-6 -left-6 bg-surface-container-lowest p-8 rounded-xl shadow-lg max-w-[280px]">
+<p class="font-headline italic text-2xl text-on-surface mb-2">Your Personal Host</p>
+<p class="text-xs font-label uppercase tracking-widest text-stone-400">Available 24/7</p>
+</div>
+</div>
+<!-- Resort Details -->
+<div class="space-y-8 bg-surface-container-low p-10 rounded-xl">
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-secondary mb-3">Location</p>
+<p class="text-on-surface font-light leading-relaxed">
+                            Contrada Mare Secco, 14<br/>
+                            72015 Savelletri di Fasano (BR)<br/>
+                            Puglia, Italy
+                        </p>
+</div>
+<div>
+<p class="font-label text-xs uppercase tracking-widest text-secondary mb-3">Direct Contact</p>
+<p class="text-on-surface font-light leading-relaxed">
+                            +39 080 123 4567<br/>
+                            concierge@etherealshore.it
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Local Map Section -->
+<section class="mt-20 px-6 md:px-12" data-reveal="fade-up">
+<div class="max-w-7xl mx-auto">
+<div class="rounded-xl overflow-hidden h-[500px] relative bg-stone-200">
+<!-- Visual Map Placeholder -->
+<img alt="Resort Location Map" class="w-full h-full object-cover opacity-50 grayscale contrast-125" data-alt="Minimalist stylized map of Puglia coast showing resort location" data-location="Puglia, Italy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDe0xXoZjK771cmSDeWOB-iemoZg_lh3phVtnGJtlrvgaSO79WtMXw8p0KMuB_pjeyOYKM-WwD2G3lcroYVvVD9MoNRD4YtOo4qofsbENOKeFgxfJnbK1qSNJq_O6liVnMkMwC6oPZpzwLfZxDANdc5OaJfTFgAmgPZSCh8PW46x_l1ayQlhorhXeywnOssNGWCOah3VhqexOXipYcu7PUaF8EJ_jyduRvsUKJ7hqabzQz4kBQdO4xXi1CE7aZbUhO0fDOVt03tXCy0"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md px-10 py-12 rounded-xl text-center shadow-xl border border-white/20">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4" data-icon="location_on">location_on</span>
+<h3 class="font-headline text-2xl mb-2">The Ethereal Shore</h3>
+<p class="font-label text-xs uppercase tracking-[0.2em] text-stone-500">Savelletri, Puglia</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full mt-20 bg-stone-100">
+<div class="bg-stone-200 h-px w-full my-8 opacity-50"></div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-16 py-16">
+<div class="md:col-span-1">
+<div class="text-xl font-headline text-amber-800 mb-6 tracking-tighter">The Ethereal Shore</div>
+<p class="font-body text-stone-500 text-sm leading-relaxed max-w-xs">An escape into silence, where the Mediterranean tide meets timeless luxury.</p>
+</div>
+<div>
+<h4 class="font-label text-xs uppercase tracking-widest text-stone-400 mb-6">Discovery</h4>
+<ul class="space-y-4 font-body text-sm text-stone-500">
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Sustainability</a></li>
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Press</a></li>
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label text-xs uppercase tracking-widest text-stone-400 mb-6">Social</h4>
+<ul class="space-y-4 font-body text-sm text-stone-500">
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Instagram</a></li>
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Pinterest</a></li>
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">LinkedIn</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label text-xs uppercase tracking-widest text-stone-400 mb-6">Legal</h4>
+<ul class="space-y-4 font-body text-sm text-stone-500">
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-stone-800 transition-transform duration-300 inline-block hover:translate-x-1" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="px-16 py-8 border-t border-stone-200/50 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body text-xs text-stone-400 tracking-wide">© 2024 The Ethereal Shore Resort &amp; Spa. All rights reserved.</p>
+<div class="flex gap-8 text-xs font-label uppercase tracking-widest text-stone-400">
+<span class="cursor-pointer hover:text-secondary transition-colors">En</span>
+<span class="cursor-pointer hover:text-secondary transition-colors">It</span>
+<span class="cursor-pointer hover:text-secondary transition-colors">Fr</span>
+</div>
+</div>
+</footer>
+<script src="main.js"></script>
+</body></html>

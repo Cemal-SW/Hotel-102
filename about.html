@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="stylesheet" href="animations.css"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#fed65b",
+              "on-secondary-fixed": "#241a00",
+              "surface-dim": "#dadad9",
+              "on-tertiary-fixed": "#1e1b15",
+              "outline-variant": "#c0c8cd",
+              "on-primary-fixed": "#001f2a",
+              "secondary-fixed": "#ffe088",
+              "secondary": "#735c00",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#574500",
+              "primary-container": "#8ecae6",
+              "on-surface": "#1a1c1c",
+              "background": "#faf9f8",
+              "tertiary-fixed": "#e8e2d8",
+              "surface": "#faf9f8",
+              "on-primary-fixed-variant": "#004d64",
+              "on-surface-variant": "#40484c",
+              "on-tertiary-fixed-variant": "#4a463f",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-bright": "#faf9f8",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-background": "#1a1c1c",
+              "primary-fixed": "#bde9ff",
+              "surface-container-highest": "#e3e2e1",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#c7c1b8",
+              "tertiary": "#625e56",
+              "surface-variant": "#e3e2e1",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f4f3f2",
+              "on-secondary-container": "#745c00",
+              "outline": "#70787d",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#93cfeb",
+              "primary-fixed-dim": "#93cfeb",
+              "primary": "#24657e",
+              "on-primary-container": "#0a566e",
+              "secondary-fixed-dim": "#e9c349",
+              "surface-container": "#eeeeed",
+              "on-tertiary-container": "#534f48",
+              "inverse-on-surface": "#f1f0f0",
+              "surface-container-high": "#e9e8e7",
+              "surface-tint": "#24657e",
+              "inverse-surface": "#2f3130",
+              "tertiary-fixed-dim": "#ccc6bc"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-transition {
+            background: linear-gradient(to bottom, transparent, #faf9f8);
+        }
+        .cubic-bezier-serene {
+            transition-timing-function: cubic-bezier(0.2, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
+<div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
+<div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="index.html">Home</a>
+<a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="about.html">About</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="rooms.html">Rooms</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="experiences.html">Experiences</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="gallery.html">Gallery</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="contact.html">Contact</a>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-label text-sm tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm">Book Now</button>
+</div>
+</nav>
+<main class="pt-0">
+<!-- Section 1: Hero -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0 parallax-bg" data-speed="0.4">
+<img alt="Resort architecture at dusk" class="w-full h-full object-cover" data-alt="Luxury resort minimalist architecture at blue hour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBR3sGeZ2LmsmAAs6KY-QYOxr7v9xj1_O_fuM-S3vEIR6ruPUNRW7AN1x0vPbSl3jFvf3PIbENQxS5MUfYCMqp69hlPk5zQRcau1oaoIHQFJ639786ToqWdNAewZGjd8fLXKhzA5N8gbNHW0tk3aI_EVfDOnKV3-Nr1trE-14VlTwCLmBn3fIybXgXa-H7yrx8IP4jFqTTbC6nwxyKv7seP1kI3hjDvV39urSpeK1VjjYeJ0rhmA2p0Sa9jFvdPtr-2OL5H4SDQoUHo"/>
+<div class="absolute inset-0 bg-on-surface/20"></div>
+</div>
+<div class="relative z-10 text-center px-6" data-reveal="fade-up">
+<span class="block text-white font-label tracking-[0.3em] text-sm mb-6 uppercase">Our Narrative</span>
+<h1 class="text-white font-headline text-5xl md:text-8xl tracking-tight leading-tight max-w-5xl mx-auto">
+                    The Art of <br/><span class="italic">Pure Absence</span>
+</h1>
+</div>
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/60 animate-bounce">
+<span class="material-symbols-outlined text-4xl">keyboard_double_arrow_down</span>
+</div>
+</section>
+<!-- Section 2: Philosophy -->
+<section class="py-32 px-12 lg:px-24 bg-surface flex flex-col lg:flex-row items-center gap-20">
+<div class="w-full lg:w-3/5 relative">
+<div class="aspect-[4/5] rounded-xl overflow-hidden shadow-2xl" data-reveal="fade-right">
+<img alt="Architecture design" class="w-full h-full object-cover" data-alt="Modern white architectural lines against blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjk2Rzq2zl6hWuRt6mR315E27Ohy13UDXliU3mo5dAPeDifgTl3FN8lwLLH8ew9gO-JSIGQUTugYkaTM2MaDLmnJYDfJ7m6tpOkD70imnHL1QND_kapEcTHyq4gFE0efZhOi9E1gBzPiGOgsxjMymhP9Qcb8EF9FxOQ1sdl1PahEz5KUoyWo6IXq6AycrzfLiBDb_NoSpXtpSyrEm3PeGmf4xHvTHF_a9x9tdDbxaorFRZHEnywRE7dnfBHufDvp--EQW0jb0KpeoW"/>
+</div>
+<!-- Signature Editorial Overlay -->
+<div class="absolute -bottom-10 -right-6 md:right-10 bg-surface-container-lowest p-10 max-w-md shadow-sm rounded-xl" data-reveal="fade-up" data-reveal-delay="200">
+<p class="font-headline italic text-2xl text-primary leading-relaxed">
+                        "We did not build on the shore; we allowed the shore to speak through us."
+                    </p>
+</div>
+</div>
+<div class="w-full lg:w-2/5" data-reveal="fade-left">
+<h2 class="font-headline text-4xl text-on-surface mb-8 leading-tight">Architecture that listens to the wind</h2>
+<div class="space-y-6 text-on-surface-variant font-body text-lg leading-relaxed">
+<p>
+                        The Ethereal Shore was conceived as a silent observer of the Mediterranean tide. Our philosophy centers on 'Pure Absence'—the intentional removal of noise to create space for the soul.
+                    </p>
+<p>
+                        Every archway and terrace is positioned to catch the saline breeze, utilizing natural thermal currents to cool the interiors without the intrusive hum of machinery. The structure doesn't impose; it recedes, allowing the sky and sea to be the true protagonists of your journey.
+                    </p>
+</div>
+<div class="mt-12">
+<a class="inline-flex items-center gap-4 font-label text-sm tracking-widest text-secondary border-b border-secondary/20 pb-2 hover:border-secondary transition-all" href="#">
+                        EXPLORE THE DESIGN
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Section 3: Heritage & Location -->
+<section class="py-32 bg-surface-container-low px-12 lg:px-24">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20" data-reveal="fade-in">
+<span class="font-label tracking-[0.2em] text-secondary text-sm block mb-4 uppercase">The Land &amp; The Legacy</span>
+<h2 class="font-headline text-5xl text-on-surface">Echoes of the Mediterranean</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Bento-style Grid -->
+<div class="md:col-span-7 space-y-8" data-reveal="fade-up">
+<div class="aspect-video rounded-xl overflow-hidden group">
+<img alt="Local landscape" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Stunning Italian coastal cliffside and turquoise water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgrg5kKpmyQvdoQtZzQT_rvWbOcpjeo2r6_bzp8-QqqVdVUV6O_FdK9xQNb8uynWXSJ5svcoBpnIEYg95dCuFSg5oBOonZVC9K476vC1EJQ51bPg882I8SFpRVigQku3kgkDbMPilq8RKp_PIC1rVDltM381lURtXUJkXvmj7pHpfk9vksbcHrypsgP4B4lYJgCgvm-ysEXKY7hVVT-XA6_iJy0XKtbc610ShWlsJWpN-NI5o0KaQodUR220WSvz_VSDXV3YYgpL81"/>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="aspect-square rounded-xl overflow-hidden group">
+<img alt="Cultural detail" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Local vintage stone craftsmanship detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWkmmu74U41GrSSDfs5uP2dwFyMRK9rCfGRq6g-jNvsQrTboXKhPLWfL68_oeFg-7FwfminJtwMkBgL0a9sLatwK4hv3MX-lYlTK3OSF8cU5RXDNsPJIzO7gAK7a85fPTMfxRbd6XSJ7zhcNR2MI6N_vnmEi_A6w7i2cChP0HfdzI0JQfVfHhEGwPQvJ_bVxYi-RfrJEAH_7Gmksg5EZlrFOcSmBxMMX8TvOw9AamteSJbHufDQ1mghriNpRkpOj0Wqqnq60rGgfDx"/>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden group">
+<img alt="Heritage site" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Old world Mediterranean village street" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO4y5J1dbLfbadojgGIlhHdGczoj_V4uNP3A8Ty-Oux8YyHYI5uWD_ScJvnaJhD9ZEWTx2CRfN2m5UgShrfmaKT08RZz9OODTx1FD-IMu3Xf7Lsa_VpdHQx0wTrRflnZ_7gYmBhEgAD8WwAz4JtMAYIFaW1uDe1YTNCf-ljm6x3ujT9Sx5Sqfq9bbfo8tbHQukyrBBfDRaqDGFis-eCW1Q7JOaUL9Qi6k-YEK8ylfa4DyBIgnwzCoX-XtRleunOxbDCos1-KZcEp1U"/>
+</div>
+</div>
+</div>
+<div class="md:col-span-5 md:pl-12 py-12" data-reveal="fade-left">
+<div class="space-y-8">
+<div>
+<h3 class="font-headline text-2xl text-on-surface mb-4">A Sacred Foundation</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                                    Our resort stands upon a site once revered by ancient mariners as a place of sanctuary. The history of this limestone coast is etched into every stone we used during construction, much of which was reclaimed from local quarries that have been active for centuries.
+                                </p>
+</div>
+<div class="p-8 border-l-2 border-secondary/30 bg-surface-container-highest/30">
+<p class="italic text-on-surface/80 font-body">
+                                    Located precisely where the gold of the sun meets the sapphire of the deep, our position ensures guests witness the most pristine sunsets in the northern hemisphere.
+                                </p>
+</div>
+<div>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined">location_on</span>
+<span class="font-label text-sm tracking-widest">Puglia, Italy</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Sustainability -->
+<section class="py-32 bg-white px-12 lg:px-24">
+<div class="max-w-4xl mx-auto text-center mb-20" data-reveal="fade-up">
+<h2 class="font-headline text-5xl mb-6">Respecting the Cycle</h2>
+<p class="text-on-surface-variant text-lg">Luxury that leaves no footprint. Our commitment to the planet is woven into every guest experience.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+<div class="text-center group" data-reveal="fade-up">
+<div class="w-16 h-16 bg-primary-container/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-container transition-colors cubic-bezier-serene duration-400">
+<span class="material-symbols-outlined text-primary text-3xl">water_drop</span>
+</div>
+<h4 class="font-headline text-xl mb-4">Circular Water</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Our advanced desalination and gray-water systems ensure that every drop is repurposed to nourish our botanical gardens.</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 bg-primary-container/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-container transition-colors cubic-bezier-serene duration-400">
+<span class="material-symbols-outlined text-primary text-3xl">light_mode</span>
+</div>
+<h4 class="font-headline text-xl mb-4">Solar Harmony</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Hidden solar arrays provide 85% of our daily energy needs, blending seamlessly with the architectural topography.</p>
+</div>
+<div class="text-center group">
+<div class="w-16 h-16 bg-primary-container/30 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-container transition-colors cubic-bezier-serene duration-400">
+<span class="material-symbols-outlined text-primary text-3xl">nest_eco_leaf</span>
+</div>
+<h4 class="font-headline text-xl mb-4">Zero Waste</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">From compostable amenities to a strictly plastic-free supply chain, we prioritize the health of our local ecosystem.</p>
+</div>
+</div>
+</section>
+<!-- Section 5: The Founders -->
+<section class="py-32 bg-surface-container-low px-12 lg:px-24">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row gap-20 items-center">
+<div class="w-full md:w-1/2" data-reveal="fade-right">
+<div class="relative">
+<img alt="Founders Portrait" class="rounded-xl w-full grayscale hover:grayscale-0 transition-all duration-700" data-alt="Professional warm portrait of visionary founders" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlrvuxVlAcsjz__Z8NQ_hpUv4WWGi01ALuHT_p4Mk5MybSmde0noKqivMnUsqG83G6F04e6FlZEqsgoIXP0vbZ_BItz_mMtoFh6-1msXWdUnUuTQeOi_TLOrTrr_jATRK3ocqogpSmfTe7FOGb6HrUsl8e1oQXYj-VzE43ystHPZKV6Q9HArN6_UftgAMq2T-jDn_CWD5KzRqPAhyW383c-F2Wm73asMPsbfYEsW2T2pAdYKHxk1vwUudTaIGds0ztBpi-OiGaDA2i"/>
+<div class="absolute -top-6 -left-6 w-24 h-24 border-t-2 border-l-2 border-secondary/40"></div>
+</div>
+</div>
+<div class="w-full md:w-1/2" data-reveal="fade-left">
+<span class="font-label tracking-[0.2em] text-secondary text-sm block mb-4 uppercase">The Visionaries</span>
+<h2 class="font-headline text-4xl mb-8 leading-tight">Crafting a New Era of Hospitality</h2>
+<blockquote class="text-2xl font-headline italic text-on-surface-variant mb-8 leading-relaxed">
+                            "The Ethereal Shore was born from a simple desire: to create a place where the clock stops and the senses wake up. We believe true luxury isn't about what you have, but about how much space you have to breathe."
+                        </blockquote>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface">Elena &amp; Marco Valente</span>
+<span class="text-sm text-on-surface-variant uppercase tracking-widest mt-1">Founding Architects</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-stone-100 dark:bg-stone-950 w-full border-t border-stone-200/20 py-20 px-16">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="space-y-6">
+<div class="text-xl font-headline text-cyan-900">The Ethereal Shore</div>
+<p class="text-stone-500 font-body text-sm leading-relaxed max-w-xs">
+                    An sanctuary of stillness where luxury meets the landscape in perfect harmony.
+                </p>
+</div>
+<div class="space-y-4">
+<h5 class="font-label text-xs uppercase tracking-widest font-bold">Discover</h5>
+<ul class="space-y-2">
+<li><a class="text-stone-500 hover:text-stone-900 transition-colors text-sm" href="#">Rooms</a></li>
+<li><a class="text-stone-500 hover:text-stone-900 transition-colors text-sm" href="#">Suites</a></li>
+<li><a class="text-stone-500 hover:text-stone-900 transition-colors text-sm" href="#">Dining</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h5 class="font-label text-xs uppercase tracking-widest font-bold">Experience</h5>
+<ul class="space-y-2">
+<li><a class="text-stone-500 hover:text-stone-900 transition-colors text-sm" href="#">Wellness</a></li>
+<li><a class="text-stone-500 hover:text-stone-900 transition-colors text-sm" href="#">Experiences</a></li>
+<li><a class="text-stone-500 hover:text-stone-900 transition-colors text-sm" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="font-label text-xs uppercase tracking-widest font-bold">Newsletter</h5>
+<div class="flex gap-2">
+<input class="bg-transparent border-b border-stone-300 focus:border-secondary transition-colors outline-none pb-2 text-sm w-full" placeholder="Email Address" type="email"/>
+<button class="text-secondary"><span class="material-symbols-outlined">east</span></button>
+</div>
+</div>
+</div>
+<div class="mt-20 pt-8 border-t border-stone-200/20 text-center">
+<p class="text-stone-500 text-xs tracking-widest font-body">© 2024 The Ethereal Shore. All Rights Reserved.</p>
+</div>
+</footer>
+<script src="main.js"></script>
+</body></html>

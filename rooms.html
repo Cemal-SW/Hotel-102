@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Accommodations | The Ethereal Shore</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="animations.css"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#fafaf5",
+              "outline-variant": "#c0c8ce",
+              "on-tertiary-fixed": "#231b00",
+              "on-surface-variant": "#40484d",
+              "on-secondary-fixed": "#00201d",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed-dim": "#d6c692",
+              "inverse-on-surface": "#f1f1ec",
+              "primary-fixed": "#c3e8ff",
+              "surface-tint": "#156587",
+              "surface-container-low": "#f4f4ef",
+              "surface-container-highest": "#e3e3de",
+              "tertiary-container": "#baaa79",
+              "on-primary-fixed-variant": "#004c68",
+              "on-background": "#1a1c19",
+              "surface-container": "#eeeee9",
+              "inverse-primary": "#8ccff5",
+              "secondary": "#006a62",
+              "primary-container": "#005d7e",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "tertiary-fixed": "#f3e2ac",
+              "outline": "#70787e",
+              "on-tertiary-fixed-variant": "#51461e",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#61f9e9",
+              "secondary-container": "#5ef6e6",
+              "on-error-container": "#93000a",
+              "tertiary": "#6a5e33",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#3adccc",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#e8e8e3",
+              "background": "#fafaf5",
+              "on-primary-fixed": "#001e2c",
+              "primary-fixed-dim": "#8ccff5",
+              "surface-dim": "#dadad5",
+              "on-secondary-fixed-variant": "#005049",
+              "on-error": "#ffffff",
+              "primary": "#00445e",
+              "on-secondary-container": "#006f66",
+              "surface-variant": "#e3e3de",
+              "on-primary-container": "#92d4fa",
+              "on-tertiary-container": "#493e17",
+              "inverse-surface": "#2f312e",
+              "surface-bright": "#fafaf5",
+              "on-surface": "#1a1c19"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            }
+            .editorial-shadow {
+                box-shadow: 0 30px 60px -15px rgba(0, 68, 94, 0.08);
+            }
+            .bg-ocean-gradient {
+                background: linear-gradient(135deg, #00445e 0%, #005d7e 100%);
+            }
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .card-hover-effect {
+                @apply transition-all duration-700 ease-out hover:shadow-2xl hover:-translate-y-1;
+            }
+            .overlap-card {
+                @apply relative z-10 bg-white p-8 md:p-12 -mt-16 md:mt-0 md:-ml-20 lg:-ml-32 w-[90%] md:w-auto mx-auto md:mx-0 rounded-2xl;
+            }
+            .room-info-grid {
+                @apply flex gap-6 md:gap-8 mb-8 pb-8 border-b border-outline-variant/20;
+            }
+            .info-item {
+                @apply flex items-center gap-2;
+            }
+            .info-label {
+                @apply text-[10px] font-label uppercase tracking-widest text-on-surface-variant;
+            }
+            .view-more-btn {
+                @apply text-xs font-label tracking-[0.2em] uppercase text-primary hover:tracking-[0.3em] transition-all flex items-center gap-2;
+            }
+            .price-tag {
+                @apply font-headline text-lg text-primary mb-4 block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed overflow-x-hidden">
+<nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
+<div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
+<div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="index.html">Home</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="about.html">About</a>
+<a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="rooms.html">Rooms</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="experiences.html">Experiences</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="gallery.html">Gallery</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="contact.html">Contact</a>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-label text-sm tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm">Book Now</button>
+</div>
+</nav>
+<main class="pt-24 md:pt-40">
+<header class="max-w-[1600px] mx-auto px-6 md:px-12 mb-24 md:mb-40">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-5 order-2 lg:order-1" data-reveal="fade-right">
+<span class="font-label text-xs tracking-[0.4em] uppercase text-secondary mb-6 block">Refined Living</span>
+<h1 class="font-headline text-5xl md:text-7xl lg:text-8xl leading-[1.1] text-primary mb-8">
+                    Private <br/><span class="italic font-normal">Sanctuaries</span>
+</h1>
+<p class="text-on-surface-variant text-base md:text-lg leading-relaxed max-w-md">
+                    Where the horizon meets your doorstep. Our accommodations are designed to dissolve the boundaries between architecture and atmosphere.
+                </p>
+</div>
+<div class="lg:col-span-7 order-1 lg:order-2" data-reveal="fade-left">
+<div class="aspect-[16/10] relative overflow-hidden group rounded-2xl">
+<img alt="Aerial View" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaQAVhc7GKeXs63uzC775m2aOgk4tm1XCMymbqFczVbq-xzdDput6NXTcDGsggv0G328fHpDs0FW1Wpb1m9dlVUrqo5QlGCCyyR3xsORqnzbmKFL8PbEev0649By6YMmzYRXAvfjcpkNiUNB0UHNpi-0FHx2QqeFaPgZ6I6CQNyYdB6VR0o5z8rX8OM3S-lOJ5F3whYsoo-fz0CF-vuJD1rSKkwOR6kvFXWzqXyQtioopx4DvnhGUIbACoOEJf63mCoi3Y493flmA"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+</div>
+</div>
+</div>
+</header>
+<section class="max-w-[1600px] mx-auto px-6 md:px-12 space-y-32 md:space-y-56 pb-40">
+<div class="flex flex-col md:flex-row items-center">
+<div class="w-full md:w-3/5 lg:w-2/3" data-reveal="fade-right">
+<div class="aspect-[4/3] overflow-hidden rounded-2xl">
+<img alt="Penthouse" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdXkgQmCjMKtmsuqmlFzk9PmaDrdYGvQLETh3FNBREq7i3fg1JghnOjMtdnXqhlEv2kq_-h_DMpUeM3nJ8aY66XwA88F1tY2XOg80LwPPS89RvMtLGoxnd2wQM1dY2S2cqh3LITPS8CGuwAMyvRmeY8bEei1GH4JIJvcXBeHlpw7jOd936kGx6drE5tEimRhiTfWb8GaAilVgZtYRc_Tz4qTdHOcgPtcvrQLHYl4HeEqr4WBvYTW-lmY0a1IfmSBGeEL7YBFeM91E"/>
+</div>
+</div>
+<div class="overlap-card editorial-shadow border-t-4 border-primary" data-reveal="fade-up">
+<span class="font-label text-[10px] tracking-[0.3em] uppercase text-secondary mb-4 block">The Pinnacle</span>
+<h2 class="font-headline text-3xl md:text-4xl lg:text-5xl mb-2 text-primary">Oceanfront Penthouse</h2>
+<span class="price-tag">From $2,400 / night</span>
+<p class="text-on-surface-variant mb-8 leading-relaxed max-w-sm text-sm md:text-base">The crown jewel of The Shore. Featuring 360-degree glass walls, a private infinity pool that blends into the sky, and a dedicated 24-hour butler service.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">450 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">3 Bedrooms</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24">
+<div class="space-y-8 group" data-reveal="fade-up">
+<div class="aspect-[5/6] overflow-hidden rounded-2xl">
+<img alt="Sunset Villa" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCznEIeXgtRAv3h18v3C4Poq0KXP7YTU-gn3_WD2lzZ_zNV6IO6g2NGbHXzzAl6TXvE_nHjXqC5jULHyupL4W5lIGMa57gauWc0Iq6AmCyp34OuvT615KOXcZsGhdehXWqfijtK2S4sYW4ctYQ7zFOzfQy3q7wycQQFTvhaCRkszlJ1wPbgAs_zTvIOzaoGIg-5y7RyCDY8FvebP1QLMhkhgshWcMFe6B92ZVtk3XrZXrgyLlcv-zvyLiagI1qbv3m5gAGtqR83Ric"/>
+</div>
+<div class="max-w-md">
+<h3 class="font-headline text-3xl mb-2 text-on-surface">Sunset Villa</h3>
+<span class="price-tag">From $1,250 / night</span>
+<p class="text-on-surface-variant leading-relaxed mb-6">Perched on the western tip, these villas offer the resort's most dramatic nightly spectacle.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">210 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">1 Bedroom</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+</div>
+<div class="space-y-8 group md:pt-32" data-reveal="fade-up" data-reveal-delay="200">
+<div class="aspect-[5/6] overflow-hidden rounded-2xl">
+<img alt="Driftwood Suite" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqY1ykyjkKrYR240UeBFeyCQITUUTXbzfMax6Kp0XHWlCdS1Dv9T9SGaKolzwcJL-_rYuAsKo4PGj_wWVO_-N_SljsANhzmJAC1-IWwVJRsQ6IeedHAyJk7gDgDiM1XiMRKeGgDChRJ5l2AwOKZnnD4hnpF_mfaohAwr3k3BIfbeQogdcJ6-33an9CEjoUHa7sTHL_5u4e58LIbAbc-X-2MvTg_tbSQ9o4jFjf7ydh6hb3DJQI-rZM8fo94YRMuPXyqG71_Bshyas"/>
+</div>
+<div class="max-w-md">
+<h3 class="font-headline text-3xl mb-2 text-on-surface">Driftwood Suite</h3>
+<span class="price-tag">From $850 / night</span>
+<p class="text-on-surface-variant leading-relaxed mb-6">Natural textures and organic shapes define this sanctuary of reclaimed luxury.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">145 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">Studio</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low -mx-6 md:-mx-12 px-6 md:px-12 py-24 md:py-40 rounded-2xl">
+<div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1 lg:pr-24" data-reveal="fade-right">
+<span class="font-label text-[10px] tracking-[0.4em] uppercase text-secondary mb-6 block">Botanical Haven</span>
+<h2 class="font-headline text-4xl md:text-6xl mb-2">Coral Garden Bungalow</h2>
+<span class="price-tag text-2xl">From $1,100 / night</span>
+<p class="text-on-surface-variant text-lg leading-relaxed mb-8">Tucked away in the tropical heart of the island, each bungalow is surrounded by rare flora and a private sand path to the lagoon.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">180 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">1 Bedroom</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-12 py-10 border-b border-outline-variant/30 mb-8">
+<div>
+<h4 class="font-label text-[10px] uppercase tracking-[0.2em] text-primary mb-3">Atmosphere</h4>
+<p class="text-sm font-semibold italic">Tropical Seclusion</p>
+</div>
+<div>
+<h4 class="font-label text-[10px] uppercase tracking-[0.2em] text-primary mb-3">View</h4>
+<p class="text-sm font-semibold italic">Private Botanical Gardens</p>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+<div class="order-1 lg:order-2 overflow-hidden aspect-video editorial-shadow rounded-2xl" data-reveal="fade-left">
+<img alt="Bungalow" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5FIcdXHuYWK_IhRrc3WlAy7FiWIZcnH6xZhlCKD84eoDaGHCB-ZkZhTwVhpqHMgc_sPdbyttkv4pR5CNFDlYpzaswba1rp_H1hVhnW1iN91oHfy3Xb0V8DlZYRzsKSGhEKJGCkQEB0tU3MmBEbFKp10pt48fKi5h62o1pG-wzu9Qzd4RQ-G7T4zeymVEj1hlYQ-fCpgTv6rs5ieHtOLEq1HEiYpJtaoPkPDPVw5qbNMn5pAFUQ6TfMsUKQAUm4DTtvAORqzZqrPg"/>
+</div>
+</div>
+</div>
+<div class="space-y-16">
+<div class="flex items-end justify-between border-b border-outline-variant/20 pb-8" data-reveal="fade-up">
+<div>
+<span class="font-label text-[10px] tracking-[0.4em] uppercase text-secondary mb-4 block">Collection</span>
+<h2 class="font-headline text-4xl md:text-5xl">The Horizon Series</h2>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="w-14 h-14 border border-outline-variant/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all rounded-full">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-14 h-14 border border-outline-variant/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all rounded-full">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex gap-6 md:gap-10 overflow-x-auto no-scrollbar snap-x snap-mandatory">
+<div class="min-w-[85%] md:min-w-[45%] lg:min-w-[30%] snap-start group" data-reveal="fade-up">
+<div class="aspect-[3/4] mb-8 overflow-hidden rounded-2xl">
+<img alt="Azure Loft" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzpbVodSm2u5JpzMaESyb-uxOqpDFfJupkQ5IYnmDRuXbJGKnYGbfC9ZeHj8wyTBn8e9jjIY7Ir5C41oOrJKRSfdo0_5J9wKW1yeWIy3WgMX2KwI0khuIja4E4sIGhpa-NMWRkYFaezcHgX3Kv4GtSdLB8Rfn3NcPcLjbhvaw0GrHcJqlSMnxlC3NtkiY5Uim3i0j_N704-7WO2K5hSU08v3n8BaJRsmIntOawMmmR9cU8gveZuU_4_9DSRdNQ2SgS5z7_kgLegsI"/>
+</div>
+<h4 class="font-headline text-2xl mb-2">Azure Sands Loft</h4>
+<span class="price-tag text-base">From $920 / night</span>
+<p class="text-on-surface-variant text-sm mb-6">Two-story vertical living with private sun terrace.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">120 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">1 Bedroom</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+<div class="min-w-[85%] md:min-w-[45%] lg:min-w-[30%] snap-start group">
+<div class="aspect-[3/4] mb-8 overflow-hidden rounded-2xl">
+<img alt="Tidal Pool" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKaXlEc01cRiQLcs9f_QC-nqe4Rq0MtcOnmo1KUxj2fRYW3lwQ6-EWVZO7T0sLJhYgu__ym86lyRCrzVeTQ7wzSQWZxyOeF9fihljC1ivPivIbXDktUWVYdcIWyvbWlDepHufRGEzssjt_lbj8HsBOnQfpIOiVjXbwuD9FvhQGEhZeLPdEVV73AmNf3TXCa4gL17sXZi5Gpaw8mZuXuy5YElPYPP1IJWbD2QvOZ5VfTb59qElpWCZyJnuXb0xI6a5fH6-Zw22BsCo"/>
+</div>
+<h4 class="font-headline text-2xl mb-2">Tidal Pool Villa</h4>
+<span class="price-tag text-base">From $1,450 / night</span>
+<p class="text-on-surface-variant text-sm mb-6">Modern architecture defined by the ocean's rhythm.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">190 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">2 Bedrooms</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+<div class="min-w-[85%] md:min-w-[45%] lg:min-w-[30%] snap-start group">
+<div class="aspect-[3/4] mb-8 overflow-hidden rounded-2xl">
+<img alt="Glass House" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbL39abIGqSyqTXcUSdMEgRXcPkJpMZJN8I2OBRqX35v7L9nLqM5IqgT5bUsFOZTxLgAnx96GiK1IOUUmLNZMi-f_2hm8R3xbYMJ4-01CqMUB4zXlUSNeeitmDfJaXipSuC7YP1YEUFmK5hAl5Q4dOHwWTmzdMP4yX6higYM5pzWldATgf0LoU0eI06n3jKIk5j2a83NByphPMSMlaFCcAYeW-zKsBpK-oP0UFktgwaG7kouhtY0ornADDRzl4aWdrzg39uxcPoLQ"/>
+</div>
+<h4 class="font-headline text-2xl mb-2">The Glass House</h4>
+<span class="price-tag text-base">From $1,800 / night</span>
+<p class="text-on-surface-variant text-sm mb-6">A transparent masterpiece on the water's edge.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">250 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">2 Bedrooms</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-32 items-start">
+<div class="lg:col-span-5 space-y-12" data-reveal="fade-right">
+<div>
+<h2 class="font-headline text-4xl mb-2">Sandbar Sanctuary</h2>
+<span class="price-tag">From $1,600 / night</span>
+<p class="text-on-surface-variant leading-relaxed mb-8">Accessible only by a narrow boardwalk at low tide, this suite offers absolute isolation for those who seek to truly disappear.</p>
+<div class="room-info-grid">
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">square_foot</span>
+<span class="info-label">160 sqm</span>
+</div>
+<div class="info-item">
+<span class="material-symbols-outlined text-primary text-xl">king_bed</span>
+<span class="info-label">1 Bedroom</span>
+</div>
+</div>
+<button class="view-more-btn">View more -&gt;</button>
+</div>
+<div class="aspect-video overflow-hidden group rounded-2xl" data-reveal="fade-left">
+<img alt="Sandbar" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYEV9O6IUXPJkChIN7QD4OD5d8WxPeA4PteJMDEoCBoRBlCp4NLWP3Nr-7MJ0LUWkx-nHob0GeiJ-2yrGQ8X40rGkZKraeD-VC9eLjh7nfzENo30Fq4pnZI4OBIWx1Ax1mYz2iuVRd4WO9qQTR4HnnhaQaGCx3EcYfzr0Le0DC7V3gmBdSfoTOM8O7aVcuprswArIFZOURZXGGZgAT0yWdpbBT_kPesB4-wkH5bmJJCdTXz6NcvU86ljUiVFjHn80lCBgEnmfVmzQ"/>
+</div>
+</div>
+<div class="lg:col-span-7 relative" data-reveal="fade-left">
+<div class="aspect-[4/5] overflow-hidden editorial-shadow rounded-2xl">
+<img alt="Cliffside" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3EDHBl_eS0HahoOL6EC9JcZu1SJWufzM4BLPKglAXFaPLTSv95aR2I_a2RZQrTA2MTmhfQ0PIQNcfmjEb9kipaYhOHzTBVdIds4V8cLTBtXkW8pdD_Q7fkwWOv34Tfm9Hn47vVMfZ7mCVKyUN8oenaUprlnAy9I885srkB2zvFMQcQFaNzBWjDH-UgqK6bIerCi5Qenww0S7ntO1M_GoJ1wCB02Vcsn1n59r1lDHMVu82nPna6hJ2PieJKZscJGhXDJWmghX5c_E"/>
+</div>
+<div class="lg:absolute -bottom-16 -left-16 bg-primary p-10 md:p-16 text-white max-w-sm mt-8 lg:mt-0 rounded-2xl">
+<h3 class="font-headline text-3xl mb-2">Cliffside Retreat</h3>
+<span class="price-tag text-white/90 mb-4 block">From $1,950 / night</span>
+<p class="text-on-primary-container text-sm leading-relaxed opacity-90 mb-8">Etched into the volcanic rock, these retreats offer a dramatic perspective of the crashing surf below.</p>
+<div class="flex gap-6 mb-8 border-b border-white/20 pb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-xl">square_foot</span>
+<span class="text-[10px] font-label uppercase tracking-widest text-white/80">230 sqm</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-xl">king_bed</span>
+<span class="text-[10px] font-label uppercase tracking-widest text-white/80">2 Bedrooms</span>
+</div>
+</div>
+<button class="text-xs font-label tracking-[0.2em] uppercase text-white hover:tracking-[0.3em] transition-all flex items-center gap-2">View more -&gt;</button>
+</div>
+</div>
+</div>
+<div class="text-center pt-24" data-reveal="fade-up">
+<span class="font-label text-[10px] tracking-[0.4em] uppercase text-secondary mb-8 block">Final Destination</span>
+<h2 class="font-headline text-5xl md:text-7xl mb-16">Garden Oasis</h2>
+<div class="max-w-5xl mx-auto relative group overflow-hidden editorial-shadow rounded-2xl">
+<img alt="Garden Oasis" class="w-full aspect-video object-cover transition-transform duration-[2s] group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM0q0lf7W9rrGTxrqoOcb_QmIFbc1X-lP4QautkDASBc4msPBywbdFXDiHmSAdtzwN5nzV3nyT5H9ouwu9jwgF0jfjlmvw_42KOHyps3Er_ZyPUKp-9Qj-X6q1xB1L-T4-PPbhC0ABMWNwCqyYs-iFhV_08kbPgnYxj_wBffvg1zuDxAAjVVkd2OXJQUQ9ChKADbvDpfBJNfGOsdWrB7aTphysCd-Pq85DODfFvZBEPJ3OlJQPrFLbKaW3c5KJqkGW3TYIX_Vm3fw"/>
+<div class="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+<div class="text-white p-8 max-w-xl">
+<p class="font-headline text-2xl md:text-3xl italic mb-4">Serenity found in every leaf.</p>
+<span class="price-tag text-white block mb-6 text-xl">Starting at $780 / night</span>
+<div class="flex justify-center gap-8 mb-8">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white text-xl">square_foot</span>
+<span class="text-[10px] font-label uppercase tracking-widest">130 sqm</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white text-xl">king_bed</span>
+<span class="text-[10px] font-label uppercase tracking-widest">1 Bedroom</span>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<button class="border border-white px-10 py-4 text-xs font-label tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all rounded-full">Explore Oasis</button>
+<button class="text-xs font-label tracking-[0.2em] uppercase text-white hover:underline transition-all flex items-center gap-2">View details -&gt;</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-primary text-white py-24 px-6 md:px-12 border-t border-white/10">
+<div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-16">
+<div>
+<div class="font-headline italic text-3xl mb-8">The Ethereal Shore</div>
+<div class="font-label text-[10px] tracking-[0.2em] uppercase opacity-50">
+                © 2024 The Ethereal Shore. All Rights Reserved.
+            </div>
+</div>
+<div class="flex flex-wrap gap-x-12 gap-y-6">
+<a class="text-[10px] font-label tracking-[0.3em] uppercase hover:opacity-100 opacity-60 transition-opacity" href="#">Privacy</a>
+<a class="text-[10px] font-label tracking-[0.3em] uppercase hover:opacity-100 opacity-60 transition-opacity" href="#">Contact</a>
+<a class="text-[10px] font-label tracking-[0.3em] uppercase hover:opacity-100 opacity-60 transition-opacity" href="#">Careers</a>
+<a class="text-[10px] font-label tracking-[0.3em] uppercase hover:opacity-100 opacity-60 transition-opacity" href="#">Press</a>
+</div>
+</div>
+</footer>
+<div class="fixed bottom-6 md:bottom-10 left-0 right-0 z-[90] px-4">
+<div class="max-w-3xl mx-auto bg-white/95 backdrop-blur-xl border border-outline-variant/30 shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center rounded-2xl overflow-hidden">
+<div class="flex flex-1 divide-x divide-outline-variant/30">
+<div class="flex-1 p-4 md:px-8">
+<span class="block text-[8px] font-label uppercase tracking-widest text-secondary mb-1">Check In</span>
+<span class="text-xs font-semibold">12 Nov 2024</span>
+</div>
+<div class="flex-1 p-4 md:px-8">
+<span class="block text-[8px] font-label uppercase tracking-widest text-secondary mb-1">Check Out</span>
+<span class="text-xs font-semibold">18 Nov 2024</span>
+</div>
+</div>
+<button class="bg-primary text-white px-8 py-5 sm:py-0 h-full text-[10px] font-label tracking-[0.3em] uppercase hover:bg-primary-container transition-all">
+            Book Stay
+        </button>
+</div>
+</div>
+
+<script src="main.js"></script>
+</body></html>
