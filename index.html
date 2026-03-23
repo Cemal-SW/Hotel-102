@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>The Ethereal Shore | Luxury Beachfront Resort</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Manrope:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="animations.css" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f4f3f2",
+                        "tertiary": "#625e56",
+                        "tertiary-fixed": "#e8e2d8",
+                        "on-primary-fixed-variant": "#004d64",
+                        "secondary-fixed-dim": "#e9c349",
+                        "tertiary-container": "#c7c1b8",
+                        "primary-fixed-dim": "#93cfeb",
+                        "secondary-container": "#fed65b",
+                        "surface-dim": "#dadad9",
+                        "surface-container-high": "#e9e8e7",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#0a566e",
+                        "surface-tint": "#24657e",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f1f0f0",
+                        "on-tertiary-fixed-variant": "#4a463f",
+                        "on-secondary-container": "#745c00",
+                        "tertiary-fixed-dim": "#ccc6bc",
+                        "outline": "#70787d",
+                        "outline-variant": "#c0c8cd",
+                        "secondary-fixed": "#ffe088",
+                        "on-tertiary-fixed": "#1e1b15",
+                        "on-surface-variant": "#40484c",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-bright": "#faf9f8",
+                        "on-tertiary-container": "#534f48",
+                        "surface-container-highest": "#e3e2e1",
+                        "background": "#faf9f8",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#93cfeb",
+                        "primary": "#24657e",
+                        "error": "#ba1a1a",
+                        "surface": "#faf9f8",
+                        "surface-variant": "#e3e2e1",
+                        "secondary": "#735c00",
+                        "on-surface": "#1a1c1c",
+                        "primary-fixed": "#bde9ff",
+                        "on-primary-fixed": "#001f2a",
+                        "primary-container": "#8ecae6",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#eeeeed",
+                        "inverse-surface": "#2f3130",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#574500"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+    <!-- Top Navigation Bar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
+        <div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
+            <div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore
+            </div>
+            <div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
+                <a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400"
+                    href="index.html">Home</a>
+                <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400"
+                    href="about.html">About</a>
+                <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400"
+                    href="rooms.html">Rooms</a>
+                <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400"
+                    href="experiences.html">Experiences</a>
+                <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400"
+                    href="gallery.html">Gallery</a>
+                <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400"
+                    href="contact.html">Contact</a>
+            </div>
+            <button
+                class="bg-primary text-on-primary px-8 py-3 rounded-full font-label text-sm tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm">Book
+                Now</button>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center text-center">
+        <div class="absolute inset-0 z-0 parallax-bg" data-speed="0.4">
+            <img alt="The Ethereal Shore Hero"
+                class="w-full h-full object-cover scale-105 transform transition-transform duration-[10000ms] ease-linear hover:scale-110"
+                data-alt="Wide shot of serene tropical beach with crystal clear water"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzdQ2qqEWGIkkM88HzEuoncGLANE-eM1izr3oP2V_eWSe-lrdFvqpJPFBHdvcv96UKE5f14oq85ZjuGcok27IXdMRTMypy1Q7IyzEPtHtE8cTJQg9SZRCkmOLECdViTr7-exneP_a3KTpwqmjtXOkH7i62PXLSD5cCVqljuBCiiXatH88T53H9EdwLfSoqIMcX3gkmGsqC5sXOniRtJGLLVON0imdmKYBWQlftiLAwzUyTFGvDJbPlI4MPPYLC_FLkQEXfXgoTlZdB" />
+            <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-surface/80"></div>
+        </div>
+        <div class="relative z-10 px-6 max-w-4xl">
+            <span class="font-label text-xs tracking-[0.3em] text-white uppercase mb-6 block drop-shadow-md">Exclusive
+                Coastal Sanctuary</span>
+            <h1 class="font-headline text-5xl md:text-8xl text-white font-light tracking-tight leading-tight mb-8 drop-shadow-xl"
+                data-reveal="fade-up" data-reveal-delay="200">Where the Tide <br /> Meets the Soul.</h1>
+            <a class="inline-flex items-center gap-4 bg-surface-container-lowest/20 backdrop-blur-lg border border-white/30 text-white px-10 py-5 rounded-full font-label text-sm tracking-widest hover:bg-secondary-fixed hover:text-on-secondary-fixed hover:border-transparent transition-all duration-500"
+                href="#booking" data-reveal="fade-up" data-reveal-delay="400">
+                Discover Serenity
+                <span class="material-symbols-outlined text-sm">arrow_downward</span>
+            </a>
+        </div>
+    </header>
+    <!-- Integrated Booking Section -->
+    <section class="relative z-20 -mt-16 px-6 max-w-screen-xl mx-auto" id="booking">
+        <div class="bg-surface-container-lowest shadow-[0_20px_40px_rgba(47,49,48,0.05)] p-8 rounded-xl grid grid-cols-1 md:grid-cols-4 gap-8 items-end backdrop-blur-xl bg-white/90"
+            data-reveal="fade-up" data-reveal-delay="600">
+            <div class="space-y-2">
+                <label
+                    class="font-label text-[10px] tracking-[0.2em] text-secondary uppercase block ml-1">Arrival</label>
+                <div class="relative group">
+                    <input
+                        class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 font-body placeholder:text-on-surface-variant/40"
+                        placeholder="Select Date" type="text" />
+                    <span
+                        class="material-symbols-outlined absolute right-2 top-3 text-outline-variant">calendar_month</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label
+                    class="font-label text-[10px] tracking-[0.2em] text-secondary uppercase block ml-1">Departure</label>
+                <div class="relative group">
+                    <input
+                        class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 font-body placeholder:text-on-surface-variant/40"
+                        placeholder="Select Date" type="text" />
+                    <span
+                        class="material-symbols-outlined absolute right-2 top-3 text-outline-variant">calendar_today</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label
+                    class="font-label text-[10px] tracking-[0.2em] text-secondary uppercase block ml-1">Guests</label>
+                <div class="relative group">
+                    <select
+                        class="w-full bg-transparent border-0 border-b border-outline-variant/40 py-3 focus:ring-0 focus:border-secondary transition-colors duration-400 font-body appearance-none">
+                        <option>2 Adults, 0 Children</option>
+                        <option>1 Adult</option>
+                        <option>2 Adults, 1 Child</option>
+                        <option>Group Booking</option>
+                    </select>
+                    <span
+                        class="material-symbols-outlined absolute right-2 top-3 text-outline-variant pointer-events-none">expand_more</span>
+                </div>
+            </div>
+            <div>
+                <button
+                    class="w-full bg-primary text-on-primary py-4 rounded-xl font-label text-sm tracking-widest hover:bg-secondary transition-all duration-500 shadow-sm">Check
+                    Availability</button>
+            </div>
+        </div>
+    </section>
+    <!-- About Section: The Editorial Grid -->
+    <section class="py-32 px-12 max-w-screen-2xl mx-auto overflow-hidden">
+        <div class="editorial-grid">
+            <div class="col-span-12 md:col-span-7 relative group max-h-[80vh] flex items-center justify-center overflow-hidden"
+                data-reveal="fade-right">
+                <img alt="Resort View"
+                    class="w-full object-cover rounded-xl shadow-lg transition-transform duration-700 group-hover:scale-[1.02] max-h-full w-auto object-contain"
+                    data-alt="Modern minimalist resort architecture by the sea with white stone walls"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBinU89oFMQ45eLsBmOCceUKhTpNrfSWf61rQzq61-bOooY82oY2HIrFricRDc2UIddMBGfP-ZY9sys4vDhrmkBHb009PAs4oEV33oy-Um2z8NV7t0oz-NsxHB3si6nWYc3UCwu0oFwkxMsI7hiFKlIQjHif7U7razVT4Tc-TlXihRhJ4P2KM0VNWyZL2uQHCLNSW9Bt4BmuTALuJ486qKUFlk-MKV3jV9gapXl_ZqMSvSwA5a_luaQUEZhnT-e96SqDkCWQhsrocXx" />
+                <div
+                    class="absolute -bottom-10 -right-10 hidden md:block w-72 h-72 bg-primary-container p-8 rounded-xl flex items-center justify-center transform group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-500">
+                    <p class="font-headline text-2xl text-on-primary-container leading-relaxed italic">"Architecture
+                        that listens to the wind."</p>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-5 flex flex-col justify-center md:pl-16 mt-12 md:mt-0"
+                data-reveal="fade-left" data-reveal-delay="300">
+                <span class="font-label text-xs tracking-[0.3em] text-secondary uppercase mb-6">Our Philosophy</span>
+                <h2 class="font-headline text-4xl md:text-6xl font-light mb-8 leading-[1.1]">The Art of <br /> Pure
+                    Absence.</h2>
+                <p class="text-on-surface-variant leading-relaxed mb-10 text-lg opacity-80">
+                    The Ethereal Shore is more than a destination; it is a rhythmic pause. Nestled on the sun-bleached
+                    edge of the coast, we offer a sanctuary where the boundaries between inside and outside dissolve.
+                    Our suites are crafted with reclaimed stone and raw linens, creating a tactile dialogue with the
+                    Mediterranean landscape.
+                </p>
+                <div class="flex items-center gap-6">
+                    <a class="font-label text-sm tracking-widest border-b border-secondary/20 pb-1 hover:border-secondary transition-all duration-300"
+                        href="#">Our Story</a>
+                    <span class="w-12 h-[1px] bg-outline-variant/30"></span>
+                    <a class="font-label text-sm tracking-widest border-b border-secondary/20 pb-1 hover:border-secondary transition-all duration-300"
+                        href="#">Awards</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Room Showcase: Smooth Carousel -->
+    <section class="bg-surface-container-low overflow-hidden py-48">
+        <div class="max-w-screen-2xl mx-auto mb-12 flex flex-col md:flex-row justify-between items-end gap-6"
+            data-reveal="fade-up">
+            <div class="max-w-xl">
+                <span
+                    class="font-label text-xs tracking-[0.3em] text-secondary uppercase mb-4 block">Accommodation</span>
+                <h2 class="font-headline text-4xl md:text-6xl font-light">Featured Retreats</h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <button
+                    class="w-14 h-14 rounded-full border border-outline-variant/30 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary hover:border-transparent transition-all duration-300 group"
+                    id="prevBtn">
+                    <span class="material-symbols-outlined">west</span>
+                </button>
+                <button
+                    class="w-14 h-14 rounded-full border border-outline-variant/30 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary hover:border-transparent transition-all duration-300 group"
+                    id="nextBtn">
+                    <span class="material-symbols-outlined">east</span>
+                </button>
+            </div>
+        </div>
+        <div class="relative">
+            <div class="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-8 scroll-smooth pl-8"
+                id="carouselTrack">
+                <!-- Oceanfront Suite -->
+                <div
+                    class="flex-none md:w-[60vw] lg:w-[45vw] snap-center group relative overflow-hidden rounded-2xl w-[88vw]">
+                    <div class="md:aspect-[16/9] overflow-hidden aspect-[4/5] md:aspect-[3/4]">
+                        <img alt="Oceanfront Suite"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            data-alt="Luxurious bedroom with private balcony overlooking a turquoise ocean"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpNFqqlI-1LuDWHhRlqNghi9Fj8lH2jJHcSEN9HxmlHjYQKTrqy-FZxGu_0zvZd3N1XtDHOgOUs69jk8j292_4BbHKVK45fCvqGoBHJepm4cqLkhFMebz-6jjKpy_Rhr2-6E7fUYyIdA3Bz4ho9kn9nbOKtvbZ7yJI5pIHeJNK6t-w_Xft-mYhH_I49oiCAOFiFonPtZomHnYQznLYZL26CjuiK52u0zjdwRrVqExnHs8BRH3DSTkP1lNIDLhlUfrONRE727GpNK9p" />
+                    </div>
+                    <div
+                        class="absolute left-4 right-4 md:left-8 md:right-8 p-6 md:p-10 bg-white/80 backdrop-blur-2xl rounded-2xl transform transition-all duration-500 border border-white/20 bottom-4 md:bottom-12 max-w-[90%] mx-auto md:max-w-none">
+                        <span
+                            class="font-label text-[8px] md:text-[10px] tracking-[0.3em] text-secondary uppercase mb-2 md:mb-3 block">Premium
+                            Sanctuary</span>
+                        <h3 class="font-headline text-xl md:text-4xl font-light mb-4 md:mb-6">Oceanfront Suite</h3>
+                        <div class="flex justify-between items-center border-t border-outline-variant/20 pt-4 md:pt-6">
+                            <span class="text-on-surface-variant font-body text-sm tracking-wide">From $1,200 /
+                                night</span>
+                            <div
+                                class="flex items-center gap-3 text-primary font-label text-xs tracking-widest uppercase">
+                                Explore <span
+                                    class="material-symbols-outlined text-xl group-hover:translate-x-2 transition-transform">arrow_right_alt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Garden Villa -->
+                <div
+                    class="flex-none md:w-[60vw] lg:w-[45vw] snap-center group relative overflow-hidden rounded-2xl w-[88vw]">
+                    <div class="md:aspect-[16/9] overflow-hidden aspect-[4/5] md:aspect-[3/4]">
+                        <img alt="Garden Villa"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            data-alt="Minimalist villa architecture with private pool and tropical garden surroundings"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3QZA5uxzd2Lr7bDvPQAk-J4Uw89XYAh_BbL-_LAc-RDDNzQUskRdPbdP1lob2lcsZiGXEV07vIed_pXamv7kqT7uZp040tGvVvr4qvGszaw-eYR72jtaCtFmgbPBItDwyJHuZZItoJvjyVQYl_QOhgjHf5rcJH9lcccUmCgwQdX7xMOJTFTRGYC8GLH8sx3eMifj079JE-tS3rlosK78h8UU9fI_tPH78ncMqnO-fSR4dhtrdtlImFwp-RbmkItrKpTngcMpGKDag" />
+                    </div>
+                    <div
+                        class="absolute left-4 right-4 md:left-8 md:right-8 p-6 md:p-10 bg-white/80 backdrop-blur-2xl rounded-2xl transform transition-all duration-500 border border-white/20 bottom-4 md:bottom-12 max-w-[90%] mx-auto md:max-w-none">
+                        <span
+                            class="font-label text-[8px] md:text-[10px] tracking-[0.3em] text-secondary uppercase mb-2 md:mb-3 block">Total
+                            Privacy</span>
+                        <h3 class="font-headline text-xl md:text-4xl font-light mb-4 md:mb-6">Garden Villa</h3>
+                        <div class="flex justify-between items-center border-t border-outline-variant/20 pt-4 md:pt-6">
+                            <span class="text-on-surface-variant font-body text-sm tracking-wide">From $950 /
+                                night</span>
+                            <div
+                                class="flex items-center gap-3 text-primary font-label text-xs tracking-widest uppercase">
+                                Explore <span
+                                    class="material-symbols-outlined text-xl group-hover:translate-x-2 transition-transform">arrow_right_alt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- The Penthouse -->
+                <div
+                    class="flex-none md:w-[60vw] lg:w-[45vw] snap-center group relative overflow-hidden rounded-2xl w-[88vw]">
+                    <div class="md:aspect-[16/9] overflow-hidden aspect-[4/5] md:aspect-[3/4]">
+                        <img alt="The Penthouse"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            data-alt="Expansive luxury penthouse with floor to ceiling windows and panoramic sea views"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-y7wEAEIyrj1FIsCG03uZxZxpxYVGre0Uiq54eRCg2L27Lmh69qjIknqYAy3l6PvAsplL1NAi-ykSq8pYIwCbgNC9XtlR1aoGAgAiuZaO4yOfpYpl8_-QLsJEpEDCvrHxTTQE2UtlMLluCuLINTV5aM9Zw_dy2OZumTZ3zcVhIdur86q7c9Kl0RxohXPgyk-1BVzamW_hsNRYaw7AOHh0ZEDGkXN-FesKCosm5tJjMtvJPgq7gWQwP16nzRZhWFak5aLGOH6tXKmM" />
+                    </div>
+                    <div
+                        class="absolute left-4 right-4 md:left-8 md:right-8 p-6 md:p-10 bg-white/80 backdrop-blur-2xl rounded-2xl transform transition-all duration-500 border border-white/20 bottom-4 md:bottom-12 max-w-[90%] mx-auto md:max-w-none">
+                        <span
+                            class="font-label text-[8px] md:text-[10px] tracking-[0.3em] text-secondary uppercase mb-2 md:mb-3 block">Cloud
+                            Living</span>
+                        <h3 class="font-headline text-xl md:text-4xl font-light mb-4 md:mb-6">The Penthouse</h3>
+                        <div class="flex justify-between items-center border-t border-outline-variant/20 pt-4 md:pt-6">
+                            <span class="text-on-surface-variant font-body text-sm tracking-wide">From $2,800 /
+                                night</span>
+                            <div
+                                class="flex items-center gap-3 text-primary font-label text-xs tracking-widest uppercase">
+                                Explore <span
+                                    class="material-symbols-outlined text-xl group-hover:translate-x-2 transition-transform">arrow_right_alt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Spacer for extra slide-to-end feel -->
+                <div class="flex-none w-12 h-1 md:w-48"></div>
+            </div>
+        </div>
+    </section>
+    <!-- Experiences -->
+    <section class="py-32 px-12 max-w-screen-2xl mx-auto">
+        <div class="text-center mb-20" data-reveal="fade-up">
+            <span class="font-label text-xs tracking-[0.3em] text-secondary uppercase mb-4 block">Curated
+                Journeys</span>
+            <h2 class="font-headline text-4xl md:text-5xl font-light">Experiences for the Curious</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="md:col-span-2 group relative h-96 rounded-xl overflow-hidden cursor-pointer"
+                data-reveal="fade-up">
+                <img alt="Ethereal Spa"
+                    class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    data-alt="Serene spa treatment room with soft lighting and natural textures"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3VCGM-A9FXhZO1xlnaVi-qQ9fJc5Smt9raszyBU0fFmA_H8QBReFs27jxIRtEt8VNq_nUnKMX4ZI__hnMuRxh_Y7ZnCfBWqN72WReRufZ2m82NLCGtwe07s96AhmvVBO0Sgv8Yoyu9l9-6M1FEgn96s2Jgzb97NAK7KDOVi0B9LozRwxXfI5K8EhKslFSXcH-QIJvjySpH3YugxDEqSFHD9HcMv1UdsF3CvtSe0AmGLUbLchiLPaR6x4KHMNGCdxzTaERZPBFPPp1" />
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors"></div>
+                <div class="absolute inset-0 p-10 flex flex-col justify-end">
+                    <h3 class="font-headline text-3xl text-white font-light">Ethereal Spa</h3>
+                    <p
+                        class="text-white/80 font-body text-sm mt-4 transform translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        Holistic rituals using sea-minerals and botanical extracts.</p>
+                </div>
+            </div>
+            <div class="group relative h-96 rounded-xl overflow-hidden cursor-pointer" data-reveal="fade-up">
+                <img alt="Sunset Mixology"
+                    class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    data-alt="Elegant cocktail glass on a beach bar counter at sunset"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJfE2gCoXU4YEauWB4s-R4WMfM_JDYwyNkuF1WxjwvM5oyilqiE9z9aB2Dlc2D_Ly9xjXClOt_8pDJ7Sieu_fY6I22u698TtKoIX_YWkLT3mINz3UO02YPgXA7I9BfzcDDJpitQ3ALRjmDfJiZx-qUQPXzc8SxSWA24MwXdQA25NdGu3og9Pu77p2B_17-X1dhByLcl55hjwJgMX0JTmXBQKGI3uvKewMc1UF6MJuAH7ZOumxX6e0vHXPDSmqG0HIs2W-oyhooteZn" />
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors"></div>
+                <div class="absolute inset-0 p-10 flex flex-col justify-end">
+                    <h3 class="font-headline text-2xl text-white font-light">Sunset Mixology</h3>
+                </div>
+            </div>
+            <div class="group relative h-96 rounded-xl overflow-hidden cursor-pointer" data-reveal="fade-up">
+                <img alt="Private Shore Dining"
+                    class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    data-alt="Romantic candlelit dinner set up on a white sand beach at dusk"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDabxkoPefn2hPxrjI0DNjIujh6DRZrmSPED7qn3DGHPdCL89aocyN5VDvMxtsA-8_kxpi-1oHw90jYrwKhfiAK_t2eCkq-6DbjE4V6-LegVkWw0Rtl-mmlMk018Kr6Jm2O9_nzPymWJsMsLtt4yUkGnuy51Ok3PBnglzeqT8Ci_ZMgTIEMjq2zF5JGk7EY9lEFIeKJilbAEoJqz_QQihdm7GUS8FPks6p0CaoHz1WLp7iKLGksDPDW6KmOhFGkBdqlzWh781La9dFI" />
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors"></div>
+                <div class="absolute inset-0 p-10 flex flex-col justify-end">
+                    <h3 class="font-headline text-2xl text-white font-light">Private Dining</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Gallery: Masonry Style -->
+    <section class="py-24 bg-surface">
+        <div class="max-w-screen-2xl mx-auto px-12 grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]"
+            data-reveal="fade-up">
+            <div class="row-span-2 col-span-2 rounded-xl overflow-hidden group">
+                <img alt="Resort Detail"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-alt="Wide shot of a beach house with turquoise sea background"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw3rL2xNP-amKSkSN9--egJtKHCFzmswDfRJPEvJqKKLGSy9lYobvQpHl09WLgj26fYmKSksTIOd_6cJAcGwHcQ97irBsQmevhX_O5nvt8IbbxS-2k1BKpE3WveP2Pq7OBIYgHs-89V8FUWdSnZ1BBk-EREH1HQ_2SGiAPJ26RI9trWJqLLQOyY1HrU2NDLacShB90Wcmc_AT2eo74VW17LnXi-13o1lLl3DMg-ZKFhk-1iyCVhMBa8ROrqY-PeUksMlTzbY77oneK" />
+            </div>
+            <div class="row-span-1 col-span-1 rounded-xl overflow-hidden group">
+                <img alt="Lobby Art"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-alt="Detail of a minimalist luxury hotel interior with gold accents"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsGaHeGzJAj5ToGeJOFlr3fuap_kBZ2TCaQzw8BMCkeFm5uCppNMtRlts-Ew9I-6wngjiYF3DSamzi3AHaMB8Xl69_E_dFvYD67duskY2OQz6FmQZ850l-2jzKMK28D36Zqo5LBNvi_Q6G-Q0y0W51T11LwVcaP_-_TDfylVNuHTXnkSS7Zzz1hnd1GqIoWuGM_NrBHhc8Ax0JTkuv3RxACIqQ90gMWmVHdxUHVxBhjxNFmfpkk1ylAMnssK-0TtwWGUsW_VRdes8K" />
+            </div>
+            <div class="row-span-3 col-span-1 rounded-xl overflow-hidden group">
+                <img alt="Infinity Pool"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-alt="Breathtaking infinity pool merging with the ocean horizon"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMrcBNlLldyZltsfV4I9wZ1rekbiSTjD2hh_DYDcDSEJw-T5kwBkP8FFmYRoiFgSqzjf-PLzvlDFpTYDNuIe5AVsYOnMTKi_6Z8U7RkYHz4603duQ3xmmmiWXT33RLNXTiYBT7jisSDUIElw1lnTg6MbtkV_eAjsGmDOO658RKB4CETLX6bMiTQgUtIiv_yczdy6x83UBmQ48TkfI3l8W_BjFPZFfLhXcI3FKUJNCLBnmbFlNV0ckZPf4R6tl82wevLYePVOAGswhz" />
+            </div>
+            <div class="row-span-2 col-span-1 rounded-xl overflow-hidden group">
+                <img alt="Balcony Morning"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-alt="Morning coffee on a white linen bed with an ocean view"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD63sTfSlPUHknxMjtGZbS2GQjX7TfwNXDEGpGQGqfAOPWGufkq-jgVqiyTVApGgQ8jSqYG9IaMaQDK3UAON2SBOhjc-4DMAPMxOIcVcfi_BeJjWSSHtrrBBYMCaeUnzqLKKkRN0KimCKfzfvxNZ9fHUMPWFz59HA9XLu_sQTn5VnWs2rjujLowZOLu53bpDNocDkmKjKhZq0srYRWnbnn2eN_iAl_wQb87fgEdZ7TRqZxXVxKA5Rqy9FibLtcViSmF6lfV3FurvpUm" />
+            </div>
+            <div class="row-span-1 col-span-2 rounded-xl overflow-hidden group">
+                <img alt="Facade"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-alt="Minimalist resort facade with wooden details and blue sky"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfnEIkurBpn1qus7pBkA_R3wZ6VvYfOsPbu-pj8XuGXMcuA008TKVsvudfoMOcwb14wPnbFqlEYGm3ye0XJPYZwjlujZLL6pQf92KhI59OQ5oOhVVWlOdOmmnBtIMOwthvqK4bxHOPUklKZ_Sqbj4IcHbb53FvAbm90hYbaGFNU25--0MUyVcorvu51a28QUtLHpVkCewItedZuEuzPxU6ueQXI8DigRZysbvakvME_4bXLVYtGgJXcB_oWT-pf5Y6vtNl2jk3SuGT" />
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials -->
+    <section class="py-32 px-12 bg-surface-container-low text-center">
+        <div class="max-w-3xl mx-auto" data-reveal="fade-up">
+            <span class="material-symbols-outlined text-secondary text-5xl mb-8"
+                style="font-variation-settings: 'FILL' 1;">format_quote</span>
+            <p class="font-headline text-3xl md:text-4xl font-light italic leading-relaxed text-on-surface mb-12">
+                "There is a quiet dignity to this place. We came seeking silence and found a melody of the sea that we
+                will carry with us forever."
+            </p>
+            <div class="flex flex-col items-center gap-4">
+                <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                    <img alt="Elena R." class="w-full h-full object-cover"
+                        data-alt="Portrait of a satisfied female hotel guest"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtBwd61uBK9vH3Xc9QsmJSBw1ez9PdlFW3ux8m9aD0-TN8X5EGWA0vfhMGdq-LqnZnSkq6dxeCGw_-AqK48oxCYZdaLJdIZi4b6kkddigpAeNobR3_7tsqnMsBD2rt9e4t9wnha339olfqMH_t-A0CPsH_m7ZexLODe9zGAfUofbZsFeTn3Ydx5kKbaBvQ6wGt7s2sdfRdv4Vq-1_q8dSM6gR45AnAFbY9_yNtTpYnTOz9SipJBq8BAtNykECbdTLShYwMwTg2QLiU" />
+                </div>
+                <span class="font-label text-xs tracking-[0.2em] uppercase text-secondary">Elena Rodriguez</span>
+                <span class="text-on-surface-variant/60 text-sm tracking-widest">Architect &amp; Traveler</span>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-low dark:bg-slate-950 w-full py-20 px-12 font-['Manrope'] leading-relaxed tracking-normal">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-screen-2xl mx-auto">
+            <div class="col-span-1 md:col-span-1">
+                <div class="text-xl font-serif text-[#1a1c1c] dark:text-[#faf9f8] mb-8">The Ethereal Shore</div>
+                <p class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 text-sm mb-8 pr-8">
+                    An sanctuary of light and water. Crafted for those who appreciate the subtle art of the tide.
+                </p>
+                <div class="flex gap-4">
+                    <a class="text-secondary hover:text-primary transition-colors duration-400" href="#"><span
+                            class="material-symbols-outlined">public</span></a>
+                    <a class="text-secondary hover:text-primary transition-colors duration-400" href="#"><span
+                            class="material-symbols-outlined">camera</span></a>
+                    <a class="text-secondary hover:text-primary transition-colors duration-400" href="#"><span
+                            class="material-symbols-outlined">mail</span></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-label text-xs tracking-[0.2em] text-on-surface uppercase mb-8">Reservations</h4>
+                <ul class="space-y-4">
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Find a Room</a></li>
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Group Bookings</a></li>
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Resort Maps</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-label text-xs tracking-[0.2em] text-on-surface uppercase mb-8">Curiosities</h4>
+                <ul class="space-y-4">
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Sustainability</a></li>
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Careers</a></li>
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Experiences</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-label text-xs tracking-[0.2em] text-on-surface uppercase mb-8">Legal</h4>
+                <ul class="space-y-4">
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Privacy Policy</a></li>
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Terms of Service</a></li>
+                    <li><a class="text-[#1a1c1c]/60 dark:text-[#faf9f8]/60 hover:text-[#24657e] transition-colors"
+                            href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-screen-2xl mx-auto pt-20 mt-20 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <span class="text-[#1a1c1c]/40 dark:text-[#faf9f8]/40 text-[10px] tracking-[0.3em] uppercase">© 2024 The
+                Ethereal Shore. All Rights Reserved.</span>
+            <div class="flex items-center gap-8">
+                <span class="text-[#1a1c1c]/40 text-[10px] tracking-[0.3em] uppercase">Built with Intention</span>
+                <span class="w-1 h-1 bg-secondary rounded-full"></span>
+                <span class="text-[#1a1c1c]/40 text-[10px] tracking-[0.3em] uppercase">Mediterranean Soul</span>
+            </div>
+        </div>
+    </footer>
+    <script src="main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+/* Global Animation Classes */
+
+[data-reveal] {
+    opacity: 0;
+    transition: all 1.2s cubic-bezier(0.2, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+[data-reveal="fade-up"] {
+    transform: translateY(40px);
+}
+
+[data-reveal="fade-in"] {
+    transform: scale(0.98);
+}
+
+[data-reveal="fade-left"] {
+    transform: translateX(40px);
+}
+
+[data-reveal="fade-right"] {
+    transform: translateX(-40px);
+}
+
+[data-reveal="blur-in"] {
+    filter: blur(10px);
+    transform: scale(1.05);
+}
+
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translate(0) scale(1);
+    filter: blur(0);
+}
+
+/* Navbar Scrolled State */
+nav {
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+nav.nav-scrolled {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.dark nav.nav-scrolled {
+    background-color: rgba(15, 23, 42, 0.85) !important;
+}
+
+/* Interactive elements */
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}

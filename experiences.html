@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="animations.css"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#625e56",
+              "surface-variant": "#e3e2e1",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f4f3f2",
+              "on-secondary-container": "#745c00",
+              "outline": "#70787d",
+              "on-primary": "#ffffff",
+              "inverse-primary": "#93cfeb",
+              "primary-fixed-dim": "#93cfeb",
+              "primary": "#24657e",
+              "on-primary-container": "#0a566e",
+              "secondary-fixed-dim": "#e9c349",
+              "primary-fixed": "#bde9ff",
+              "surface-container-highest": "#e3e2e1",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-container": "#c7c1b8",
+              "surface-container-high": "#e9e8e7",
+              "surface-tint": "#24657e",
+              "inverse-surface": "#2f3130",
+              "tertiary-fixed-dim": "#ccc6bc",
+              "surface-container": "#eeeeed",
+              "on-tertiary-container": "#534f48",
+              "inverse-on-surface": "#f1f0f0",
+              "on-primary-fixed": "#001f2a",
+              "secondary-fixed": "#ffe088",
+              "secondary": "#735c00",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#574500",
+              "secondary-container": "#fed65b",
+              "on-secondary-fixed": "#241a00",
+              "surface-dim": "#dadad9",
+              "on-tertiary-fixed": "#1e1b15",
+              "outline-variant": "#c0c8cd",
+              "on-tertiary-fixed-variant": "#4a463f",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-bright": "#faf9f8",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-background": "#1a1c1c",
+              "primary-container": "#8ecae6",
+              "on-surface": "#1a1c1c",
+              "background": "#faf9f8",
+              "tertiary-fixed": "#e8e2d8",
+              "surface": "#faf9f8",
+              "on-primary-fixed-variant": "#004d64",
+              "on-surface-variant": "#40484c"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-hero-overlay {
+            background: linear-gradient(to bottom, rgba(26, 28, 28, 0.2), rgba(26, 28, 28, 0.4));
+        }
+        .editorial-shadow {
+            box-shadow: 0 20px 40px rgba(47, 49, 48, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
+<div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
+<div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="index.html">Home</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="about.html">About</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="rooms.html">Rooms</a>
+<a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="experiences.html">Experiences</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="gallery.html">Gallery</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="contact.html">Contact</a>
+</div>
+<button class="bg-primary text-on-primary px-8 py-3 rounded-full font-label text-sm tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm">Book Now</button>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 bg-hero-overlay z-10"></div>
+<div class="absolute inset-0 z-0 parallax-bg" data-speed="0.4">
+<img alt="Ethereal Sea" class="w-full h-full object-cover scale-105" data-alt="Serene panoramic view of turquoise ocean water under soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIM_gKk5r1QXc8JpoLR8eSYA-tYI7p6VZaLGY6MwQsAUrIRoaTASRjehPAtdRkF_In2EaZAAntkDjpJz_DaVuERtuo_fE_6k3ZDMKAo0t7IQBELMC_cHA2JIirUzi-bCBV0BZ1X3xFTpejKgX5umFQdSyYhbWItlJnN-G_c0Yb6wSsjJ46WA9nKTQvZBY3NcgUAFrUcwzTiEKODB2H3nL0M_wchjumnq9VrKwfa19zToW4Y9BaGIFxJjqeDInYQ3b5oJYGoybWHuJu"/>
+</div>
+<div class="relative z-20 text-center px-6" data-reveal="fade-up">
+<span class="block font-label text-white text-xs tracking-[0.3em] uppercase mb-6">Unforgettable Moments</span>
+<h1 class="font-headline text-5xl md:text-8xl text-white italic tracking-tighter leading-tight max-w-4xl mx-auto">
+                Curated Journeys of the Soul
+            </h1>
+<div class="mt-12">
+<a class="inline-flex items-center gap-4 text-white group" href="#experiences">
+<span class="h-px w-12 bg-white/40 group-hover:w-20 transition-all duration-500"></span>
+<span class="font-label text-sm tracking-[0.2em] uppercase">Explore Experiences</span>
+</a>
+</div>
+</div>
+</section>
+<main class="bg-surface relative pt-32 pb-20" id="experiences">
+<!-- The Art of Stillness: Ethereal Spa -->
+<section class="max-w-7xl mx-auto px-6 md:px-12 mb-40">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+<div class="lg:col-span-5 order-2 lg:order-1" data-reveal="fade-right">
+<span class="text-secondary font-label text-xs tracking-[0.2em] uppercase mb-4 block">Holistic Wellness</span>
+<h2 class="font-headline text-4xl md:text-6xl text-on-surface mb-8 leading-tight">The Art of Stillness</h2>
+<p class="font-body text-lg text-on-surface-variant leading-[1.8] mb-10 max-w-md">
+                        The Ethereal Spa is a sanctuary where the line between the elements and the soul dissolves. Our rituals use sun-harvested botanicals and marine minerals to restore your inner rhythm.
+                    </p>
+<button class="text-secondary border-b border-secondary/20 pb-2 font-label text-sm tracking-widest uppercase hover:border-secondary transition-all duration-300">
+                        View Spa Menu
+                    </button>
+</div>
+<div class="lg:col-span-7 order-1 lg:order-2 relative" data-reveal="fade-left">
+<div class="aspect-[4/5] md:aspect-[16/10] rounded-xl overflow-hidden editorial-shadow">
+<img alt="Spa Ritual" class="w-full h-full object-cover" data-alt="Luxurious minimalist spa treatment room with soft linen and sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDetBr5jQo-5vneAFNsfdpV4TOvJRPwLEvTKa_i0AsAjlU3gxhPXrnMpSzgLy4XBcJ6Tbpm9RUrqt6tR3xaP_pusn4GxETO3-diPccLFq5bW2_3EHOybxNGPyM39g4_FiSu2uKnkr68D3BVmH2kPQDzAjbcueZhifS0LLR16034pa7m1Fc0eV56RgnZcp25A-Ff_OOh44Rh2iAVkLIHZd--E527vqkXZPV9yfW1z3HSLVfrF4ifsrJ8NA86RO8qX3R3EsZvncd3OOR4"/>
+</div>
+<!-- Editorial Overlap Card -->
+<div class="hidden md:block absolute -bottom-12 -left-12 bg-surface-container-lowest p-8 rounded-xl editorial-shadow max-w-xs">
+<img alt="Natural Products" class="w-full h-48 object-cover rounded-lg mb-4" data-alt="Organic skincare products in elegant ceramic bottles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA_Dm_i3tkEyxNOi6Gbl8epyAbsML5KEgajMirxsW2zwhDW_eSGv61jDEf239UKwd9e0aGrMYXfkEXGtFYqd8wy8ZOnJupxbbRohrf7bMtaVp1Iol07CexTDRipkZmXrBA38NTUAuyfcZnYOsNvWRdrVYYD1ICeIve-BIAJXKjDMOCm9LvkHbwatl0_SOhcqmu3TXewM2QowsSM4t3tdm-bRwrYimItUnxyEGM6fWeBZB_c7z1dKKwEz9zb2QEV-tprHClHSVGI_ZD"/>
+<p class="font-headline italic text-primary text-lg">Pure marine botanicals, hand-blended for your unique essence.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial -->
+<section class="bg-surface-container-low py-32 mb-40">
+<div class="max-w-4xl mx-auto text-center px-6" data-reveal="fade-up">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-8">format_quote</span>
+<blockquote class="font-headline text-3xl md:text-4xl text-on-surface italic leading-relaxed mb-8">
+                    "The sunset ritual wasn't just a treatment; it was a profound reconnection with the horizon. I left feeling lighter, as if the tides had washed away the noise of the world."
+                </blockquote>
+<cite class="font-label text-sm tracking-[0.2em] uppercase not-italic text-on-surface-variant">Elena Vance — London</cite>
+</div>
+</section>
+<!-- Savor the Sunset -->
+<section class="max-w-7xl mx-auto px-6 md:px-12 mb-40">
+<div class="flex flex-col md:flex-row gap-16 items-start">
+<div class="w-full md:w-3/5 relative" data-reveal="fade-right">
+<img alt="Sunset Mixology" class="w-full aspect-square md:aspect-[4/3] object-cover rounded-xl editorial-shadow" data-alt="Exotic cocktail on a wooden table at sunset with ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU5CTj6QKb4DtaEAnNwHreHK7a7pHJUZL-6DpcwqZdT-ozYlwbhjLn7MXxVm1DtrQ0nJSlGXLHm04b-4sZjBMH33DDEgWdZEAGALy27iAYObexVDt63JXhgBUuisTCblxyVZTpiecyUzRc7KNmNI4blTKvIqgma69FGJ6YFylAyKxHmuX77F3DUyngAJMi9Xl0dEe38NvFSnXdl6Zg8ijz7VXFBoZ5U0wAR1HVFJlv8rBn4vjUMsT0g39ZVMVi-IthFL1XTz6oj_tb"/>
+</div>
+<div class="w-full md:w-2/5 pt-12" data-reveal="fade-left">
+<span class="text-secondary font-label text-xs tracking-[0.2em] uppercase mb-4 block">Gastronomy</span>
+<h2 class="font-headline text-4xl md:text-6xl text-on-surface mb-8 leading-tight">Savor the Sunset</h2>
+<p class="font-body text-lg text-on-surface-variant leading-[1.8] mb-10">
+                        From private dining under the canopy of stars to mixology classes that capture the colors of the dusk in a glass. Experience culinary artistry at the edge of the world.
+                    </p>
+<div class="space-y-6">
+<div class="flex items-center gap-6 group cursor-pointer">
+<span class="h-px w-8 bg-outline-variant group-hover:bg-secondary group-hover:w-12 transition-all"></span>
+<span class="font-headline italic text-xl">Private Beachfront Dinner</span>
+</div>
+<div class="flex items-center gap-6 group cursor-pointer">
+<span class="h-px w-8 bg-outline-variant group-hover:bg-secondary group-hover:w-12 transition-all"></span>
+<span class="font-headline italic text-xl">Twilight Mixology Masterclass</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Island Expeditions -->
+<section class="max-w-7xl mx-auto px-6 md:px-12">
+<div class="mb-16" data-reveal="fade-up">
+<span class="text-secondary font-label text-xs tracking-[0.2em] uppercase mb-4 block">Adventure</span>
+<h2 class="font-headline text-4xl md:text-6xl text-on-surface">Island Expeditions</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Expedition Card 1 -->
+<div class="group cursor-pointer" data-reveal="fade-up">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
+<img alt="Yacht Charter" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Sleek white yacht sailing on crystal clear blue water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVXdAgCfPlWAyYdt_6BiR0b__We4hnJ4G7t9abAFdvxz4eTgPD3AJhvlynUG-WBP7V6fZfWBE8qGaXAyAXmpxlZ89K3c7mDFim7zwByTOK5gej5N66P2OA9NEEhPFRsJ7AY8OQoyoWwzYQv_ypC0o8IkG5sZNjL-EzjLbsBlEeh1W8HjQPXZd_-CEZkR5vuYK-6QJ-1boMTjzZYujYcFKrxaGamY7_3jRPWFMQoSWAE8BNC9WIZmlgWI_6dBFy_AJLHM4Clq_q5rSn"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h3 class="font-headline text-2xl mb-2">Private Yacht Charters</h3>
+<p class="font-body text-on-surface-variant mb-4">Discover hidden coves and sapphire lagoons in total privacy.</p>
+<span class="font-label text-xs tracking-widest uppercase text-secondary">Inquire Availability</span>
+</div>
+<!-- Expedition Card 2 -->
+<div class="group cursor-pointer" data-reveal="fade-up">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
+<img alt="Nature Walk" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Quiet path through a lush green coastal forest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD72mMuqiUHS9UXoY2QljPjt-yOPI3QiBfAnjYQvRxiSPC5opW5WEoyoRrSioa0tsMG3bw7U8AMTsfpaSr79dRjtwcb00FyxceNgiShmd5qBqj3fZxPrqszqmbMZVdTeZzNETYJlbihrGbQxYAspk5cVWcnyLMWPhpsA1rnmTcPXBLhnE35cEtZwATQSdkbrAN2BcNr7p9ydJUKw3HDPB5r_qHZWAXPGPWTz0-TMOgqwO3tuDxdkafNsgBDlVOzA_qNHx1PaSWIpob"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h3 class="font-headline text-2xl mb-2">Guided Nature Walks</h3>
+<p class="font-body text-on-surface-variant mb-4">Walk with our resident naturalist through ancient olive groves.</p>
+<span class="font-label text-xs tracking-widest uppercase text-secondary">Reserve a Guide</span>
+</div>
+<!-- Expedition Card 3 -->
+<div class="group cursor-pointer" data-reveal="fade-up">
+<div class="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
+<img alt="Diving" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Sunlight filtering through deep blue underwater scene" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1frYC1PX0WTF3F5hdrEsDTImHKOg3ZpZoRR4dAfFdqxME5aHMEDqjg0pRNrwr6LZnIIojU3WAA3qDovdrnkzrH5-eSGlihvB-cAQHTecSP4ThColjpk3oZHylWJ9L2ZCzYTx8ZMrOjn9Wy_95x3Q6UcmdRRoa1QOZXRbr1scslnnJGsk_Ws46eZljBxcEXhIIonBsaP1XeSMZD__XsiRAsaK8SjdUvVaiui20ek_CO4sjIB92WmIkzHVJ8sXNmJY5Gaj3eKh_3ZML"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+</div>
+<h3 class="font-headline text-2xl mb-2">Cerulean Diving</h3>
+<p class="font-body text-on-surface-variant mb-4">Explore the vibrant coral architecture of the Ethereal reefs.</p>
+<span class="font-label text-xs tracking-widest uppercase text-secondary">View Gear &amp; Courses</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f4f3f2] dark:bg-slate-950 full-width py-16 px-12 mt-40">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-7xl mx-auto font-['Manrope'] text-body-lg line-height-[1.6]">
+<div>
+<span class="font-serif text-lg tracking-widest uppercase block mb-6 text-[#24657e]">The Ethereal Shore</span>
+<p class="text-[#1a1c1c] opacity-70 mb-8 max-w-xs">
+                    Crafting timeless memories where the sky meets the sea. Experience luxury redefined in its purest form.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label text-xs tracking-widest uppercase mb-2 text-on-surface-variant">Navigation</span>
+<a class="text-[#1a1c1c] opacity-70 hover:opacity-100 hover:text-[#24657e] transition-all" href="#">Rooms &amp; Suites</a>
+<a class="text-[#735c00] underline underline-offset-8 transition-all" href="#">Experiences</a>
+<a class="text-[#1a1c1c] opacity-70 hover:opacity-100 hover:text-[#24657e] transition-all" href="#">Sustainability</a>
+<a class="text-[#1a1c1c] opacity-70 hover:opacity-100 hover:text-[#24657e] transition-all" href="#">Bookings</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label text-xs tracking-widest uppercase mb-2 text-on-surface-variant">Connect</span>
+<div class="flex gap-4 mb-4">
+<span class="material-symbols-outlined text-[#24657e]">public</span>
+<span class="material-symbols-outlined text-[#24657e]">camera</span>
+<span class="material-symbols-outlined text-[#24657e]">mail</span>
+</div>
+<div class="flex flex-col gap-2 text-sm opacity-70">
+<p>Privacy Policy</p>
+<p>Terms of Service</p>
+<p>Contact Us</p>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto pt-16 mt-16 text-center text-xs tracking-widest uppercase text-on-surface-variant opacity-50">
+            © 2024 The Ethereal Shore Resort. All Rights Reserved.
+        </div>
+</footer>
+<script src="main.js"></script>
+</body></html>
