@@ -1,0 +1,134 @@
+{% extends 'admin/layout.html' %}
+
+{% block header %}Edit {{ room.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{{ url_for('admin_rooms') }}" class="text-gray-500 hover:text-cyan-600 flex items-center text-sm font-medium">
+        <span class="material-symbols-outlined mr-1 text-[18px]">arrow_back</span> Back to Rooms
+    </a>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <!-- Room Details Form -->
+    <div class="lg:col-span-2 space-y-6">
+        <form method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+            <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6">General Information</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Room Name</label>
+                    <input type="text" name="name" value="{{ room.name }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">URL Slug</label>
+                    <input type="text" name="slug" value="{{ room.slug }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 font-mono text-sm bg-gray-50">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price (Nightly)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-2.5 text-gray-500">$</span>
+                        <input type="text" name="price" value="{{ room.price }}" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Size (SQM)</label>
+                    <input type="number" name="sqm" value="{{ room.sqm }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Beds</label>
+                    <input type="text" name="bed" value="{{ room.bed }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Short Banner Description</label>
+                <textarea name="short_desc" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-sm">{{ room.short_desc }}</textarea>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Full Description</label>
+                <textarea name="desc" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-sm leading-relaxed">{{ room.desc }}</textarea>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6 mt-8">Cover Media</h3>
+            
+            <div class="mb-6 flex items-start space-x-6">
+                <div class="w-48 h-32 rounded-lg overflow-hidden border border-gray-200 bg-gray-100 flex-shrink-0">
+                    {% if room.hero_img %}
+                        <img src="{% if not room.hero_img.startswith('http') %}{{ url_for('uploaded_file', filename=room.hero_img) }}{% else %}{{ room.hero_img }}{% endif %}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="flex items-center justify-center w-full h-full text-gray-400">No Image</div>
+                    {% endif %}
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload New Cover Photo</label>
+                    <input type="file" name="hero_img" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100 transition-colors">
+                    <p class="text-xs text-gray-400 mt-2">Recommended size: 1920x1080px. Replaces the current cover.</p>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-4 border-t border-gray-100">
+                <button type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white font-medium py-2 px-8 rounded-lg transition-colors shadow-sm">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Detail Photos Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+            <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6">Immersive Gallery Photos</h3>
+            <p class="text-sm text-gray-500 mb-6">Upload detail photos and select their position (1st, 2nd, etc.) to adjust where they appear in the Bento-style gallery on the room page.</p>
+
+            <form method="POST" enctype="multipart/form-data" class="mb-8 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Add Gallery Photo</label>
+                <input type="file" name="detail_photo" accept="image/*" required class="w-full text-sm text-gray-500 mb-4 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-gray-200 file:text-gray-700">
+                
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Position</label>
+                <select name="photo_position" class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4 text-sm focus:ring-cyan-500 focus:border-cyan-500">
+                    <option value="1">1st Photo (Large Block)</option>
+                    <option value="2">2nd Photo (Medium Block)</option>
+                    <option value="3">3rd Photo (Small Block)</option>
+                    <option value="4">4th Photo (Small Block)</option>
+                </select>
+
+                <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white text-sm font-medium py-2 rounded-lg transition-colors">
+                    Upload & Add to Gallery
+                </button>
+            </form>
+
+            <div class="space-y-4">
+                <h4 class="font-medium text-gray-700 text-sm uppercase tracking-wider mb-4">Current Photos</h4>
+                {% if room.photos %}
+                    {% for photo in room.photos | sort(attribute='position') %}
+                    <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-50">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded bg-gray-200 overflow-hidden mr-3">
+                                <img src="{% if not photo.photo_url.startswith('http') %}{{ url_for('uploaded_file', filename=photo.photo_url) }}{% else %}{{ photo.photo_url }}{% endif %}" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <span class="text-xs font-semibold uppercase text-cyan-700 tracking-wider">Pos {{ photo.position }}</span>
+                            </div>
+                        </div>
+                        <form method="POST" action="{{ url_for('admin_room_photo_delete', room_id=room.id, photo_id=photo.id) }}" onsubmit="return confirm('Remove photo?');">
+                            <button type="submit" class="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-sm text-gray-400 italic">No gallery photos added yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

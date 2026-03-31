@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="animations.css"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -89,12 +89,12 @@
 <div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
 <div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
 <div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
-<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="index.html">Home</a>
-<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="about.html">About</a>
-<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="rooms.html">Rooms</a>
-<a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="experiences.html">Experiences</a>
-<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="gallery.html">Gallery</a>
-<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="contact.html">Contact</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('index') }}">Home</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('about') }}">About</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('rooms') }}">Rooms</a>
+<a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('experiences') }}">Experiences</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('gallery') }}">Gallery</a>
+<a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('contact') }}">Contact</a>
 </div>
 <button class="bg-primary text-on-primary px-8 py-3 rounded-full font-label text-sm tracking-widest hover:bg-on-primary-container transition-all duration-400 shadow-sm">Book Now</button>
 </div>
@@ -187,36 +187,18 @@
 <h2 class="font-headline text-4xl md:text-6xl text-on-surface">Island Expeditions</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- Expedition Card 1 -->
+{% for exp in experiences %}
+<!-- Expedition Card -->
 <div class="group cursor-pointer" data-reveal="fade-up">
 <div class="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
-<img alt="Yacht Charter" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Sleek white yacht sailing on crystal clear blue water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVXdAgCfPlWAyYdt_6BiR0b__We4hnJ4G7t9abAFdvxz4eTgPD3AJhvlynUG-WBP7V6fZfWBE8qGaXAyAXmpxlZ89K3c7mDFim7zwByTOK5gej5N66P2OA9NEEhPFRsJ7AY8OQoyoWwzYQv_ypC0o8IkG5sZNjL-EzjLbsBlEeh1W8HjQPXZd_-CEZkR5vuYK-6QJ-1boMTjzZYujYcFKrxaGamY7_3jRPWFMQoSWAE8BNC9WIZmlgWI_6dBFy_AJLHM4Clq_q5rSn"/>
+<img alt="{{ exp.title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="{% if not exp.image_url.startswith('http') %}{{ url_for('uploaded_file', filename=exp.image_url) }}{% else %}{{ exp.image_url }}{% endif %}"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 </div>
-<h3 class="font-headline text-2xl mb-2">Private Yacht Charters</h3>
-<p class="font-body text-on-surface-variant mb-4">Discover hidden coves and sapphire lagoons in total privacy.</p>
-<span class="font-label text-xs tracking-widest uppercase text-secondary">Inquire Availability</span>
+<h3 class="font-headline text-2xl mb-2">{{ exp.title }}</h3>
+<p class="font-body text-on-surface-variant mb-4">{{ exp.description }}</p>
+<span class="font-label text-xs tracking-widest uppercase text-secondary">Reserve</span>
 </div>
-<!-- Expedition Card 2 -->
-<div class="group cursor-pointer" data-reveal="fade-up">
-<div class="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
-<img alt="Nature Walk" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Quiet path through a lush green coastal forest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD72mMuqiUHS9UXoY2QljPjt-yOPI3QiBfAnjYQvRxiSPC5opW5WEoyoRrSioa0tsMG3bw7U8AMTsfpaSr79dRjtwcb00FyxceNgiShmd5qBqj3fZxPrqszqmbMZVdTeZzNETYJlbihrGbQxYAspk5cVWcnyLMWPhpsA1rnmTcPXBLhnE35cEtZwATQSdkbrAN2BcNr7p9ydJUKw3HDPB5r_qHZWAXPGPWTz0-TMOgqwO3tuDxdkafNsgBDlVOzA_qNHx1PaSWIpob"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-</div>
-<h3 class="font-headline text-2xl mb-2">Guided Nature Walks</h3>
-<p class="font-body text-on-surface-variant mb-4">Walk with our resident naturalist through ancient olive groves.</p>
-<span class="font-label text-xs tracking-widest uppercase text-secondary">Reserve a Guide</span>
-</div>
-<!-- Expedition Card 3 -->
-<div class="group cursor-pointer" data-reveal="fade-up">
-<div class="relative aspect-[4/5] overflow-hidden rounded-xl mb-6">
-<img alt="Diving" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Sunlight filtering through deep blue underwater scene" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1frYC1PX0WTF3F5hdrEsDTImHKOg3ZpZoRR4dAfFdqxME5aHMEDqjg0pRNrwr6LZnIIojU3WAA3qDovdrnkzrH5-eSGlihvB-cAQHTecSP4ThColjpk3oZHylWJ9L2ZCzYTx8ZMrOjn9Wy_95x3Q6UcmdRRoa1QOZXRbr1scslnnJGsk_Ws46eZljBxcEXhIIonBsaP1XeSMZD__XsiRAsaK8SjdUvVaiui20ek_CO4sjIB92WmIkzHVJ8sXNmJY5Gaj3eKh_3ZML"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-</div>
-<h3 class="font-headline text-2xl mb-2">Cerulean Diving</h3>
-<p class="font-body text-on-surface-variant mb-4">Explore the vibrant coral architecture of the Ethereal reefs.</p>
-<span class="font-label text-xs tracking-widest uppercase text-secondary">View Gear &amp; Courses</span>
-</div>
+{% endfor %}
 </div>
 </section>
 </main>
@@ -254,5 +236,5 @@
             © 2024 The Ethereal Shore Resort. All Rights Reserved.
         </div>
 </footer>
-<script src="main.js"></script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 </body></html>

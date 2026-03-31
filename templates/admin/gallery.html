@@ -1,0 +1,45 @@
+{% extends 'admin/layout.html' %}
+
+{% block header %}Manage Gallery{% endblock %}
+
+{% block content %}
+<div class="mb-8 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-4">Add to Gallery Collection</h3>
+    <p class="text-sm text-gray-500 mb-6 font-body">Upload high-resolution images to the main gallery. The frontend automatically configures the bento-grid layout for the first set of images to maintain the editorial aesthetic.</p>
+
+    <form method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-4 items-end">
+        <div class="flex-1 w-full">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Select Image File</label>
+            <input type="file" name="image" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition-colors border border-gray-200 rounded-lg">
+        </div>
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-8 rounded-lg shadow-sm transition-colors w-full sm:w-auto h-11">
+            Upload Image
+        </button>
+    </form>
+</div>
+
+<div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+    <h3 class="font-medium text-gray-800 mb-6 uppercase tracking-wider text-sm">Visual Archive</h3>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for img in gallery %}
+        <div class="relative group aspect-[4/3] rounded-lg overflow-hidden border border-gray-200 bg-white">
+            <img class="w-full h-full object-cover transition-transform group-hover:scale-105 duration-500" src="{% if not img.image_url.startswith('http') %}{{ url_for('uploaded_file', filename=img.image_url) }}{% else %}{{ img.image_url }}{% endif %}">
+            
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                <form method="POST" action="{{ url_for('admin_gallery_delete', img_id=img.id) }}" onsubmit="return confirm('Remove this image from the gallery?');">
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                        <span class="material-symbols-outlined text-[20px]">delete_forever</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full py-20 text-center border-2 border-dashed border-gray-300 rounded-xl">
+            <span class="material-symbols-outlined text-4xl text-gray-400 mb-2">image_not_supported</span>
+            <p class="text-gray-500 font-medium font-body">The gallery is currently empty.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
