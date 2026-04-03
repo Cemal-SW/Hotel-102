@@ -98,7 +98,7 @@
     <!-- Top Navigation Bar -->
     <nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
         <div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
-            <div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
+            <a href="{{ url_for('index') }}" class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8] hover:opacity-80 transition-opacity">The Ethereal Shore</a>
             <div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
                 <a class="text-[#735c00] dark:text-[#ffe088] border-b border-[#735c00] pb-1 scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('index') }}">Home</a>
                 <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('about') }}">About</a>
@@ -194,7 +194,7 @@
 
     <!-- Room Showcase: Smooth Carousel -->
     <section class="bg-surface-container-low overflow-hidden py-48">
-        <div class="max-w-screen-2xl mx-auto mb-12 flex flex-col md:flex-row justify-between items-end gap-6" data-reveal="fade-up">
+        <div class="max-w-screen-2xl mx-auto px-12 mb-12 flex flex-col md:flex-row justify-between items-end gap-6" data-reveal="fade-up">
             <div class="max-w-xl">
                 <span class="font-label text-xs tracking-[0.3em] text-secondary uppercase mb-4 block">Accommodation</span>
                 <h2 class="font-headline text-4xl md:text-6xl font-light">Featured Retreats</h2>
@@ -208,17 +208,17 @@
                 </button>
             </div>
         </div>
-        <div class="relative">
-            <div class="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-8 scroll-smooth pl-8" id="carouselTrack">
+        <div class="relative max-w-screen-2xl mx-auto px-12">
+            <div class="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory cursor-grab active:cursor-grabbing pb-8 scroll-smooth" id="carouselTrack">
                 {% for room in rooms %}
-                <div class="flex-none md:w-[60vw] lg:w-[45vw] snap-center group relative overflow-hidden rounded-2xl w-[88vw]">
-                    <div class="md:aspect-[16/9] overflow-hidden aspect-[4/5] md:aspect-[3/4]">
+                <div class="flex-none md:w-[75vw] lg:w-[65vw] xl:w-[55vw] 2xl:w-[50vw] snap-start group relative overflow-hidden rounded-2xl w-[88vw]" data-reveal="fade-up" data-reveal-delay="{{ loop.index0 * 150 + 200 }}">
+                    <div class="aspect-[4/5] lg:aspect-[1/1] xl:aspect-[4/3] overflow-hidden">
                         <img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" src="{% if not room.hero_img.startswith('http') %}{{ url_for('uploaded_file', filename=room.hero_img) }}{% else %}{{ room.hero_img }}{% endif %}" />
                     </div>
-                    <div class="absolute left-4 right-4 md:left-8 md:right-8 p-6 md:p-10 bg-white/80 backdrop-blur-2xl rounded-2xl transform transition-all duration-500 border border-white/20 bottom-4 md:bottom-12 max-w-[90%] mx-auto md:max-w-none">
-                        <span class="font-label text-[8px] md:text-[10px] tracking-[0.3em] text-secondary uppercase mb-2 md:mb-3 block">Retreat</span>
-                        <h3 class="font-headline text-xl md:text-4xl font-light mb-4 md:mb-6">{{ room.name }}</h3>
-                        <div class="flex justify-between items-center border-t border-outline-variant/20 pt-4 md:pt-6">
+                    <div class="absolute left-4 right-4 md:left-6 md:right-6 p-4 md:p-6 bg-white/80 backdrop-blur-2xl rounded-xl transform transition-all duration-500 border border-white/20 bottom-4 md:bottom-6 max-w-[90%] mx-auto md:max-w-none">
+                        <span class="font-label text-[8px] md:text-[9px] tracking-[0.3em] text-secondary uppercase mb-1 md:mb-2 block">Retreat</span>
+                        <h3 class="font-headline text-lg md:text-3xl font-light mb-2 md:mb-4">{{ room.name }}</h3>
+                        <div class="flex justify-between items-center border-t border-outline-variant/20 pt-3 md:pt-4">
                             <span class="text-on-surface-variant font-body text-sm tracking-wide">From ${{ room.price }} / night</span>
                             <a href="{{ url_for('room_detail', slug=room.slug) }}" class="flex items-center gap-3 text-primary font-label text-xs tracking-widest uppercase cursor-pointer">
                                 Explore <span class="material-symbols-outlined text-xl group-hover:translate-x-2 transition-transform">arrow_right_alt</span>

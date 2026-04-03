@@ -87,7 +87,7 @@
 <body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
 <nav class="fixed top-0 w-full z-50 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md shadow-[0_20px_40px_rgba(47,49,48,0.05)] transition-all duration-400">
 <div class="flex justify-between items-center w-full px-12 py-6 max-w-screen-2xl mx-auto">
-<div class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8]">The Ethereal Shore</div>
+<a href="{{ url_for('index') }}" class="text-2xl font-serif tracking-tighter text-[#1a1c1c] dark:text-[#faf9f8] hover:opacity-80 transition-opacity">The Ethereal Shore</a>
 <div class="hidden md:flex items-center space-x-12 font-['Noto_Serif'] font-light tracking-wide">
 <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('index') }}">Home</a>
 <a class="text-[#1a1c1c] dark:text-[#faf9f8] opacity-80 hover:opacity-100 hover:text-[#735c00] scale-100 hover:scale-105 active:scale-95 transition-all duration-400" href="{{ url_for('about') }}">About</a>

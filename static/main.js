@@ -170,4 +170,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 7. Carousel Next/Prev Buttons
+    const carouselTrack = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (carouselTrack && prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+            // Scroll left by roughly one card width
+            const scrollAmount = carouselTrack.clientWidth * 0.6;
+            carouselTrack.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+        nextBtn.addEventListener('click', () => {
+            // Scroll right by roughly one card width
+            const scrollAmount = carouselTrack.clientWidth * 0.6;
+            carouselTrack.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    }
 });
