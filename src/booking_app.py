@@ -1,9 +1,12 @@
 import os
 from flask import Flask, render_template, request, send_from_directory
-from shared_models import db, Room, Reservation
+from src.models import db, Room, Reservation
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
+
+basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) # Root dir
+db_path = os.path.join(basedir, 'data', 'instance', 'hotel.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -16,7 +19,7 @@ def inject_globals():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    upload_folder = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
+    upload_folder = os.path.join(basedir, 'data', 'uploads')
     return send_from_directory(upload_folder, filename)
 
 @app.route('/')

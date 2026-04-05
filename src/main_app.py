@@ -7,16 +7,27 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey123'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
+
+basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) # Hotel-102 root
+
+# Database path overrides to data/instance
+db_dir = os.path.join(basedir, 'data', 'instance')
+if not os.path.exists(db_dir):
+    os.makedirs(db_dir)
+
+db_path = os.path.join(db_dir, 'hotel.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
+
+# Uploads folder to data/uploads
+app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'data', 'uploads')
 
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50MB for video uploads
 
-from shared_models import db, User, Settings, Room, RoomPhoto, Experience, GalleryImage, Reservation
+from src.models import db, User, Settings, Room, RoomPhoto, Experience, GalleryImage, Reservation
 
 db.init_app(app)
 login_manager = LoginManager(app)

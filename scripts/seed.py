@@ -1,4 +1,9 @@
-from app import app, db, Room, Experience, GalleryImage, Settings, User
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.main_app import app
+from src.models import db, Room, Experience, GalleryImage, Settings, User
 
 rooms_data = [
     {
