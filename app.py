@@ -16,60 +16,18 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50MB for video uploads
 
-db = SQLAlchemy(app)
+from shared_models import db, User, Settings, Room, RoomPhoto, Experience, GalleryImage, Reservation
+
+db.init_app(app)
 login_manager = LoginManager(app)
+
 login_manager.login_view = 'admin_login'
 
-# Models
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
-    password_hash = db.Column(db.String(256), nullable=False)
+BOOKING_URL = os.environ.get('BOOKING_URL', 'http://127.0.0.1:5001/')
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-class Settings(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    hero_type = db.Column(db.String(50), default='image') # 'image' or 'video'
-    hero_media = db.Column(db.String(500), nullable=True) # URL or filename
-
-class Room(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    slug = db.Column(db.String(150), unique=True, nullable=False)
-    name = db.Column(db.String(150), nullable=False)
-    hero_img = db.Column(db.String(500), nullable=True) # URL or filename
-    desc = db.Column(db.Text, nullable=True)
-    short_desc = db.Column(db.String(300), nullable=True)
-    sqm = db.Column(db.Integer, nullable=True)
-    bed = db.Column(db.String(50), nullable=True)
-    price = db.Column(db.String(50), nullable=True) # Could be String for "$1,250" or Integer
-    order_index = db.Column(db.Integer, default=0)
-    photos = db.relationship('RoomPhoto', backref='room', lazy=True, cascade="all, delete-orphan")
-
-class RoomPhoto(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
-    photo_url = db.Column(db.String(500), nullable=False)
-    position = db.Column(db.Integer, default=0) # Display order
-
-class Experience(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150), nullable=False)
-    description = db.Column(db.Text, nullable=True)
-    image_url = db.Column(db.String(500), nullable=True)
-    order_index = db.Column(db.Integer, default=0)
-
-class GalleryImage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    image_url = db.Column(db.String(500), nullable=False)
-    caption = db.Column(db.String(300), nullable=True)
-    col_span = db.Column(db.Integer, default=1)
-    row_span = db.Column(db.Integer, default=1)
-    order_index = db.Column(db.Integer, default=0)
+@app.context_processor
+def inject_globals():
+    return dict(BOOKING_URL=BOOKING_URL)
 
 @login_manager.user_loader
 def load_user(user_id):
