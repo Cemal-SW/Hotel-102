@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, send_from_directory
-from src.models import db, Room, Reservation
+from core.models import db, Room, Reservation
 
 app = Flask(__name__)
 

@@ -1,0 +1,78 @@
+<div id="step-1" class="step-content active w-full flex flex-col items-center">
+    <h1 class="font-headline text-6xl md:text-[8rem] font-black text-primary tracking-tighter mb-4 leading-none text-center">
+        STAY
+    </h1>
+    <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl mb-12 text-center leading-relaxed">
+        Begin your curation by selecting the temporal boundaries of your escape. We invite you to experience the silence between the moments.
+    </p>
+
+    <!-- NEW DESIGN CONTAINER -->
+    <div class="bg-surface-container-low p-8 lg:p-14 mb-12 rounded-2xl w-full max-w-5xl shadow-sm">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+            
+            <!-- Calendar Section -->
+            <div class="md:col-span-2">
+                <div class="flex justify-between items-end mb-10">
+                    <h3 class="font-headline text-3xl text-primary" id="custom-month-name">Select Dates</h3>
+                    <div class="flex gap-4">
+                        <button type="button" id="custom-prev-month" class="p-3 hover:bg-surface-container-high transition-colors rounded-full text-secondary outline-none"><span class="material-symbols-outlined shrink-0 text-3xl">chevron_left</span></button>
+                        <button type="button" id="custom-next-month" class="p-3 hover:bg-surface-container-high transition-colors rounded-full text-secondary outline-none"><span class="material-symbols-outlined shrink-0 text-3xl">chevron_right</span></button>
+                    </div>
+                </div>
+                
+                <div id="inline-calendar" class="w-full"></div>
+            </div>
+
+            <!-- Occupancy Inputs -->
+            <div class="space-y-8">
+                <div class="relative">
+                    <label class="block font-label text-[10px] uppercase tracking-[0.2em] text-secondary mb-3 ml-2 font-bold">Adults</label>
+                    <div class="flex items-center justify-between bg-surface px-6 py-4 rounded-full border border-outline-variant focus-within:border-primary transition-colors shadow-sm">
+                        <span class="text-3xl font-headline italic" id="adult-count">2</span>
+                        <div class="flex gap-4">
+                            <button type="button" class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all text-secondary outline-none" onclick="updateGuest('adult', -1)">
+                                <span class="material-symbols-outlined text-sm">remove</span>
+                            </button>
+                            <button type="button" class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all text-secondary outline-none" onclick="updateGuest('adult', 1)">
+                                <span class="material-symbols-outlined text-sm">add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <div class="relative">
+                    <label class="block font-label text-[10px] uppercase tracking-[0.2em] text-secondary mb-3 ml-2 font-bold">Children</label>
+                    <div class="flex items-center justify-between bg-surface px-6 py-4 rounded-full border border-outline-variant focus-within:border-primary transition-colors shadow-sm">
+                        <span class="text-3xl font-headline italic" id="child-count">0</span>
+                        <div class="flex gap-4">
+                            <button type="button" class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all text-secondary outline-none" onclick="updateGuest('child', -1)">
+                                <span class="material-symbols-outlined text-sm">remove</span>
+                            </button>
+                            <button type="button" class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all text-secondary outline-none" onclick="updateGuest('child', 1)">
+                                <span class="material-symbols-outlined text-sm">add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex flex-col items-center gap-8 justify-center w-full mt-16 pt-12">
+            <button type="button" onclick="nextStep(2)" class="w-full md:w-[400px] bg-gradient-to-br from-primary to-primary-container text-on-primary px-12 py-6 font-label font-bold tracking-widest text-sm rounded-full hover:scale-[0.98] transition-transform flex items-center justify-center gap-4 shadow-xl">
+                NEXT: SELECT ROOM
+                <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Hidden inputs for backend and JS compatibility -->
+    <input type="hidden" id="checkIn" value="">
+    <input type="hidden" id="checkOut" value="">
+    <input type="hidden" id="adults" value="2">
+    <input type="hidden" id="children" value="0">
+</div>

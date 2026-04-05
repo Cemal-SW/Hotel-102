@@ -1,0 +1,38 @@
+<div id="step-3" class="step-content">
+    <h3 class="font-headline text-2xl mb-8 border-b pb-4">Guest Information</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div>
+            <label
+                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Full
+                Name <span class="text-error">*</span></label>
+            <input type="text" id="guestName" class="input-field" placeholder="John Doe" required>
+        </div>
+        <div>
+            <label
+                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Email
+                Address <span class="text-error">*</span></label>
+            <input type="email" id="guestEmail" class="input-field" placeholder="john@example.com" required>
+        </div>
+        <div class="md:col-span-2">
+            <label
+                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Phone
+                Number <span class="text-error">*</span></label>
+            <input type="tel" id="guestPhone" class="input-field" placeholder="+1 (555) 000-0000" required>
+        </div>
+        <div class="md:col-span-2">
+            <label
+                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Special
+                Requests (Optional)</label>
+            <textarea id="specialReq" class="input-field resize-none h-24"
+                placeholder="Any dietary requirements or special arrangements?"></textarea>
+        </div>
+    </div>
+
+    <div class="flex justify-between mt-8">
+        <button type="button" onclick="prevStep(2)"
+            class="text-primary tracking-widest text-sm hover:underline">← Back</button>
+        <button type="button" onclick="nextStep(4)"
+            class="bg-primary text-white px-8 py-3 rounded-full font-label tracking-widest text-sm hover:bg-primary-container transition-colors"
+            id="btn-next-3">Continue to Payment →</button>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-from src.booking_app import app
+from booking_app.app import app
 
 if __name__ == '__main__':
     # Start the decoupled reservation microservice

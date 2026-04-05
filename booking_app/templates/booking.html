@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Reservation | The Ethereal Shore</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Flatpickr for Calendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        /* Custom Flatpickr Theme injected */
+        .flatpickr-calendar {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+        }
+        .flatpickr-months {
+            display: none !important;
+        }
+        .flatpickr-current-month .numInputWrapper span.arrowUp,
+        .flatpickr-current-month .numInputWrapper span.arrowDown {
+            display: none !important;
+        }
+        .flatpickr-innerContainer, .flatpickr-rContainer, .flatpickr-days, .dayContainer, .flatpickr-weekdaycontainer {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+        }
+        .flatpickr-weekdaycontainer {
+            display: flex !important;
+            justify-content: space-around !important;
+            width: 100% !important;
+        }
+        span.flatpickr-weekday {
+            color: #74777f !important;
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.15em;
+            text-align: center !important;
+            text-transform: uppercase;
+            flex: 1;
+            padding-bottom: 24px;
+        }
+        .flatpickr-day {
+            color: #191c1d !important;
+            font-family: inherit !important;
+            font-weight: 500;
+            font-size: 1.1rem;
+            max-width: unset !important;
+            width: 14.2857% !important;
+            flex-basis: 14.2857% !important;
+            height: 56px !important;
+            line-height: 56px !important;
+            border-radius: 50% !important;
+            margin: 0 !important;
+            display: inline-flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            background: transparent !important;
+            border: none !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease;
+        }
+        .flatpickr-day.disabled {
+            color: rgba(25, 28, 29, 0.2) !important;
+            cursor: not-allowed;
+        }
+        .flatpickr-day:hover:not(.disabled) {
+            background: #e1e3e4 !important; /* surface-variant */
+            color: #191c1d !important;
+            border-radius: 50% !important;
+        }
+        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+            background: #00445e !important; /* primary */
+            color: #ffffff !important;
+            font-weight: 700;
+        }
+        .flatpickr-day.startRange {
+            border-radius: 50% 0 0 50% !important;
+        }
+        .flatpickr-day.endRange {
+            border-radius: 0 50% 50% 0 !important;
+        }
+        .flatpickr-day.startRange.endRange {
+            border-radius: 50% !important;
+        }
+        .flatpickr-day.inRange, .flatpickr-day.prevMonthDay.inRange, .flatpickr-day.nextMonthDay.inRange {
+            background: rgba(0, 93, 126, 0.15) !important; /* primary-container light opacity */
+            color: #00445e !important;
+            border-radius: 0 !important;
+            box-shadow: -5px 0 0 rgba(0, 93, 126, 0.15), 5px 0 0 rgba(0, 93, 126, 0.15) !important;
+        }
+    </style>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#fafaf5",
+                        "on-surface": "#1a1c19",
+                        "on-surface-variant": "#40484d",
+                        "primary": "#00445e",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#005d7e",
+                        "on-primary-container": "#92d4fa",
+                        "secondary": "#006a62",
+                        "outline-variant": "#c0c8ce"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            }
+            .step-content {
+                display: none;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+            }
+            .dayContainer {
+                row-gap: 8px !important; 
+            }
+            .step-content.active {
+                display: block;
+                opacity: 1;
+            }
+            .step-indicator {
+                @apply w-10 h-10 rounded-full flex items-center justify-center font-label text-sm border-2 transition-all duration-300;
+            }
+            .step-indicator.completed {
+                @apply bg-primary border-primary text-white;
+            }
+            .step-indicator.current {
+                @apply border-primary text-primary bg-primary/10;
+            }
+            .step-indicator.pending {
+                @apply border-outline-variant text-outline-variant;
+            }
+            .room-card.selected {
+                @apply ring-4 ring-primary bg-primary/5;
+            }
+            .input-field {
+                @apply w-full bg-transparent border-b-2 border-outline-variant focus:border-primary outline-none py-3 px-2 transition-colors placeholder:text-on-surface-variant/50;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm transition-all duration-400">
+        <div class="flex justify-between items-center w-full px-6 md:px-12 py-6 max-w-screen-2xl mx-auto">
+            <a href="{{ MAIN_URL }}"
+                class="text-2xl font-serif tracking-tighter hover:opacity-80 transition-opacity">The Ethereal Shore</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-5xl mx-auto w-full">
+        <div class="text-center mb-16">
+            <span class="font-label tracking-[0.3em] text-secondary text-xs uppercase mb-4 block">Your Sanctuary
+                Awaits</span>
+            <h1 class="font-headline text-4xl md:text-5xl text-primary">Complete Your Reservation</h1>
+        </div>
+
+        <!-- Stepper -->
+        <div class="flex items-center justify-between mb-16 relative">
+            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-outline-variant/30 -z-10"></div>
+
+            <div class="flex flex-col items-center gap-2 bg-surface px-4">
+                <div class="step-indicator current" id="ind-1">1</div>
+                <span class="font-label text-xs uppercase tracking-widest text-primary">Stay</span>
+            </div>
+            <div class="flex flex-col items-center gap-2 bg-surface px-4">
+                <div class="step-indicator pending" id="ind-2">2</div>
+                <span class="font-label text-xs uppercase tracking-widest text-on-surface-variant/60">Room</span>
+            </div>
+            <div class="flex flex-col items-center gap-2 bg-surface px-4">
+                <div class="step-indicator pending" id="ind-3">3</div>
+                <span class="font-label text-xs uppercase tracking-widest text-on-surface-variant/60">Details</span>
+            </div>
+            <div class="flex flex-col items-center gap-2 bg-surface px-4">
+                <div class="step-indicator pending" id="ind-4">4</div>
+                <span class="font-label text-xs uppercase tracking-widest text-on-surface-variant/60">Payment</span>
+            </div>
+        </div>
+
+        <!-- FORM CONTAINER -->
+        <div class="bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,68,94,0.05)] p-8 md:p-12 relative overflow-hidden">
+
+            <!-- STEP 1: DATES & GUESTS -->
+            {% include 'stay.html' %}
+
+            <!-- STEP 2: ROOM SELECTION -->
+            {% include 'room.html' %}
+
+            <!-- STEP 3: DETAILS -->
+            {% include 'details.html' %}
+
+            <!-- STEP 4: PAYMENT -->
+            {% include 'payment.html' %}
+
+            <!-- STEP 5: SUCCESS -->
+            {% include 'success.html' %}
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container py-12 px-12 border-t border-outline-variant/20 mt-auto">
+        <div class="text-center">
+            <div class="text-xl font-headline text-primary mb-4">The Ethereal Shore</div>
+            <p class="text-sm font-label tracking-widest text-on-surface-variant">© 2024. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ url_for('static', filename='booking.js') }}"></script>
+</body>
+
+</html>

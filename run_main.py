@@ -1,4 +1,4 @@
-from src.main_app import app
+from main_app.app import app
 
 if __name__ == '__main__':
     # Start the primary marketing and admin application

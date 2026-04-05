@@ -27,7 +27,7 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50MB for video uploads
 
-from src.models import db, User, Settings, Room, RoomPhoto, Experience, GalleryImage, Reservation
+from core.models import db, User, Room, RoomPhoto, Experience, GalleryImage, Settings, Reservation
 
 db.init_app(app)
 login_manager = LoginManager(app)

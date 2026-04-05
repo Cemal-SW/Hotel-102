@@ -1,18 +1,63 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Flatpickr
-    const checkInPicker = flatpickr("#checkIn", {
+    // 1. Initialize Flatpickr in inline range mode
+    const fp = flatpickr("#inline-calendar", {
+        inline: true,
+        mode: "range",
         minDate: "today",
+        showMonths: 1,
         dateFormat: "Y-m-d",
-        onChange: function(selectedDates, dateStr, instance) {
-            checkOutPicker.set('minDate', dateStr);
+        onChange: function (selectedDates, dateStr, instance) {
+            if (selectedDates.length > 0) {
+                state.checkIn = selectedDates[0];
+                document.getElementById('checkIn').value = instance.formatDate(selectedDates[0], "Y-m-d");
+            }
+            if (selectedDates.length === 2) {
+                state.checkOut = selectedDates[1];
+                document.getElementById('checkOut').value = instance.formatDate(selectedDates[1], "Y-m-d");
+                
+                const diffTime = Math.abs(selectedDates[1] - selectedDates[0]);
+                state.nights = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+            }
+        },
+        onMonthChange: function(selectedDates, dateStr, instance) {
+            updateCustomMonth(instance);
+        },
+        onYearChange: function(selectedDates, dateStr, instance) {
+            updateCustomMonth(instance);
+        },
+        onReady: function(selectedDates, dateStr, instance) {
+            updateCustomMonth(instance);
         }
     });
 
-    const checkOutPicker = flatpickr("#checkOut", {
-        minDate: new Date().fp_incr(1),
-        dateFormat: "Y-m-d"
-    });
+    function updateCustomMonth(instance) {
+        const monthElement = document.getElementById('custom-month-name');
+        if (monthElement) {
+            monthElement.innerText = instance.currentMonthElement.innerText + " " + instance.currentYear;
+        }
+    }
+
+    // Attach custom arrows
+    const prevBtn = document.getElementById('custom-prev-month');
+    const nextBtn = document.getElementById('custom-next-month');
+    if (prevBtn) prevBtn.addEventListener('click', () => fp.changeMonth(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => fp.changeMonth(1));
 });
+
+window.updateGuest = function(type, amt) {
+    const el = document.getElementById(type + '-count');
+    const hidden = document.getElementById(type + 's');
+    let val = parseInt(hidden.value) + amt;
+    
+    if (type === 'adult' && val < 1) val = 1;
+    if (type === 'adult' && val > 6) val = 6;
+    if (type === 'child' && val < 0) val = 0;
+    if (type === 'child' && val > 4) val = 4;
+    
+    el.innerText = val;
+    hidden.value = val;
+    state[type + 's'] = val;
+}
 
 let state = {
     checkIn: null,
@@ -53,7 +98,7 @@ function updateSummary() {
     const rawPrice = state.roomPrice.toString().replace(/[^0-9]/g, ''); // Ensure numeric
     const dailyPrice = parseInt(rawPrice) || 0;
     const total = dailyPrice * state.nights;
-    
+
     sumTotal.innerText = `$${total.toLocaleString()}`;
 }
 
@@ -61,7 +106,7 @@ function selectRoom(id, name, price) {
     state.roomId = id;
     state.roomName = name;
     state.roomPrice = price;
-    
+
     // Update UI selection
     document.querySelectorAll('.room-card').forEach(el => el.classList.remove('selected'));
     document.querySelectorAll('.room-select-btn').forEach(btn => {
@@ -71,14 +116,14 @@ function selectRoom(id, name, price) {
 
     const card = document.getElementById(`btn-room-${id}`).closest('.room-card');
     card.classList.add('selected');
-    
+
     const btn = document.getElementById(`btn-room-${id}`);
     btn.innerText = "Selected";
     btn.classList.add('bg-primary', 'text-white');
 
     // Enable next button
     document.getElementById('btn-next-2').disabled = false;
-    
+
     updateSummary();
 }
 
@@ -136,17 +181,17 @@ function showStep(stepNum) {
     document.querySelectorAll('.step-content').forEach(el => {
         el.classList.remove('active');
     });
-    
+
     // Tiny delay for smooth fade
     setTimeout(() => {
         document.getElementById(`step-${stepNum}`).classList.add('active');
-        window.scrollTo({top: 0, behavior: 'smooth'});
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 50);
 
     // Update indicator UI
     for (let i = 1; i <= 4; i++) {
         const ind = document.getElementById(`ind-${i}`);
-        if(ind) {
+        if (ind) {
             ind.classList.remove('completed', 'current', 'pending');
             if (i < stepNum) {
                 ind.classList.add('completed');
