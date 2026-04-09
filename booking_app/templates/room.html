@@ -1,45 +1,122 @@
 <div id="step-2" class="step-content">
-    <h3 class="font-headline text-2xl mb-8 border-b pb-4">Select Your Sanctuary</h3>
-    <div class="space-y-6 max-h-[60vh] overflow-y-auto pr-2 no-scrollbar" id="roomList">
-        {% for room in rooms %}
-        <div class="room-card border border-outline-variant/30 rounded-xl p-4 flex flex-col sm:flex-row gap-6 cursor-pointer transition-all hover:bg-surface-container-low"
-            onclick="selectRoom({{ room.id }}, '{{ room.name }}', {{ room.price }})">
-            <div class="w-full sm:w-1/3 aspect-[4/3] rounded-lg overflow-hidden shrink-0">
-                <img src="{% if not room.hero_img.startswith('http') %}{{ url_for('uploaded_file', filename=room.hero_img) }}{% else %}{{ room.hero_img }}{% endif %}"
-                    class="w-full h-full object-cover">
-            </div>
-            <div class="flex flex-col justify-between py-2 w-full">
-                <div>
-                    <h4 class="font-headline text-xl mb-2">{{ room.name }}</h4>
-                    <span class="font-label tracking-wide text-primary block mb-3 font-semibold">${{
-                        room.price }} / night</span>
-                    <div class="flex gap-4 mb-4">
-                        <div class="flex items-center gap-1"><span
-                                class="material-symbols-outlined text-sm text-secondary">square_foot</span><span
-                                class="text-xs text-on-surface-variant">{{ room.sqm }} sqm</span></div>
-                        <div class="flex items-center gap-1"><span
-                                class="material-symbols-outlined text-sm text-secondary">king_bed</span><span
-                                class="text-xs text-on-surface-variant">{{ room.bed }}</span></div>
+    <div class="room-step-shell">
+        <h2 class="font-headline text-6xl md:text-[8rem] lg:text-[9rem] font-black text-[#000d21] tracking-[-0.06em] mb-5 leading-none">
+            ROOM
+        </h2>
+        <p class="font-body text-base md:text-xl text-on-surface-variant max-w-xl md:max-w-2xl mb-8 md:mb-10 leading-relaxed mx-auto">
+            Experience unparalleled comfort. Select your sanctuary from our hand-curated collection of architectural elegance.
+        </p>
+        <p id="room-recommendation-note" class="room-step-note mb-8 md:mb-10">
+            Rooms will be recommended based on the adults and children selected in the stay step.
+        </p>
+
+        {% if rooms %}
+        <div class="room-step-grid" id="roomList" role="list" aria-label="Available rooms">
+            {% for room in rooms %}
+            {% set room_image = room.hero_img or '' %}
+            {% set room_description = room.short_desc or room.desc or 'A calm, editorial retreat with thoughtful details for a beautifully composed stay.' %}
+            <article class="room-card {% if loop.first %}room-card-featured{% else %}room-card-compact{% endif %}"
+                data-room-card
+                data-room-id="{{ room.id }}"
+                data-capacity="{{ room.booking_capacity }}"
+                data-room-name="{{ room.name }}"
+                data-room-price="{{ room.price }}"
+                data-room-description="{{ room_description }}"
+                data-room-image="{% if room_image %}{% if room_image.startswith('http') %}{{ room_image }}{% else %}{{ url_for('uploaded_file', filename=room_image) }}{% endif %}{% endif %}"
+                role="button"
+                tabindex="0"
+                aria-pressed="false">
+                <div class="room-card-media">
+                    {% if room_image %}
+                    <img
+                        src="{% if room_image.startswith('http') %}{{ room_image }}{% else %}{{ url_for('uploaded_file', filename=room_image) }}{% endif %}"
+                        alt="{{ room.name }}"
+                        class="w-full h-full object-cover">
+                    {% else %}
+                    <div class="flex h-full w-full items-center justify-center bg-[#eceff1] text-[10px] font-label uppercase tracking-[0.24em] text-on-surface-variant">
+                        Editorial Room
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="room-card-copy">
+                    <div class="room-card-topline">
+                        <span class="room-card-kicker">{% if loop.first %}Signature Suite{% else %}Editorial Escape{% endif %}</span>
+                        <span id="room-badge-{{ room.id }}" class="room-card-badge hidden">
+                            Recommended
+                        </span>
+                    </div>
+
+                    <div class="room-card-heading">
+                        <h3 class="font-headline text-3xl md:text-4xl text-[#000d21] leading-tight">{{ room.name }}</h3>
+                        <p class="room-card-description">{{ room_description }}</p>
+                    </div>
+
+                    <div class="room-card-meta">
+                        {% if room.sqm %}
+                        <div class="room-card-meta-item">
+                            <span class="material-symbols-outlined">square_foot</span>
+                            <span>{{ room.sqm }} sqm</span>
+                        </div>
+                        {% endif %}
+                        {% if room.bed %}
+                        <div class="room-card-meta-item">
+                            <span class="material-symbols-outlined">king_bed</span>
+                            <span>{{ room.bed }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="room-card-meta-item">
+                            <span class="material-symbols-outlined">group</span>
+                            <span>Up to {{ room.booking_capacity }} guests</span>
+                        </div>
+                    </div>
+
+                    <div class="room-card-footer">
+                        <div>
+                            <div class="room-card-price-label">Nightly rate</div>
+                            <div class="room-card-price">${{ room.price }}</div>
+                        </div>
+                        <div class="room-card-actions">
+                            <a href="{{ MAIN_URL }}{{ room.slug }}.html"
+                                target="_blank"
+                                class="room-card-link"
+                                onclick="event.stopPropagation()">View details</a>
+                            <button type="button"
+                                class="room-select-btn"
+                                id="btn-room-{{ room.id }}"
+                                data-room-select-button>
+                                Select room
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="flex justify-between items-center mt-auto">
-                    <a href="{{ MAIN_URL }}{{ room.slug }}.html" target="_blank"
-                        class="text-xs text-secondary hover:underline"
-                        onclick="event.stopPropagation()">View Details</a>
-                    <button type="button"
-                        class="border border-primary text-primary px-4 py-1.5 rounded-full text-xs font-semibold pointer-events-none room-select-btn"
-                        id="btn-room-{{ room.id }}">Select</button>
-                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="rounded-[2rem] border border-dashed border-outline-variant/50 bg-white px-6 py-10 text-center text-sm text-on-surface-variant shadow-sm max-w-3xl mx-auto">
+            There are no rooms available to book right now. Please check back later.
+        </div>
+        {% endif %}
+
+        <div class="room-step-nav">
+            <button type="button" onclick="prevStep(1)"
+                class="text-primary tracking-widest text-sm hover:underline">← Back</button>
+        </div>
+
+        <div class="room-step-summary">
+            <div class="room-step-summary-item">
+                <span class="room-step-summary-label">Check in - out</span>
+                <span class="room-step-summary-value" id="room-step-dates">Select dates</span>
+            </div>
+            <div class="room-step-summary-item">
+                <span class="room-step-summary-label">Selected sanctuary</span>
+                <span class="room-step-summary-value" id="room-step-selected">Choose a room</span>
+            </div>
+            <div class="room-step-summary-item">
+                <span class="room-step-summary-label">Estimated total</span>
+                <span class="room-step-summary-total" id="room-step-total">$0</span>
             </div>
         </div>
-        {% endfor %}
-    </div>
-
-    <div class="flex justify-between mt-8">
-        <button type="button" onclick="prevStep(1)"
-            class="text-primary tracking-widest text-sm hover:underline">← Back</button>
-        <button type="button" onclick="nextStep(3)"
-            class="bg-primary text-white px-8 py-3 rounded-full font-label tracking-widest text-sm hover:bg-primary-container transition-colors disabled:opacity-50"
-            id="btn-next-2" disabled>Continue to Details →</button>
     </div>
 </div>

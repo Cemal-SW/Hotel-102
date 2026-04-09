@@ -1,38 +1,173 @@
 <div id="step-3" class="step-content">
-    <h3 class="font-headline text-2xl mb-8 border-b pb-4">Guest Information</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div>
-            <label
-                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Full
-                Name <span class="text-error">*</span></label>
-            <input type="text" id="guestName" class="input-field" placeholder="John Doe" required>
-        </div>
-        <div>
-            <label
-                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Email
-                Address <span class="text-error">*</span></label>
-            <input type="email" id="guestEmail" class="input-field" placeholder="john@example.com" required>
-        </div>
-        <div class="md:col-span-2">
-            <label
-                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Phone
-                Number <span class="text-error">*</span></label>
-            <input type="tel" id="guestPhone" class="input-field" placeholder="+1 (555) 000-0000" required>
-        </div>
-        <div class="md:col-span-2">
-            <label
-                class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Special
-                Requests (Optional)</label>
-            <textarea id="specialReq" class="input-field resize-none h-24"
-                placeholder="Any dietary requirements or special arrangements?"></textarea>
-        </div>
-    </div>
+    <div class="details-step-shell">
+        <div class="details-step-layout">
+            <div class="details-step-main">
+                <div class="details-step-intro">
+                    <span class="details-step-kicker">Guest Information & Enhancements</span>
+                    <h3 class="details-step-title">DETAILS</h3>
+                    <p class="details-step-copy">
+                        Refine the contours of your stay. Please provide your guest information, confirm travelling companions,
+                        and select from our curated menu of enhancements before continuing to payment.
+                    </p>
+                </div>
 
-    <div class="flex justify-between mt-8">
-        <button type="button" onclick="prevStep(2)"
-            class="text-primary tracking-widest text-sm hover:underline">← Back</button>
-        <button type="button" onclick="nextStep(4)"
-            class="bg-primary text-white px-8 py-3 rounded-full font-label tracking-widest text-sm hover:bg-primary-container transition-colors"
-            id="btn-next-3">Continue to Payment →</button>
+                <section class="details-card" aria-labelledby="primary-guest-heading">
+                    <div class="details-card-header">
+                        <h4 id="primary-guest-heading" class="details-card-title">Primary Guest</h4>
+                        <label class="details-inline-toggle">
+                            <input type="checkbox" id="usePrimaryForAdult1">
+                            <span>Use primary guest information for Adult 1</span>
+                        </label>
+                    </div>
+
+                    <div class="details-field-grid">
+                        <div class="details-field">
+                            <label class="details-label" for="primaryFirstName">First Name <span class="text-error">*</span></label>
+                            <input type="text" id="primaryFirstName" class="input-field" data-field-key="details.primaryGuest.firstName" placeholder="Julian" autocomplete="given-name" required>
+                            <p class="field-error hidden" data-field-error="details.primaryGuest.firstName"></p>
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="primaryLastName">Last Name <span class="text-error">*</span></label>
+                            <input type="text" id="primaryLastName" class="input-field" data-field-key="details.primaryGuest.lastName" placeholder="Thorne" autocomplete="family-name" required>
+                            <p class="field-error hidden" data-field-error="details.primaryGuest.lastName"></p>
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="primaryEmail">Email Address <span class="text-error">*</span></label>
+                            <input type="email" id="primaryEmail" class="input-field" data-field-key="details.primaryGuest.email" placeholder="julian@example.com" autocomplete="email" required>
+                            <p class="field-error hidden" data-field-error="details.primaryGuest.email"></p>
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="primaryPhone">Phone Number <span class="text-error">*</span></label>
+                            <input type="tel" id="primaryPhone" class="input-field" data-field-key="details.primaryGuest.phone" placeholder="+1 (555) 000-0000" autocomplete="tel" required>
+                            <p class="field-error hidden" data-field-error="details.primaryGuest.phone"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="details-card" aria-labelledby="adult-guests-heading">
+                    <div class="details-card-header">
+                        <h4 id="adult-guests-heading" class="details-card-title">Adult Guests</h4>
+                        <p class="details-card-subtitle">Generated from the adults count selected in the stay step.</p>
+                    </div>
+                    <div id="adultGuestsContainer" class="details-dynamic-stack"></div>
+                </section>
+
+                <section class="details-card" id="childGuestsSection" aria-labelledby="child-guests-heading">
+                    <div class="details-card-header">
+                        <h4 id="child-guests-heading" class="details-card-title">Children</h4>
+                        <p class="details-card-subtitle">Generated from the children count selected in the stay step.</p>
+                    </div>
+                    <div id="childGuestsContainer" class="details-dynamic-stack"></div>
+                </section>
+
+                <section class="details-card" aria-labelledby="preferences-heading">
+                    <div class="details-card-header">
+                        <h4 id="preferences-heading" class="details-card-title">Preferences</h4>
+                        <p class="details-card-subtitle">Optional details that help us prepare your arrival.</p>
+                    </div>
+
+                    <div class="details-field-grid">
+                        <div class="details-field details-field-wide">
+                            <label class="details-label" for="specialReq">Special Requests</label>
+                            <textarea id="specialReq" class="input-field details-textarea" data-field-key="details.preferences.specialRequests" placeholder="Dietary requirements, preferred floor, or any special arrangements."></textarea>
+                            <p class="field-error hidden" data-field-error="details.preferences.specialRequests"></p>
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="arrivalTime">Estimated Arrival Time</label>
+                            <input type="time" id="arrivalTime" class="input-field" data-field-key="details.preferences.arrivalTime">
+                            <p class="field-error hidden" data-field-error="details.preferences.arrivalTime"></p>
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="bedPreference">Bed Preference</label>
+                            <select id="bedPreference" class="details-select" data-field-key="details.preferences.bedPreference">
+                                <option value="no_preference">No Preference</option>
+                                <option value="king">King</option>
+                                <option value="twin">Twin</option>
+                            </select>
+                            <p class="field-error hidden" data-field-error="details.preferences.bedPreference"></p>
+                        </div>
+                        <div class="details-field details-field-wide">
+                            <label class="details-label" for="smokingPreference">Smoking Preference</label>
+                            <select id="smokingPreference" class="details-select" data-field-key="details.preferences.smokingPreference">
+                                <option value="non_smoking">Non-smoking</option>
+                                <option value="smoking">Smoking</option>
+                                <option value="no_preference">No Preference</option>
+                            </select>
+                            <p class="field-error hidden" data-field-error="details.preferences.smokingPreference"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="details-card" aria-labelledby="enhancements-heading">
+                    <div class="details-card-header">
+                        <h4 id="enhancements-heading" class="details-card-title">Enhance Your Stay</h4>
+                        <p class="details-card-subtitle">Select optional services to personalise the experience.</p>
+                    </div>
+
+                    <div class="enhancements-grid">
+                        <button type="button" class="enhancement-card" data-enhancement-key="airportTransfer" aria-pressed="false">
+                            <span class="enhancement-icon material-symbols-outlined">airport_shuttle</span>
+                            <span class="enhancement-title">Airport Transfer</span>
+                            <span class="enhancement-copy">Chauffeur service from international terminals.</span>
+                            <span class="enhancement-price">$85</span>
+                        </button>
+                        <button type="button" class="enhancement-card" data-enhancement-key="spaTreatment" aria-pressed="false">
+                            <span class="enhancement-icon material-symbols-outlined">spa</span>
+                            <span class="enhancement-title">Spa Treatment</span>
+                            <span class="enhancement-copy">60-minute signature therapeutic massage.</span>
+                            <span class="enhancement-price">$150</span>
+                        </button>
+                        <button type="button" class="enhancement-card" data-enhancement-key="lateCheckout" aria-pressed="false">
+                            <span class="enhancement-icon material-symbols-outlined">schedule</span>
+                            <span class="enhancement-title">Late Check-out</span>
+                            <span class="enhancement-copy">Extended departure until 4:00 PM.</span>
+                            <span class="enhancement-price">$50</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="details-step-aside">
+                <div class="details-aside-panel">
+                    <div class="details-summary-card">
+                        <div class="details-summary-eyebrow">Booking Summary</div>
+                        <div class="details-summary-block">
+                            <span class="details-summary-label">Dates</span>
+                            <span class="details-summary-value" id="details-stay">Select dates</span>
+                        </div>
+                        <div class="details-summary-block">
+                            <span class="details-summary-label">Guests</span>
+                            <span class="details-summary-value" id="details-guests">2 Adults, 0 Children</span>
+                        </div>
+                        <div class="details-summary-block">
+                            <span class="details-summary-label">Selected Room</span>
+                            <span class="details-summary-value" id="details-room">Not selected</span>
+                        </div>
+                        <div class="details-summary-block">
+                            <span class="details-summary-label">Primary Guest</span>
+                            <span class="details-summary-value" id="details-primary-guest">To be provided</span>
+                        </div>
+                        <div class="details-summary-block">
+                            <span class="details-summary-label">Enhancements</span>
+                            <span class="details-summary-value" id="details-enhancement-list">None selected</span>
+                        </div>
+                        <div class="details-summary-meta">
+                            <div>
+                                <span class="details-summary-label">Enhancement Total</span>
+                                <span class="details-summary-value" id="details-enhancements-total">$0</span>
+                            </div>
+                            <div>
+                                <span class="details-summary-label">Grand Total</span>
+                                <span class="details-summary-total" id="details-grand-total">$0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div class="details-step-nav">
+            <button type="button" onclick="prevStep(2)" class="text-primary tracking-widest text-sm hover:underline">← Back</button>
+        </div>
     </div>
 </div>

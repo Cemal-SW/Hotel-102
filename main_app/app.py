@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
+from flask import Flask, abort, render_template, request, redirect, url_for, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey123'
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__))) # Hotel-102 root
 
@@ -30,6 +32,7 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50MB for video uploads
 from core.models import db, User, Room, RoomPhoto, Experience, GalleryImage, Settings, Reservation
 
 db.init_app(app)
+app.jinja_env.auto_reload = True
 login_manager = LoginManager(app)
 
 login_manager.login_view = 'admin_login'
@@ -72,8 +75,7 @@ def room_detail(slug):
     room = Room.query.filter_by(slug=slug).first()
     if room:
         return render_template('room.html', room=room)
-    # Forward common statics or missed htmls
-    return render_template(f'{slug}.html')
+    abort(404)
 
 @app.route('/experiences.html')
 def experiences():

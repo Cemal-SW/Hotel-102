@@ -1,69 +1,140 @@
 <div id="step-4" class="step-content">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div class="col-span-2">
-            <h3 class="font-headline text-2xl mb-8 border-b pb-4">Payment Details</h3>
-            <div class="space-y-8">
-                <div>
-                    <label
-                        class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Name
-                        on Card</label>
-                    <input type="text" id="ccName" class="input-field" placeholder="JOHN DOE">
+    <div class="payment-step-shell">
+        <div class="payment-step-layout">
+            <div class="payment-step-main">
+                <div class="payment-step-intro">
+                    <span class="details-step-kicker">Review & Checkout</span>
+                    <h3 class="details-step-title">PAYMENT</h3>
+                    <p class="details-step-copy">
+                        Confirm your billing contact, choose a payment method, and review the final total before we submit
+                        your reservation for approval.
+                    </p>
                 </div>
-                <div>
-                    <label
-                        class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Card
-                        Number</label>
-                    <input type="text" id="ccNumber" class="input-field" placeholder="0000 0000 0000 0000">
-                </div>
-                <div class="grid grid-cols-2 gap-8">
-                    <div>
-                        <label
-                            class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">Expiry
-                            Date</label>
-                        <input type="text" id="ccExpiry" class="input-field" placeholder="MM/YY">
-                    </div>
-                    <div>
-                        <label
-                            class="font-label tracking-widest text-xs uppercase text-on-surface-variant block mb-2">CVC</label>
-                        <input type="password" id="ccCvc" class="input-field" placeholder="123"
-                            maxlength="4">
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-between mt-12 bg-primary/5 p-4 rounded-xl">
-                <button type="button" onclick="prevStep(3)"
-                    class="text-primary tracking-widest text-sm hover:underline p-2">← Back</button>
-                <button type="button" onclick="submitReservation()" id="btn-submit"
-                    class="bg-primary text-white px-8 py-3 rounded-full font-label tracking-widest text-sm hover:bg-primary-container transition-colors shadow-lg">Confirm
-                    Reservation</button>
-            </div>
-        </div>
 
-        <!-- Booking Summary Cart -->
-        <div
-            class="col-span-1 bg-surface-container-low p-6 rounded-xl border border-outline-variant/20 h-fit">
-            <h4 class="font-headline text-lg mb-6 text-primary">Summary</h4>
-            <div class="space-y-4 mb-6 border-b border-outline-variant/30 pb-6">
-                <div>
-                    <span
-                        class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">Dates</span>
-                    <div class="font-semibold text-sm" id="sum-dates">-</div>
-                </div>
-                <div>
-                    <span
-                        class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">Guests</span>
-                    <div class="font-semibold text-sm" id="sum-guests">-</div>
-                </div>
-                <div>
-                    <span
-                        class="text-xs uppercase tracking-widest text-on-surface-variant mb-1 block">Room</span>
-                    <div class="font-semibold text-sm" id="sum-room">-</div>
+                <section class="details-card" aria-labelledby="payment-method-heading">
+                    <div class="details-card-header">
+                        <h4 id="payment-method-heading" class="details-card-title">Payment Method</h4>
+                        <p class="details-card-subtitle">Choose how you would like to secure the booking.</p>
+                    </div>
+
+                    <div class="payment-method-grid">
+                        <label class="payment-method-card">
+                            <input type="radio" name="paymentMethod" value="card_hold" data-field-key="payment.method">
+                            <span class="payment-method-title">Card Hold</span>
+                            <span class="payment-method-copy">Reserve now and confirm with the card details provided below.</span>
+                        </label>
+                        <label class="payment-method-card">
+                            <input type="radio" name="paymentMethod" value="pay_at_property" data-field-key="payment.method">
+                            <span class="payment-method-title">Pay at Property</span>
+                            <span class="payment-method-copy">Submit the reservation request now and settle upon arrival.</span>
+                        </label>
+                    </div>
+                    <p class="field-error hidden" data-field-error="payment.method"></p>
+                </section>
+
+                <section class="details-card" aria-labelledby="billing-heading">
+                    <div class="details-card-header">
+                        <h4 id="billing-heading" class="details-card-title">Billing Contact</h4>
+                        <p class="details-card-subtitle">This information is used for confirmation and payment correspondence.</p>
+                    </div>
+
+                    <div class="details-field-grid">
+                        <div class="details-field">
+                            <label class="details-label" for="billingName">Billing Name <span class="text-error">*</span></label>
+                            <input type="text" id="billingName" class="input-field" data-field-key="payment.billingName" placeholder="Julian Thorne" autocomplete="name">
+                            <p class="field-error hidden" data-field-error="payment.billingName"></p>
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="billingEmail">Billing Email <span class="text-error">*</span></label>
+                            <input type="email" id="billingEmail" class="input-field" data-field-key="payment.billingEmail" placeholder="julian@example.com" autocomplete="email">
+                            <p class="field-error hidden" data-field-error="payment.billingEmail"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="details-card" aria-labelledby="card-details-heading">
+                    <div class="details-card-header">
+                        <h4 id="card-details-heading" class="details-card-title">Card Details</h4>
+                        <p class="details-card-subtitle">Optional placeholders until the live checkout integration is introduced.</p>
+                    </div>
+
+                    <div class="details-field-grid">
+                        <div class="details-field details-field-wide">
+                            <label class="details-label" for="ccName">Name on Card</label>
+                            <input type="text" id="ccName" class="input-field" placeholder="JULIAN THORNE">
+                        </div>
+                        <div class="details-field details-field-wide">
+                            <label class="details-label" for="ccNumber">Card Number</label>
+                            <input type="text" id="ccNumber" class="input-field" placeholder="0000 0000 0000 0000" inputmode="numeric" autocomplete="cc-number">
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="ccExpiry">Expiry Date</label>
+                            <input type="text" id="ccExpiry" class="input-field" placeholder="MM/YY" inputmode="numeric" autocomplete="cc-exp">
+                        </div>
+                        <div class="details-field">
+                            <label class="details-label" for="ccCvc">CVC</label>
+                            <input type="password" id="ccCvc" class="input-field" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="details-card" aria-labelledby="payment-consent-heading">
+                    <div class="details-card-header">
+                        <h4 id="payment-consent-heading" class="details-card-title">Confirmation</h4>
+                    </div>
+
+                    <label class="details-inline-toggle payment-terms-toggle">
+                        <input type="checkbox" id="paymentTerms" data-field-key="payment.agreedToTerms">
+                        <span>I confirm the reservation details are correct and I agree to the booking terms.</span>
+                    </label>
+                    <p class="field-error hidden" data-field-error="payment.agreedToTerms"></p>
+                </section>
+
+                <div class="payment-step-nav">
+                    <button type="button" onclick="prevStep(3)" class="text-primary tracking-widest text-sm hover:underline">← Back</button>
                 </div>
             </div>
-            <div class="flex justify-between items-end">
-                <span class="text-sm">Total</span>
-                <span class="text-2xl font-headline text-primary" id="sum-total">$0</span>
-            </div>
+
+            <aside class="payment-step-aside">
+                <div class="payment-summary-card">
+                    <div class="details-summary-eyebrow">Final Summary</div>
+                    <div class="payment-summary-group">
+                        <div>
+                            <span class="details-summary-label">Dates</span>
+                            <div class="payment-summary-value" id="sum-dates">-</div>
+                        </div>
+                        <div>
+                            <span class="details-summary-label">Guests</span>
+                            <div class="payment-summary-value" id="sum-guests">-</div>
+                        </div>
+                        <div>
+                            <span class="details-summary-label">Primary Guest</span>
+                            <div class="payment-summary-value" id="payment-primary-guest">-</div>
+                        </div>
+                        <div>
+                            <span class="details-summary-label">Room</span>
+                            <div class="payment-summary-value" id="sum-room">-</div>
+                        </div>
+                    </div>
+
+                    <div class="payment-summary-breakdown">
+                        <div class="payment-summary-row">
+                            <span>Room Total</span>
+                            <span id="sum-room-total">$0</span>
+                        </div>
+                        <div class="payment-summary-row">
+                            <span>Enhancements</span>
+                            <span id="sum-enhancements">$0</span>
+                        </div>
+                        <div class="payment-summary-note" id="payment-enhancement-list">No enhancements selected.</div>
+                    </div>
+
+                    <div class="payment-summary-total">
+                        <span>Grand Total</span>
+                        <span id="sum-total">$0</span>
+                    </div>
+                </div>
+            </aside>
         </div>
     </div>
 </div>
