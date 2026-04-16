@@ -8,6 +8,7 @@
     <p class="text-sm text-gray-500 mb-6 font-body">Upload high-resolution images to the main gallery. The frontend automatically configures the bento-grid layout for the first set of images to maintain the editorial aesthetic.</p>
 
     <form method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-4 items-end">
+        {{ csrf_input()|safe }}
         <div class="flex-1 w-full">
             <label class="block text-sm font-medium text-gray-700 mb-2">Select Image File</label>
             <input type="file" name="image" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition-colors border border-gray-200 rounded-lg">
@@ -28,6 +29,7 @@
             
             <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
                 <form method="POST" action="{{ url_for('admin_gallery_delete', img_id=img.id) }}" onsubmit="return confirm('Remove this image from the gallery?');">
+                    {{ csrf_input()|safe }}
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transform scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
                         <span class="material-symbols-outlined text-[20px]">delete_forever</span>
                     </button>

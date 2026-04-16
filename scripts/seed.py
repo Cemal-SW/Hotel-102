@@ -2,8 +2,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.main_app import app
-from src.models import db, Room, Experience, GalleryImage, Settings, User
+from main_app.app import app
+from core.models import db, Room, Experience, GalleryImage, Settings
 
 rooms_data = [
     {
@@ -108,12 +108,6 @@ experiences_data = [
 
 with app.app_context():
     db.create_all()
-
-    # Seed Admin User if not exists
-    if not User.query.filter_by(username='admin').first():
-        admin = User(username='admin')
-        admin.set_password('admin123')
-        db.session.add(admin)
 
     # Seed Settings
     if not Settings.query.first():

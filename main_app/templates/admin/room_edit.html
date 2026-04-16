@@ -1,6 +1,6 @@
 {% extends 'admin/layout.html' %}
 
-{% block header %}Edit {{ room.name }}{% endblock %}
+{% block header %}{% if is_create %}Add Room{% else %}Edit {{ room.name }}{% endif %}{% endblock %}
 
 {% block content %}
 <div class="mb-4">
@@ -14,16 +14,17 @@
     <!-- Room Details Form -->
     <div class="lg:col-span-2 space-y-6">
         <form method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-            <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6">General Information</h3>
+            {{ csrf_input()|safe }}
+            <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6">{% if is_create %}Create Room{% else %}General Information{% endif %}</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Room Name</label>
-                    <input type="text" name="name" value="{{ room.name }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                    <input type="text" name="name" value="{{ room.name or '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">URL Slug</label>
-                    <input type="text" name="slug" value="{{ room.slug }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 font-mono text-sm bg-gray-50">
+                    <input type="text" name="slug" value="{{ room.slug or '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 font-mono text-sm bg-gray-50" required>
                 </div>
             </div>
 
@@ -32,27 +33,79 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Price (Nightly)</label>
                     <div class="relative">
                         <span class="absolute left-4 top-2.5 text-gray-500">$</span>
-                        <input type="text" name="price" value="{{ room.price }}" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                        <input type="text" name="price" value="{{ room.price or '' }}" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500" required>
                     </div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Size (SQM)</label>
-                    <input type="number" name="sqm" value="{{ room.sqm }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                    <input type="number" name="sqm" value="{{ room.sqm or '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Beds</label>
-                    <input type="text" name="bed" value="{{ room.bed }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                    <input type="text" name="bed" value="{{ room.bed or '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
                 </div>
             </div>
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Short Banner Description</label>
-                <textarea name="short_desc" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-sm">{{ room.short_desc }}</textarea>
+                <textarea name="short_desc" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-sm">{{ room.short_desc or '' }}</textarea>
             </div>
 
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Full Description</label>
-                <textarea name="desc" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-sm leading-relaxed">{{ room.desc }}</textarea>
+                <textarea name="desc" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500 text-sm leading-relaxed">{{ room.desc or '' }}</textarea>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6 mt-8">Booking Suitability Rules</h3>
+            <p class="text-sm text-gray-500 mb-6">
+                These values drive booking recommendations. Leave a field empty to let the booking flow use safe fallbacks inferred from the room type.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Base Adults</label>
+                    <input type="number" min="1" name="base_adults" value="{{ room.base_adults if room.base_adults is not none else '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Base Children</label>
+                    <input type="number" min="0" name="base_children" value="{{ room.base_children if room.base_children is not none else '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Occupancy</label>
+                    <input type="number" min="1" name="max_occupancy" value="{{ room.max_occupancy if room.max_occupancy is not none else '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Adults</label>
+                    <input type="number" min="1" name="max_adults" value="{{ room.max_adults if room.max_adults is not none else '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Max Children</label>
+                    <input type="number" min="0" name="max_children" value="{{ room.max_children if room.max_children is not none else '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Inventory Count</label>
+                    <input type="number" min="0" name="quantity_available" value="{{ room.quantity_available if room.quantity_available is not none else '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-cyan-500 focus:border-cyan-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <label class="flex items-start gap-3 rounded-xl border border-gray-200 p-4 bg-gray-50">
+                    <input type="checkbox" name="allows_extra_bed" class="mt-1 h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" {% if room.allows_extra_bed is not sameas false %}checked{% endif %}>
+                    <span>
+                        <span class="block text-sm font-medium text-gray-800">Allows Extra Bed</span>
+                        <span class="block text-xs text-gray-500 mt-1">Use this when a room can become a weak-but-selectable fit for larger parties.</span>
+                    </span>
+                </label>
+                <label class="flex items-start gap-3 rounded-xl border border-gray-200 p-4 bg-gray-50">
+                    <input type="checkbox" name="available" class="mt-1 h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" {% if room.available is not sameas false %}checked{% endif %}>
+                    <span>
+                        <span class="block text-sm font-medium text-gray-800">Room Type Available</span>
+                        <span class="block text-xs text-gray-500 mt-1">Turn this off to keep the room visible in booking but disable it for selection.</span>
+                    </span>
+                </label>
             </div>
 
             <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6 mt-8">Cover Media</h3>
@@ -68,13 +121,13 @@
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Upload New Cover Photo</label>
                     <input type="file" name="hero_img" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100 transition-colors">
-                    <p class="text-xs text-gray-400 mt-2">Recommended size: 1920x1080px. Replaces the current cover.</p>
+                    <p class="text-xs text-gray-400 mt-2">{% if is_create %}Optional on first save. You can upload a cover now or later.{% else %}Recommended size: 1920x1080px. Replaces the current cover.{% endif %}</p>
                 </div>
             </div>
 
             <div class="flex justify-end pt-4 border-t border-gray-100">
                 <button type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white font-medium py-2 px-8 rounded-lg transition-colors shadow-sm">
-                    Save Changes
+                    {% if is_create %}Create Room{% else %}Save Changes{% endif %}
                 </button>
             </div>
         </form>
@@ -84,9 +137,17 @@
     <div class="lg:col-span-1 space-y-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
             <h3 class="text-lg font-semibold text-gray-800 border-b pb-4 mb-6">Immersive Gallery Photos</h3>
-            <p class="text-sm text-gray-500 mb-6">Upload detail photos and select their position (1st, 2nd, etc.) to adjust where they appear in the Bento-style gallery on the room page.</p>
+            <p class="text-sm text-gray-500 mb-6">
+                {% if is_create %}
+                Save the room first, then upload detail photos and choose their display positions.
+                {% else %}
+                Upload detail photos and select their position (1st, 2nd, etc.) to adjust where they appear in the Bento-style gallery on the room page.
+                {% endif %}
+            </p>
 
+            {% if not is_create %}
             <form method="POST" enctype="multipart/form-data" class="mb-8 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                {{ csrf_input()|safe }}
                 <label class="block text-sm font-medium text-gray-700 mb-2">Add Gallery Photo</label>
                 <input type="file" name="detail_photo" accept="image/*" required class="w-full text-sm text-gray-500 mb-4 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-gray-200 file:text-gray-700">
                 
@@ -102,6 +163,11 @@
                     Upload & Add to Gallery
                 </button>
             </form>
+            {% else %}
+            <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300 text-sm text-gray-500">
+                Gallery uploads unlock after the room is created.
+            </div>
+            {% endif %}
 
             <div class="space-y-4">
                 <h4 class="font-medium text-gray-700 text-sm uppercase tracking-wider mb-4">Current Photos</h4>
@@ -117,6 +183,7 @@
                             </div>
                         </div>
                         <form method="POST" action="{{ url_for('admin_room_photo_delete', room_id=room.id, photo_id=photo.id) }}" onsubmit="return confirm('Remove photo?');">
+                            {{ csrf_input()|safe }}
                             <button type="submit" class="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition-colors">
                                 <span class="material-symbols-outlined text-[18px]">delete</span>
                             </button>

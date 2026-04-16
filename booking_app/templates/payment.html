@@ -6,8 +6,8 @@
                     <span class="details-step-kicker">Review & Checkout</span>
                     <h3 class="details-step-title">PAYMENT</h3>
                     <p class="details-step-copy">
-                        Confirm your billing contact, choose a payment method, and review the final total before we submit
-                        your reservation for approval.
+                        Confirm your billing contact and review the final total before we redirect you to iyzico's secure
+                        hosted payment page.
                     </p>
                 </div>
 
@@ -20,13 +20,13 @@
                     <div class="payment-method-grid">
                         <label class="payment-method-card">
                             <input type="radio" name="paymentMethod" value="card_hold" data-field-key="payment.method">
-                            <span class="payment-method-title">Card Hold</span>
-                            <span class="payment-method-copy">Reserve now and confirm with the card details provided below.</span>
+                            <span class="payment-method-title">Card Payment</span>
+                            <span class="payment-method-copy">Continue to iyzico Checkout Form in sandbox mode.</span>
                         </label>
                         <label class="payment-method-card">
                             <input type="radio" name="paymentMethod" value="pay_at_property" data-field-key="payment.method">
                             <span class="payment-method-title">Pay at Property</span>
-                            <span class="payment-method-copy">Submit the reservation request now and settle upon arrival.</span>
+                            <span class="payment-method-copy">Not available in the current hosted checkout sandbox flow.</span>
                         </label>
                     </div>
                     <p class="field-error hidden" data-field-error="payment.method"></p>
@@ -55,25 +55,25 @@
                 <section class="details-card" aria-labelledby="card-details-heading">
                     <div class="details-card-header">
                         <h4 id="card-details-heading" class="details-card-title">Card Details</h4>
-                        <p class="details-card-subtitle">Optional placeholders until the live checkout integration is introduced.</p>
+                        <p class="details-card-subtitle">Card entry happens on iyzico after redirect. These fields are intentionally read-only.</p>
                     </div>
 
                     <div class="details-field-grid">
                         <div class="details-field details-field-wide">
                             <label class="details-label" for="ccName">Name on Card</label>
-                            <input type="text" id="ccName" class="input-field" placeholder="JULIAN THORNE">
+                            <input type="text" id="ccName" class="input-field" placeholder="Handled on iyzico" readonly tabindex="-1">
                         </div>
                         <div class="details-field details-field-wide">
                             <label class="details-label" for="ccNumber">Card Number</label>
-                            <input type="text" id="ccNumber" class="input-field" placeholder="0000 0000 0000 0000" inputmode="numeric" autocomplete="cc-number">
+                            <input type="text" id="ccNumber" class="input-field" placeholder="Handled on iyzico" inputmode="numeric" autocomplete="off" readonly tabindex="-1">
                         </div>
                         <div class="details-field">
                             <label class="details-label" for="ccExpiry">Expiry Date</label>
-                            <input type="text" id="ccExpiry" class="input-field" placeholder="MM/YY" inputmode="numeric" autocomplete="cc-exp">
+                            <input type="text" id="ccExpiry" class="input-field" placeholder="Handled on iyzico" inputmode="numeric" autocomplete="off" readonly tabindex="-1">
                         </div>
                         <div class="details-field">
                             <label class="details-label" for="ccCvc">CVC</label>
-                            <input type="password" id="ccCvc" class="input-field" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+                            <input type="password" id="ccCvc" class="input-field" placeholder="Handled on iyzico" maxlength="4" inputmode="numeric" autocomplete="off" readonly tabindex="-1">
                         </div>
                     </div>
                 </section>

@@ -19,6 +19,15 @@
                 data-room-card
                 data-room-id="{{ room.id }}"
                 data-capacity="{{ room.booking_capacity }}"
+                data-base-adults="{{ room.booking_base_adults }}"
+                data-base-children="{{ room.booking_base_children }}"
+                data-max-adults="{{ room.booking_max_adults }}"
+                data-max-children="{{ room.booking_max_children }}"
+                data-max-occupancy="{{ room.booking_max_occupancy }}"
+                data-allows-extra-bed="{{ 'true' if room.booking_allows_extra_bed else 'false' }}"
+                data-room-available="{{ 'true' if room.booking_available else 'false' }}"
+                data-quantity-available="{{ room.booking_quantity_available }}"
+                data-availability-status="{{ room.booking_availability_status }}"
                 data-room-name="{{ room.name }}"
                 data-room-price="{{ room.price }}"
                 data-room-description="{{ room_description }}"
@@ -50,6 +59,12 @@
                     <div class="room-card-heading">
                         <h3 class="font-headline text-3xl md:text-4xl text-[#000d21] leading-tight">{{ room.name }}</h3>
                         <p class="room-card-description">{{ room_description }}</p>
+                        <p id="room-status-{{ room.id }}" class="room-card-supporting">
+                            {{ room.booking_availability_status }}
+                        </p>
+                        <p id="room-reason-{{ room.id }}" class="room-card-supporting room-card-supporting-muted">
+                            Suitability updates automatically based on your selected adults and children.
+                        </p>
                     </div>
 
                     <div class="room-card-meta">

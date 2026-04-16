@@ -1,9 +1,17 @@
 const messageEl = document.getElementById('booking-message');
 const bookingFlow = document.getElementById('booking-flow');
+const BOOKING_DRAFT_STORAGE_KEY = 'hotel102BookingDraftId';
+const BOOKING_STATUS_TOKEN_STORAGE_KEY = 'hotel102BookingStatusToken';
+const BOOKING_BASE_PATH = document.body?.dataset.bookingBasePath || '';
 let calendarInstance = null;
 let bookingVersionPollStarted = false;
 let currentStep = 1;
 let ctaProcessing = false;
+const roomAvailabilityState = {
+    requestToken: 0,
+    loadedKey: '',
+    byRoomId: {}
+};
 
 const ENHANCEMENT_PRICES = {
     airportTransfer: 85,
@@ -31,6 +39,7 @@ const bookingState = {
         description: '',
         image: '',
         pricePerNight: 0,
+        roomCount: 1,
         totalPrice: 0
     },
     details: {
@@ -60,6 +69,11 @@ const bookingState = {
         billingName: '',
         billingEmail: '',
         agreedToTerms: false
+    },
+    meta: {
+        bookingDraftId: '',
+        statusToken: '',
+        approvalStatus: 'PENDING'
     }
 };
 
@@ -112,6 +126,12 @@ const state = {
     set roomPrice(value) {
         bookingState.room.pricePerNight = value || 0;
     },
+    get roomCount() {
+        return bookingState.room.roomCount;
+    },
+    set roomCount(value) {
+        bookingState.room.roomCount = Math.max(1, Number(value) || 1);
+    },
     get guestEmail() {
         return bookingState.details.primaryGuest.email;
     },
@@ -131,6 +151,52 @@ const state = {
         bookingState.details.preferences.specialRequests = value || '';
     }
 };
+
+function setBookingDraftId(value) {
+    const bookingDraftId = String(value || '').trim();
+    bookingState.meta.bookingDraftId = bookingDraftId;
+    if (bookingDraftId) {
+        window.sessionStorage.setItem(BOOKING_DRAFT_STORAGE_KEY, bookingDraftId);
+    } else {
+        window.sessionStorage.removeItem(BOOKING_DRAFT_STORAGE_KEY);
+    }
+}
+
+function setStatusToken(value) {
+    const statusToken = String(value || '').trim();
+    bookingState.meta.statusToken = statusToken;
+    if (statusToken) {
+        window.sessionStorage.setItem(BOOKING_STATUS_TOKEN_STORAGE_KEY, statusToken);
+    } else {
+        window.sessionStorage.removeItem(BOOKING_STATUS_TOKEN_STORAGE_KEY);
+    }
+}
+
+function getStoredBookingDraftId() {
+    return window.sessionStorage.getItem(BOOKING_DRAFT_STORAGE_KEY) || '';
+}
+
+function getStoredStatusToken() {
+    return window.sessionStorage.getItem(BOOKING_STATUS_TOKEN_STORAGE_KEY) || '';
+}
+
+function getQueryParams() {
+    return new URLSearchParams(window.location.search);
+}
+
+function buildBookingUrl(path) {
+    const normalizedPath = String(path || '').startsWith('/') ? path : `/${path}`;
+    return `${BOOKING_BASE_PATH}${normalizedPath}`;
+}
+
+function buildBookingDraftPayload() {
+    return JSON.parse(JSON.stringify({
+        stay: bookingState.stay,
+        room: bookingState.room,
+        details: bookingState.details,
+        payment: bookingState.payment
+    }));
+}
 
 function toIsoDate(date) {
     const year = date.getFullYear();
@@ -219,6 +285,233 @@ function formatCurrency(value) {
     return `$${value.toLocaleString()}`;
 }
 
+function readRoomValue(source, keys, fallback = undefined) {
+    const target = source?.dataset || source || {};
+    for (const key of keys) {
+        if (target[key] !== undefined && target[key] !== null && target[key] !== '') {
+            return target[key];
+        }
+    }
+    return fallback;
+}
+
+function toPositiveInt(value, fallback) {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+}
+
+function toBoolean(value, fallback = false) {
+    if (typeof value === 'boolean') return value;
+    if (value === undefined || value === null || value === '') return fallback;
+
+    const normalized = String(value).trim().toLowerCase();
+    if (['true', '1', 'yes', 'on'].includes(normalized)) return true;
+    if (['false', '0', 'no', 'off'].includes(normalized)) return false;
+    return fallback;
+}
+
+function pluralize(count, singular, plural = `${singular}s`) {
+    return `${count} ${count === 1 ? singular : plural}`;
+}
+
+function normalizeRoom(roomSource) {
+    const legacyCapacity = Math.max(1, toPositiveInt(readRoomValue(roomSource, ['capacity', 'legacyCapacity']), 2));
+    const baseAdults = Math.max(1, toPositiveInt(readRoomValue(roomSource, ['baseAdults', 'base_adults']), legacyCapacity));
+    const allowsExtraBed = toBoolean(readRoomValue(roomSource, ['allowsExtraBed', 'allows_extra_bed']), legacyCapacity <= 4);
+    const baseChildrenFallback = legacyCapacity <= 2 ? (allowsExtraBed ? 1 : 0) : Math.min(2, legacyCapacity - 2);
+    const baseChildren = Math.max(0, toPositiveInt(readRoomValue(roomSource, ['baseChildren', 'base_children']), baseChildrenFallback));
+    const maxAdults = Math.max(baseAdults, toPositiveInt(readRoomValue(roomSource, ['maxAdults', 'max_adults']), baseAdults));
+    const maxChildren = Math.max(
+        baseChildren,
+        toPositiveInt(readRoomValue(roomSource, ['maxChildren', 'max_children']), baseChildren + (allowsExtraBed ? 1 : 0))
+    );
+    const maxOccupancyFallback = Math.min(maxAdults + maxChildren, legacyCapacity + (allowsExtraBed ? 2 : 0));
+    const maxOccupancy = Math.max(
+        maxAdults,
+        baseAdults + baseChildren,
+        toPositiveInt(readRoomValue(roomSource, ['maxOccupancy', 'max_occupancy']), maxOccupancyFallback)
+    );
+    const quantityAvailable = Math.max(0, toPositiveInt(readRoomValue(roomSource, ['quantityAvailable', 'quantity_available']), 1));
+    const availableFlag = toBoolean(readRoomValue(roomSource, ['roomAvailable', 'available']), true);
+    const available = availableFlag && quantityAvailable > 0;
+    const availabilityStatus = String(
+        readRoomValue(
+            roomSource,
+            ['availabilityStatus', 'availability_status'],
+            available
+                ? (quantityAvailable > 1 ? `${quantityAvailable} rooms available` : 'Available')
+                : 'Unavailable for selected dates'
+        )
+    ).trim();
+
+    return {
+        id: Number(readRoomValue(roomSource, ['roomId', 'id'], 0)),
+        name: String(readRoomValue(roomSource, ['roomName', 'name'], '')),
+        legacyCapacity,
+        baseAdults,
+        baseChildren,
+        maxAdults,
+        maxChildren,
+        maxOccupancy,
+        allowsExtraBed,
+        available,
+        quantityAvailable,
+        availabilityStatus
+    };
+}
+
+function evaluateSingleRoom(room, adults, children) {
+    const normalizedRoom = normalizeRoom(room);
+    const adultCount = Math.max(1, Number(adults) || 1);
+    const childCount = Math.max(0, Number(children) || 0);
+    const totalGuests = adultCount + childCount;
+    const baseOccupancy = Math.max(1, normalizedRoom.baseAdults + normalizedRoom.baseChildren);
+    const fitsAdults = adultCount <= normalizedRoom.maxAdults;
+    const fitsChildren = childCount <= normalizedRoom.maxChildren;
+    const fitsTotal = totalGuests <= normalizedRoom.maxOccupancy;
+    const singleRoomSuitable = fitsAdults && fitsChildren && fitsTotal;
+    const comfortableFit = (
+        adultCount <= normalizedRoom.baseAdults
+        && childCount <= normalizedRoom.baseChildren
+        && totalGuests <= baseOccupancy
+    );
+    const fitsWithExtraBed = (
+        normalizedRoom.allowsExtraBed
+        && singleRoomSuitable
+        && (
+            childCount > normalizedRoom.baseChildren
+            || totalGuests > baseOccupancy
+        )
+    );
+    const goodFit = singleRoomSuitable && !comfortableFit && !fitsWithExtraBed;
+
+    return {
+        ...normalizedRoom,
+        adultCount,
+        childCount,
+        totalGuests,
+        singleRoomSuitable,
+        comfortableFit,
+        goodFit,
+        fitsWithExtraBed,
+        fitsAdults,
+        fitsChildren,
+        fitsTotal
+    };
+}
+
+function evaluateMultiRoomOption(room, adults, children) {
+    const normalizedRoom = normalizeRoom(room);
+    const adultCount = Math.max(1, Number(adults) || 1);
+    const childCount = Math.max(0, Number(children) || 0);
+    const totalGuests = adultCount + childCount;
+
+    if (childCount > 0 && normalizedRoom.maxChildren <= 0) {
+        return {
+            ...normalizedRoom,
+            multiRoomPossible: false,
+            requiredRoomCount: 0
+        };
+    }
+
+    const adultsBased = Math.max(1, normalizedRoom.maxAdults);
+    const occupancyBased = Math.max(1, normalizedRoom.maxOccupancy);
+    const childrenBased = normalizedRoom.maxChildren;
+    const requiredRoomCount = Math.max(
+        Math.ceil(adultCount / adultsBased),
+        Math.ceil(totalGuests / occupancyBased),
+        childCount > 0 ? Math.ceil(childCount / childrenBased) : 1
+    );
+
+    return {
+        ...normalizedRoom,
+        multiRoomPossible: requiredRoomCount > 1,
+        requiredRoomCount
+    };
+}
+
+function evaluateRoomForGuests(room, adults, children) {
+    const singleRoom = evaluateSingleRoom(room, adults, children);
+    const multiRoom = evaluateMultiRoomOption(room, adults, children);
+    const normalizedRoom = singleRoom;
+
+    let selectable = false;
+    let recommended = false;
+    let score = 0;
+    let badge = 'Not suitable';
+    let reason = 'Not suitable as a single-room option.';
+
+    if (!normalizedRoom.available) {
+        score = -1;
+        badge = 'Unavailable';
+        reason = normalizedRoom.availabilityStatus || 'Unavailable for selected dates';
+    } else if (singleRoom.comfortableFit) {
+        selectable = true;
+        recommended = true;
+        score = 100;
+        badge = 'Recommended';
+        reason = 'Fits your group comfortably';
+    } else if (singleRoom.goodFit) {
+        selectable = true;
+        score = 85;
+        badge = 'Good fit';
+        reason = 'Good option for your selected guests';
+    } else if (singleRoom.fitsWithExtraBed) {
+        selectable = true;
+        score = 70;
+        badge = 'Fits with extra bed';
+        reason = 'Fits with extra bed';
+    } else if (multiRoom.multiRoomPossible && multiRoom.requiredRoomCount <= normalizedRoom.quantityAvailable) {
+        selectable = true;
+        score = 75 - multiRoom.requiredRoomCount;
+        badge = 'Multi-room option';
+        reason = `${multiRoom.requiredRoomCount} rooms needed for your group`;
+    } else if (multiRoom.multiRoomPossible) {
+        score = 20;
+        badge = 'Limited availability';
+        reason = `${multiRoom.requiredRoomCount} rooms required, only ${normalizedRoom.quantityAvailable} available`;
+    }
+
+    return {
+        ...normalizedRoom,
+        singleRoomSuitable: singleRoom.singleRoomSuitable,
+        multiRoomPossible: multiRoom.multiRoomPossible,
+        requiredRoomCount: singleRoom.singleRoomSuitable ? 1 : multiRoom.requiredRoomCount,
+        selectable,
+        recommended,
+        score,
+        badge,
+        reason,
+        availabilityStatus: normalizedRoom.availabilityStatus,
+        fitsAdults: singleRoom.fitsAdults,
+        fitsChildren: singleRoom.fitsChildren,
+        fitsTotal: singleRoom.fitsTotal,
+        fitsWithExtraBed: singleRoom.fitsWithExtraBed,
+        comfortableFit: singleRoom.comfortableFit,
+        goodFit: singleRoom.goodFit
+    };
+}
+
+function getRankingBucket(evaluation) {
+    if (!evaluation.selectable) return 2;
+    if (evaluation.recommended) return 0;
+    return 1;
+}
+
+function rankRoomOptions(rooms, adults, children) {
+    return rooms
+        .map((room) => ({
+            room,
+            evaluation: evaluateRoomForGuests(room, adults, children)
+        }))
+        .sort((a, b) => {
+            if (a.evaluation.score !== b.evaluation.score) return b.evaluation.score - a.evaluation.score;
+            const bucketDiff = getRankingBucket(a.evaluation) - getRankingBucket(b.evaluation);
+            if (bucketDiff !== 0) return bucketDiff;
+            return a.evaluation.id - b.evaluation.id;
+        });
+}
+
 function escapeHtml(value) {
     return String(value ?? '')
         .replace(/&/g, '&amp;')
@@ -242,8 +535,13 @@ function getPrimaryGuestFullName() {
     return `${bookingState.details.primaryGuest.firstName} ${bookingState.details.primaryGuest.lastName}`.trim();
 }
 
+function getSelectedRoomLabel() {
+    if (!bookingState.room.name) return 'Not selected';
+    return state.roomCount > 1 ? `${bookingState.room.name} x${state.roomCount}` : bookingState.room.name;
+}
+
 function getRoomSubtotal() {
-    return parsePrice(bookingState.room.pricePerNight) * Number(bookingState.stay.nights || 1);
+    return parsePrice(bookingState.room.pricePerNight) * Number(bookingState.stay.nights || 1) * Number(state.roomCount || 1);
 }
 
 function getSelectedEnhancements() {
@@ -653,6 +951,8 @@ function getPaymentValidationErrors() {
 
     if (!bookingState.payment.method) {
         errors.push(['payment.method', 'Please choose a payment method.']);
+    } else if (bookingState.payment.method !== 'card_hold') {
+        errors.push(['payment.method', 'Sandbox iyzico Checkout Form is the only supported payment path right now.']);
     }
 
     if (!bookingState.payment.billingName.trim()) {
@@ -708,7 +1008,7 @@ function updatePaymentSummary() {
     }
 
     if (sumRoom) {
-        sumRoom.innerText = bookingState.room.name || 'Not selected';
+        sumRoom.innerText = getSelectedRoomLabel();
     }
 
     if (sumRoomTotal) {
@@ -778,7 +1078,7 @@ function getStickyCtaConfig(stepNum) {
             visible: true,
             eyebrow: 'Room',
             summary: bookingState.room.name
-                ? `${bookingState.room.name} selected`
+                ? `${getSelectedRoomLabel()} selected`
                 : 'Select a room to continue.',
             priceLabel: 'Room Total',
             total: formatCurrency(getRoomSubtotal()),
@@ -808,7 +1108,7 @@ function getStickyCtaConfig(stepNum) {
             summary: getPrimaryGuestFullName() || 'Review payment details and confirm your reservation.',
             priceLabel: 'Grand Total',
             total: formatCurrency(getGrandTotal()),
-            buttonText: ctaProcessing ? 'Processing...' : 'Complete Booking',
+            buttonText: ctaProcessing ? 'Redirecting...' : 'Continue to Secure Payment',
             disabled: ctaProcessing || !isPaymentStepReady()
         };
     }
@@ -954,7 +1254,7 @@ function updateDetailsSummary() {
     }
 
     if (detailsRoom) {
-        detailsRoom.textContent = state.roomName || 'Not selected';
+        detailsRoom.textContent = getSelectedRoomLabel();
     }
 
     if (detailsPrimaryGuest) {
@@ -977,66 +1277,176 @@ function updateDetailsSummary() {
     }
 }
 
+function resetSelectedRoomState() {
+    state.roomId = null;
+    state.roomName = '';
+    state.roomPrice = 0;
+    state.roomCount = 1;
+    bookingState.room.description = '';
+    bookingState.room.image = '';
+    bookingState.room.totalPrice = getRoomSubtotal();
+    document.querySelectorAll('.room-card').forEach((card) => {
+        card.classList.remove('selected');
+        card.setAttribute('aria-pressed', 'false');
+    });
+
+    document.querySelectorAll('.room-select-btn.is-selected').forEach((button) => {
+        button.textContent = 'Select room';
+        button.classList.remove('is-selected');
+    });
+
+    const roomStepSelected = document.getElementById('room-step-selected');
+    const roomStepTotal = document.getElementById('room-step-total');
+    if (roomStepSelected) roomStepSelected.textContent = 'Choose a room';
+    if (roomStepTotal) roomStepTotal.textContent = formatCurrency(getRoomSubtotal());
+
+    updateDetailsSummary();
+    updatePaymentSummary();
+}
+
+function applyRoomAvailabilitySnapshot(snapshot) {
+    const roomList = document.getElementById('roomList');
+    if (!roomList) return;
+
+    Object.values(snapshot || {}).forEach((room) => {
+        const card = roomList.querySelector(`[data-room-id="${room.roomId}"]`);
+        if (!card) return;
+
+        card.dataset.roomAvailable = room.available ? 'true' : 'false';
+        card.dataset.quantityAvailable = String(room.quantityAvailable ?? 0);
+        card.dataset.availabilityStatus = room.availabilityStatus || '';
+    });
+}
+
+async function syncRoomAvailabilityForStay() {
+    if (!isValidDateRange(state.checkIn, state.checkOut)) return;
+
+    const requestKey = `${state.checkIn}|${state.checkOut}`;
+    if (roomAvailabilityState.loadedKey === requestKey) return;
+
+    const token = roomAvailabilityState.requestToken + 1;
+    roomAvailabilityState.requestToken = token;
+
+    try {
+        const response = await fetch(`${buildBookingUrl('/api/room-availability')}?checkIn=${encodeURIComponent(state.checkIn)}&checkOut=${encodeURIComponent(state.checkOut)}`, {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (!data?.success || token !== roomAvailabilityState.requestToken) return;
+
+        roomAvailabilityState.byRoomId = Object.fromEntries(
+            (data.rooms || []).map((room) => [String(room.roomId), room])
+        );
+        roomAvailabilityState.loadedKey = requestKey;
+        applyRoomAvailabilitySnapshot(roomAvailabilityState.byRoomId);
+        updateRoomRecommendations();
+        updateStickyBookingCta();
+    } catch (_error) {
+        // Ignore transient availability sync failures.
+    }
+}
+
+function applyRoomEvaluationToCard(card, evaluation) {
+    const badge = document.getElementById(`room-badge-${card.dataset.roomId}`);
+    const status = document.getElementById(`room-status-${card.dataset.roomId}`);
+    const reason = document.getElementById(`room-reason-${card.dataset.roomId}`);
+    const button = document.getElementById(`btn-room-${card.dataset.roomId}`);
+    const disabled = !evaluation.selectable;
+
+    card.dataset.selectable = evaluation.selectable ? 'true' : 'false';
+    card.dataset.recommended = evaluation.recommended ? 'true' : 'false';
+    card.dataset.score = String(evaluation.score);
+    card.dataset.badge = evaluation.badge;
+    card.dataset.reason = evaluation.reason;
+    card.dataset.availabilityStatus = evaluation.availabilityStatus;
+    card.dataset.fitsAdults = evaluation.fitsAdults ? 'true' : 'false';
+    card.dataset.fitsChildren = evaluation.fitsChildren ? 'true' : 'false';
+    card.dataset.fitsTotal = evaluation.fitsTotal ? 'true' : 'false';
+    card.dataset.singleRoomSuitable = evaluation.singleRoomSuitable ? 'true' : 'false';
+    card.dataset.multiRoomPossible = evaluation.multiRoomPossible ? 'true' : 'false';
+    card.dataset.requiredRoomCount = String(evaluation.requiredRoomCount || 0);
+    card.dataset.fitsWithExtraBed = evaluation.fitsWithExtraBed ? 'true' : 'false';
+
+    card.classList.toggle('recommended-room', evaluation.recommended);
+    card.classList.toggle('room-unavailable', disabled);
+    card.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    card.tabIndex = disabled ? -1 : 0;
+
+    if (badge) {
+        badge.textContent = evaluation.badge;
+        badge.dataset.badgeTone = evaluation.recommended ? 'highlight' : 'muted';
+        badge.classList.remove('hidden');
+    }
+
+    if (status) {
+        status.textContent = evaluation.availabilityStatus;
+    }
+
+    if (reason) {
+        reason.textContent = evaluation.reason;
+    }
+
+    if (button) {
+        button.disabled = disabled;
+        button.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+        button.textContent = disabled
+            ? (evaluation.score === 20 ? 'Limited' : (evaluation.available ? 'Not suitable' : 'Unavailable'))
+            : (evaluation.requiredRoomCount > 1 ? `Select ${evaluation.requiredRoomCount} rooms` : 'Select room');
+        button.classList.remove('is-selected');
+    }
+}
+
 function updateRoomRecommendations() {
     const roomList = document.getElementById('roomList');
     const recommendationNote = document.getElementById('room-recommendation-note');
 
     if (!roomList) return;
 
-    const totalGuests = Math.max(1, getTotalGuests());
     const cards = Array.from(roomList.querySelectorAll('[data-room-card]'));
-    let matchingRooms = 0;
+    const rankedRooms = rankRoomOptions(cards, state.adults, state.children);
+    let recommendedCount = 0;
+    let alternativeCount = 0;
+    let disabledCount = 0;
 
-    cards.sort((a, b) => {
-        const aCapacity = Number(a.dataset.capacity || 0);
-        const bCapacity = Number(b.dataset.capacity || 0);
-        const aFits = aCapacity >= totalGuests ? 0 : 1;
-        const bFits = bCapacity >= totalGuests ? 0 : 1;
-
-        if (aFits !== bFits) return aFits - bFits;
-        return aCapacity - bCapacity;
-    });
-
-    cards.forEach((card) => {
-        const capacity = Number(card.dataset.capacity || 0);
-        const fits = capacity >= totalGuests;
-        const badge = document.getElementById(`room-badge-${card.dataset.roomId}`);
-
-        card.classList.toggle('recommended-room', fits);
-        card.classList.toggle('room-unavailable', !fits);
-        card.setAttribute('aria-disabled', fits ? 'false' : 'true');
-
-        if (badge) {
-            if (fits) {
-                badge.textContent = capacity === totalGuests ? 'Best Match' : 'Recommended';
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
+    rankedRooms.forEach(({ room, evaluation }) => {
+        applyRoomEvaluationToCard(room, evaluation);
+        if (evaluation.recommended) {
+            recommendedCount += 1;
+        } else if (evaluation.selectable) {
+            alternativeCount += 1;
+        } else {
+            disabledCount += 1;
         }
-
-        if (fits) matchingRooms += 1;
-        roomList.appendChild(card);
+        roomList.appendChild(room);
     });
 
     if (recommendationNote) {
-        if (matchingRooms > 0) {
-            recommendationNote.textContent = `${matchingRooms} room option${matchingRooms === 1 ? '' : 's'} match ${totalGuests} guest${totalGuests === 1 ? '' : 's'}.`;
+        if (recommendedCount || alternativeCount) {
+            recommendationNote.textContent = `Recommended for your stay: ${recommendedCount}. Alternative options: ${alternativeCount}. Unavailable / not possible: ${disabledCount}.`;
         } else {
-            recommendationNote.textContent = `No rooms currently match ${totalGuests} guest${totalGuests === 1 ? '' : 's'}.`;
+            recommendationNote.textContent = 'No selectable rooms currently fit this party. Unavailable or impossible options remain visible with an explanation.';
         }
     }
 
     if (state.roomId) {
         const selectedCard = roomList.querySelector(`[data-room-id="${state.roomId}"]`);
-        const selectedCapacity = Number(selectedCard?.dataset.capacity || 0);
-        if (!selectedCard || selectedCapacity < totalGuests) {
-            state.roomId = null;
-            state.roomName = null;
-            state.roomPrice = 0;
-            bookingState.room.description = '';
-            bookingState.room.image = '';
-            resetRoomSelectionUI();
+        const selectedEvaluation = selectedCard ? evaluateRoomForGuests(selectedCard, state.adults, state.children) : null;
+        if (!selectedCard || !selectedEvaluation?.selectable) {
+            resetSelectedRoomState();
+        } else {
+            state.roomCount = selectedEvaluation.requiredRoomCount || 1;
+            selectedCard.classList.add('selected');
+            selectedCard.setAttribute('aria-pressed', 'true');
+            const selectedButton = document.getElementById(`btn-room-${state.roomId}`);
+            if (selectedButton) {
+                selectedButton.textContent = state.roomCount > 1 ? `Selected x${state.roomCount}` : 'Selected';
+                selectedButton.classList.add('is-selected');
+            }
         }
     }
 }
@@ -1112,7 +1522,7 @@ function updateSummary() {
             ? `${formatDisplayDate(state.checkIn)} - ${formatDisplayDate(state.checkOut)}`
             : 'Select dates';
     }
-    if (roomStepSelected) roomStepSelected.innerText = state.roomName || 'Choose a room';
+    if (roomStepSelected) roomStepSelected.innerText = bookingState.room.name ? getSelectedRoomLabel() : 'Choose a room';
     if (roomStepTotal) roomStepTotal.innerText = formatCurrency(getRoomSubtotal());
 
     if (guestShapeChanged && document.getElementById('step-3')?.classList.contains('active')) {
@@ -1124,13 +1534,14 @@ function updateSummary() {
     updateDetailsSummary();
     updatePaymentSummary();
     updateRoomRecommendations();
+    syncRoomAvailabilityForStay();
     updateStickyBookingCta();
 }
 
 function canSelectedRoomFitGuests() {
     const selectedCard = document.querySelector(`[data-room-id="${state.roomId}"]`);
     if (!selectedCard) return false;
-    return Number(selectedCard.dataset.capacity || 0) >= getTotalGuests();
+    return evaluateRoomForGuests(selectedCard, state.adults, state.children).selectable;
 }
 
 function resetRoomSelectionUI() {
@@ -1178,7 +1589,7 @@ async function checkForBookingUpdates() {
     if (!currentVersion) return;
 
     try {
-        const response = await fetch(`/api/booking-version?t=${Date.now()}`, {
+        const response = await fetch(`${buildBookingUrl('/api/booking-version')}?t=${Date.now()}`, {
             cache: 'no-store',
             headers: {
                 'Cache-Control': 'no-cache'
@@ -1229,11 +1640,10 @@ window.updateGuest = function(type, amt) {
 
 function selectRoom(id, name, price) {
     const card = document.querySelector(`[data-room-id="${id}"]`);
-    const capacity = Number(card?.dataset.capacity || 0);
-    const totalGuests = getTotalGuests();
+    const evaluation = card ? evaluateRoomForGuests(card, state.adults, state.children) : null;
 
-    if (!card || capacity < totalGuests) {
-        setMessage(`${name} cannot accommodate ${totalGuests} guest${totalGuests === 1 ? '' : 's'}.`);
+    if (!card || !evaluation?.selectable) {
+        setMessage(evaluation?.reason || `${name} is not available for the selected stay.`);
         scrollToMessage();
         return;
     }
@@ -1241,6 +1651,7 @@ function selectRoom(id, name, price) {
     state.roomId = id;
     state.roomName = name;
     state.roomPrice = price;
+    state.roomCount = evaluation.requiredRoomCount || 1;
     bookingState.room.description = card?.dataset.roomDescription || '';
     bookingState.room.image = card?.dataset.roomImage || '';
 
@@ -1250,7 +1661,7 @@ function selectRoom(id, name, price) {
     card.setAttribute('aria-pressed', 'true');
 
     const btn = document.getElementById(`btn-room-${id}`);
-    btn.innerText = 'Selected';
+    btn.innerText = state.roomCount > 1 ? `Selected x${state.roomCount}` : 'Selected';
     btn.classList.add('is-selected');
 
     clearMessage();
@@ -1339,6 +1750,152 @@ function showStep(stepNum) {
     updateStickyBookingCta();
 }
 
+function formatReservationReference(reservationId) {
+    return `#RES-${String(reservationId).padStart(4, '0')}`;
+}
+
+function formatDraftReference(value) {
+    return `#DR-${String(value || '').slice(0, 8).toUpperCase() || 'PENDING'}`;
+}
+
+function renderApprovalState(data = {}) {
+    const status = String(data.paymentStatus || 'PENDING').toUpperCase();
+    bookingState.meta.approvalStatus = status;
+    if (data.bookingDraftId) {
+        setBookingDraftId(data.bookingDraftId);
+    }
+    if (data.publicToken) {
+        setStatusToken(data.publicToken);
+    }
+    const draftReferenceToken = data.publicToken || bookingState.meta.statusToken || data.bookingDraftId || bookingState.meta.bookingDraftId;
+
+    const titleEl = document.getElementById('approval-title');
+    const copyEl = document.getElementById('approval-copy');
+    const referenceLabelEl = document.getElementById('approval-reference-label');
+    const statusEl = document.getElementById('approval-status');
+    const referenceEl = document.getElementById('res-id');
+    const roomEl = document.getElementById('res-room');
+    const totalEl = document.getElementById('res-total');
+    const iconShell = document.getElementById('approval-icon-shell');
+    const iconEl = document.getElementById('approval-icon');
+    const roomCount = Number(data.roomCount || 1);
+    const roomLabel = data.roomName
+        ? (roomCount > 1 ? `${data.roomName} x${roomCount}` : data.roomName)
+        : '-';
+    const totalLabel = data.pricingSnapshot?.formattedTotal || '$0';
+
+    if (status === 'PAID') {
+        if (titleEl) titleEl.textContent = 'Reservation Confirmed';
+        if (copyEl) copyEl.textContent = 'Your iyzico payment was approved and your reservation is now confirmed.';
+        if (referenceLabelEl) referenceLabelEl.textContent = 'Booking Reference';
+        if (statusEl) statusEl.textContent = 'PAID';
+        if (referenceEl) {
+            referenceEl.textContent = data.reservationId
+                ? formatReservationReference(data.reservationId)
+                : formatDraftReference(draftReferenceToken);
+        }
+        if (iconShell) iconShell.className = 'w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8';
+        if (iconEl) {
+            iconEl.className = 'material-symbols-outlined text-green-600 text-5xl';
+            iconEl.textContent = 'check_circle';
+        }
+    } else if (status === 'FAILED') {
+        if (titleEl) titleEl.textContent = 'Payment Failed';
+        if (copyEl) copyEl.textContent = 'We could not confirm your payment. You can return to the booking flow and try again.';
+        if (referenceLabelEl) referenceLabelEl.textContent = 'Draft Reference';
+        if (statusEl) statusEl.textContent = 'FAILED';
+        if (referenceEl) referenceEl.textContent = formatDraftReference(draftReferenceToken);
+        if (iconShell) iconShell.className = 'w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-8';
+        if (iconEl) {
+            iconEl.className = 'material-symbols-outlined text-red-600 text-5xl';
+            iconEl.textContent = 'error';
+        }
+    } else {
+        if (titleEl) titleEl.textContent = 'Payment Pending';
+        if (copyEl) copyEl.textContent = 'Your payment is still being processed. Refresh this page in a moment for the latest approval status.';
+        if (referenceLabelEl) referenceLabelEl.textContent = 'Draft Reference';
+        if (statusEl) statusEl.textContent = 'PENDING';
+        if (referenceEl) referenceEl.textContent = formatDraftReference(draftReferenceToken);
+        if (iconShell) iconShell.className = 'w-24 h-24 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-8';
+        if (iconEl) {
+            iconEl.className = 'material-symbols-outlined text-amber-600 text-5xl';
+            iconEl.textContent = 'schedule';
+        }
+    }
+
+    if (roomEl) roomEl.textContent = roomLabel;
+    if (totalEl) totalEl.textContent = totalLabel;
+}
+
+async function createOrUpdateBookingDraft() {
+    const response = await fetch(buildBookingUrl('/api/booking-drafts'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            bookingDraftId: bookingState.meta.bookingDraftId || undefined,
+            draft: buildBookingDraftPayload()
+        })
+    });
+
+    const data = await response.json().catch(() => ({
+        success: false,
+        error: 'Unexpected server response.'
+    }));
+
+    if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Booking draft could not be created.');
+    }
+
+    setBookingDraftId(data.bookingDraftId);
+    setStatusToken(data.publicToken);
+    bookingState.meta.approvalStatus = data.paymentState?.status || 'PENDING';
+    return data;
+}
+
+async function initializeHostedPaymentCheckout(bookingDraftId) {
+    const response = await fetch(buildBookingUrl('/api/payments/iyzico/initialize'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ bookingDraftId })
+    });
+
+    const data = await response.json().catch(() => ({
+        success: false,
+        error: 'Unexpected server response.'
+    }));
+
+    if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Secure payment could not be initialized.');
+    }
+
+    return data;
+}
+
+async function loadApprovalStatus(statusToken) {
+    const response = await fetch(buildBookingUrl(`/api/booking-drafts/status/${encodeURIComponent(statusToken)}`), {
+        cache: 'no-store',
+        headers: {
+            'Cache-Control': 'no-cache'
+        }
+    });
+
+    const data = await response.json().catch(() => ({
+        success: false,
+        error: 'Unexpected server response.'
+    }));
+
+    if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Approval status could not be loaded.');
+    }
+
+    renderApprovalState(data);
+    return data;
+}
+
 async function submitReservation() {
     if (!validateStep(4)) return;
 
@@ -1347,56 +1904,19 @@ async function submitReservation() {
     ctaProcessing = true;
     updateSummary();
     btn.disabled = true;
-    btn.innerText = 'Processing...';
-
-    const payload = {
-        checkIn: bookingState.stay.checkIn,
-        checkOut: bookingState.stay.checkOut,
-        adults: bookingState.stay.adults,
-        children: bookingState.stay.children,
-        roomId: bookingState.room.id,
-        guestName: getPrimaryGuestFullName(),
-        guestEmail: bookingState.details.primaryGuest.email,
-        guestPhone: bookingState.details.primaryGuest.phone,
-        specialRequests: buildReservationSpecialRequests(),
-        totalPrice: formatCurrency(getGrandTotal()),
-        enhancements: bookingState.details.enhancements,
-        details: bookingState.details,
-        payment: bookingState.payment
-    };
+    btn.innerText = 'Redirecting...';
 
     try {
-        const response = await fetch('/api/reserve', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json().catch(() => ({
-            success: false,
-            error: 'Unexpected server response.'
-        }));
-
-        if (response.ok && data.success) {
-            document.getElementById('res-id').innerText = `#RES-${String(data.reservation_id).padStart(4, '0')}`;
-            const roomEl = document.getElementById('res-room');
-            const totalEl = document.getElementById('res-total');
-            if (roomEl) roomEl.innerText = data.room_name || bookingState.room.name || '-';
-            if (totalEl) totalEl.innerText = data.total_price || document.getElementById('sum-total').innerText;
-            setMessage('Reservation created successfully.', 'success');
-            ctaProcessing = false;
-            showStep(5);
-        } else {
-            setMessage(data.error || 'Reservation failed. Please try again.');
-            scrollToMessage();
-            ctaProcessing = false;
-            btn.disabled = false;
-            updateStickyBookingCta();
+        const draft = await createOrUpdateBookingDraft();
+        const payment = await initializeHostedPaymentCheckout(draft.bookingDraftId);
+        setMessage('Redirecting to iyzico secure payment...', 'info');
+        if (!payment.paymentPageUrl) {
+            throw new Error('iyzico payment page URL is missing.');
         }
-    } catch (e) {
-        setMessage('An unexpected error occurred. Please try again.');
+        window.location.assign(payment.paymentPageUrl);
+        return;
+    } catch (_error) {
+        setMessage('Secure payment could not be started. Please try again.');
         scrollToMessage();
         ctaProcessing = false;
         btn.disabled = false;
@@ -1619,7 +2139,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const queryParams = getQueryParams();
+    const initialBookingDraftId = queryParams.get('bookingDraftId') || getStoredBookingDraftId();
+    const initialStatusToken = queryParams.get('statusToken') || getStoredStatusToken();
+    if (initialBookingDraftId) {
+        setBookingDraftId(initialBookingDraftId);
+    }
+    if (initialStatusToken) {
+        setStatusToken(initialStatusToken);
+    }
+
     ensureGuestStateShape();
     updateSummary();
+
+    if (queryParams.get('step') === '5') {
+        renderApprovalState({
+            publicToken: initialStatusToken,
+            paymentStatus: 'PENDING',
+            roomName: bookingState.room.name,
+            roomCount: bookingState.room.roomCount,
+            pricingSnapshot: {
+                formattedTotal: formatCurrency(getGrandTotal())
+            }
+        });
+        showStep(5);
+
+        if (initialStatusToken) {
+            loadApprovalStatus(initialStatusToken).catch(() => {
+                renderApprovalState({
+                    publicToken: initialStatusToken,
+                    paymentStatus: 'FAILED',
+                    roomName: bookingState.room.name,
+                    roomCount: bookingState.room.roomCount,
+                    pricingSnapshot: {
+                        formattedTotal: formatCurrency(getGrandTotal())
+                    }
+                });
+            });
+        }
+        return;
+    }
+
     showStep(1);
 });
